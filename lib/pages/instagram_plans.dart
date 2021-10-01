@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/utils/app_colors.dart';
-import 'package:poprey_app/utils/logger.dart';
 import 'package:poprey_app/utils/ui.dart';
 
 class InstagramPlans extends StatefulWidget {
