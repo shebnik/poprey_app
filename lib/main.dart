@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/pages/additional_plans.dart';
 import 'package:poprey_app/pages/instagram_plans.dart';
+import 'package:poprey_app/utils/app_colors.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
@@ -32,17 +33,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Poprey',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AppColors.primarySwatch,
       ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Row(
-            children: [
-              InstagramPlans(),
-              AdditionalPlans(),
-            ],
-          ),
+          child: InstagramPlans(),
         ),
       ),
     );
