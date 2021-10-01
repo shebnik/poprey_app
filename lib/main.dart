@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:poprey_app/pages/additional_plans.dart';
 import 'package:poprey_app/pages/instagram_plans.dart';
 import 'package:poprey_app/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 void main() async {
   Logger.i('[App] Starting app..');
+
   runApp(const MyApp());
+
+  final prefs = await SharedPreferences.getInstance();
+  Get.put(prefs);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,23 +34,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: InstagramPlans(),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            children: [
+              InstagramPlans(),
+              AdditionalPlans(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

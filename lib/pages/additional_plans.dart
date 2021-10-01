@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:poprey_app/utils/ui.dart';
 
-class InstagramPlans extends StatefulWidget {
-  const InstagramPlans({Key? key}) : super(key: key);
+class AdditionalPlans extends StatefulWidget {
+  const AdditionalPlans({Key? key}) : super(key: key);
 
   @override
-  _InstagramPlansState createState() => _InstagramPlansState();
+  _AdditionalPlansState createState() => _AdditionalPlansState();
 }
 
-class _InstagramPlansState extends State<InstagramPlans> {
+class _AdditionalPlansState extends State<AdditionalPlans> {
 
-  late Future<Map?> _getInstaPlans;
+  late Future<Map?> _getAdditionalPlans;
 
   @override
   void initState() {
-    _getInstaPlans = PlansParser().getInstaPlans();
+    _getAdditionalPlans = PlansParser().getAdditionalPlans();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _getInstaPlans,
+        future: _getAdditionalPlans,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            var map = Instagram.fromJson(snapshot.data);
             return UI.doneIcon;
           } else if (snapshot.hasError) {
             return Icon(Icons.error_outline);

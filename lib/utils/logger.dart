@@ -1,16 +1,16 @@
 import 'package:intl/intl.dart';
 
 class Logger {
-  static void i(String msg) {
+  static void i(dynamic msg) {
     // TODO Dev: uncomment
     print('[${getTime()}] [Info] $msg');
   }
 
-  static void e(String msg, [dynamic? e]) {
+  static void e([dynamic msg, dynamic? e]) {
     // TODO Dev: uncomment
     var time = getTime();
-    print('[$time] [Error] $msg');
-    if (e != null) print('[$time] [Error] $e');
+    print('[$time] [ERROR] $msg');
+    if (e != null) print('[$time] [ERROR] $e');
   }
 
   static String getTime() {
