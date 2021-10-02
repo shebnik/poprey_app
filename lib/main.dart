@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:poprey_app/pages/additional_plans.dart';
 import 'package:poprey_app/pages/instagram_plans.dart';
@@ -8,11 +11,20 @@ import 'package:get/get.dart';
 
 void main() async {
   Logger.i('[App] Starting app..');
-
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
   Get.put(prefs);
+
+  await checkConnectivity();
+
+  runApp(const MyApp());
+}
+
+Future<bool> checkConnectivity() async {
+  final _connectivityResult = await Connectivity().checkConnectivity();
+  Logger.i(_connectivityResult);
+  return _connectivityResult != ConnectivityResult.none ? true : false;
 }
 
 class MyApp extends StatefulWidget {
@@ -23,9 +35,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  late StreamSubscription _connectivityListener;
+
   @override
   void initState() {
     super.initState();
+    _connectivityListener = Connectivity().onConnectivityChanged.listen((
+        ConnectivityResult result) {
+      Logger.i(result);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _connectivityListener.cancel();
   }
 
   @override

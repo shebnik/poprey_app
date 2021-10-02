@@ -21,7 +21,7 @@ class PlansParser {
     } on SocketException {
       while (
           await Connectivity().checkConnectivity() == ConnectivityResult.none) {
-        Logger.i("[PlansParser] parseURL - No internet");
+        //Logger.i("[PlansParser] parseURL - No internet");
         await Future.delayed(const Duration(seconds: 3));
       }
       return parsePlanURL(url);
