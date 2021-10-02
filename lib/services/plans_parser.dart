@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 
 import 'package:poprey_app/utils/logger.dart';
+import 'package:connectivity/connectivity.dart';
 
 class PlansParser {
   String instaPlansUrl = "https://core.poprey.com/api/get_plans.php";
   String additionalServicesUrl =
-        "https://core.poprey.com/api/additional_services.php";
+      "https://core.poprey.com/api/additional_services.php";
 
   Future<Map?> parsePlanURL(String url) async {
     Client _client = Client();
@@ -16,6 +18,13 @@ class PlansParser {
       Map plans = jsonDecode(_response.body);
       if (plans["result"] == "Ok") return plans;
       return null;
+    } on SocketException {
+      while (
+          await Connectivity().checkConnectivity() == ConnectivityResult.none) {
+        Logger.i("[PlansParser] parseURL - No internet");
+        await Future.delayed(const Duration(seconds: 3));
+      }
+      return parsePlanURL(url);
     } catch (e) {
       Logger.e("[PlansParser] parseURL", e);
       return null;
