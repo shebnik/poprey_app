@@ -2,20 +2,48 @@ import 'dart:convert';
 
 class Instagram {
   final List<Plan> likes;
+  final List<Plan> followers;
+  final List<Plan> autoLikesPost;
+  final List<Plan> autoLikesSubs;
+  final List<Plan> views;
+  final List<Plan> comments;
 
   Instagram({
     required this.likes,
+    required this.followers,
+    required this.autoLikesPost,
+    required this.autoLikesSubs,
+    required this.views,
+    required this.comments,
   });
 
   factory Instagram.fromJson(json) {
-    var likesJson = json['Likes'];
+    var likes = json['Likes']['plans'] as List;
+    List<Plan> _likes = likes.map((_) => Plan.fromJson(_)).toList();
 
-    var plansObjsJson = likesJson['plans'] as List;
-    List<Plan> _plans =
-        plansObjsJson.map((plansJson) => Plan.fromJson(plansJson)).toList();
+    var followers = json['Followers']['plans'] as List;
+    List<Plan> _followers = followers.map((_) => Plan.fromJson(_)).toList();
+
+    var autoLikes = json['Auto-Likes']['plans'] as List;
+    List<Plan> _autoLikesPost = autoLikes.map((_) => Plan.fromJson(_)).toList();
+
+    var views = json['Views']['plans'] as List;
+    List<Plan> _views = views.map((_) => Plan.fromJson(_)).toList();
+
+    var comments = json['Comments']['plans'] as List;
+    List<Plan> _comments = comments.map((_) => Plan.fromJson(_)).toList();
+
+    var autoLikesSubs = json['Auto-Likes Subs']['plans'] as List;
+    List<Plan> _autoLikesSubs =
+        autoLikesSubs.map((_) => Plan.fromJson(_)).toList();
 
     return Instagram(
-      likes: _plans,
+      likes: _likes,
+      followers: _followers,
+      autoLikesPost: _autoLikesPost,
+      autoLikesSubs: _autoLikesSubs,
+      views: _views,
+      comments: _comments,
     );
   }
 }
@@ -64,8 +92,8 @@ class Type {
     return Type(
       name: json["name"],
       price: double.parse(json["price"]),
-      disabled: int.parse(json["disabled"]) == 1 ? true : false,
-      discount: int.parse(json["discount"]) == 1 ? true : false,
+      disabled: int.tryParse(json["disabled"].toString()) == 1 ? true : false,
+      discount: int.tryParse(json["discount"].toString()) == 1 ? true : false,
     );
   }
 }

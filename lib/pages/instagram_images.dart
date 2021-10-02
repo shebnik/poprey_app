@@ -34,7 +34,7 @@ class _InstagramWidgetState extends State<InstagramWidget> {
     List<Widget> _widgetsList = [];
     List<String> _imagesList = [];
     List<String> _postsUrls = await InstaParser.postsUrlsFromProfile(
-        'https://www.instagram.com/coderbau');
+        'https://www.instagram.com/shebalinik');
 
     if (_postsUrls != null) {
       Map<String, String> photosUrls = new Map<String, String>();

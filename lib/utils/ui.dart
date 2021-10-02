@@ -42,4 +42,18 @@ class UI {
       softWrap: softWrap,
     );
   }
+
+  static TextStyle getTextStyle({
+    double? fontSize,
+    FontWeight? fontWeight,
+    Color? color,
+    double? height,
+  }) {
+    return GoogleFonts.montserrat(
+      fontSize: fontSize ?? 14,
+      fontWeight: fontWeight,
+      color: color,
+      height: height,
+    );
+  }
 }

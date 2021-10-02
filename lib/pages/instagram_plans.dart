@@ -12,14 +12,37 @@ class InstagramPlans extends StatefulWidget {
   _InstagramPlansState createState() => _InstagramPlansState();
 }
 
-class _InstagramPlansState extends State<InstagramPlans> {
+class _InstagramPlansState extends State<InstagramPlans>
+    with SingleTickerProviderStateMixin, RestorationMixin {
   late Future<Map?> _getInstaPlans;
-  Instagram? instagramPlans;
+  late Instagram instagramPlans;
+  TabController? _tabController;
+  final RestorableInt tabIndex = RestorableInt(0);
+
+  @override
+  String get restorationId => 'tab_plans';
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(tabIndex, 'tab_index');
+    _tabController!.index = tabIndex.value;
+  }
 
   @override
   void initState() {
-    _getInstaPlans = PlansParser().getInstaPlans();
     super.initState();
+    _getInstaPlans = PlansParser().getInstaPlans();
+
+    _tabController = TabController(
+      initialIndex: 0,
+      length: 5,
+      vsync: this,
+    );
+    _tabController!.addListener(() {
+      setState(() {
+        tabIndex.value = _tabController!.index;
+      });
+    });
   }
 
   @override
@@ -29,7 +52,7 @@ class _InstagramPlansState extends State<InstagramPlans> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             instagramPlans = Instagram.fromJson(snapshot.data);
-            return test();
+            return plansWidget();
           } else if (snapshot.hasError) {
             return Icon(Icons.error_outline);
           } else {
@@ -38,16 +61,83 @@ class _InstagramPlansState extends State<InstagramPlans> {
         });
   }
 
-  Widget test() {
-    if (instagramPlans == null) return UI.loading;
-    List<Plan> likes = instagramPlans!.likes;
+  Widget plansWidget() {
+    return Scaffold(
+      appBar: appBar(),
+      body: TabBarView(
+        //physics: NeverScrollableScrollPhysics(),
+        controller: _tabController,
+        children: plansWidgets(),
+      ),
+    );
+  }
+
+  PreferredSize appBar() {
+    var orientation = MediaQuery.of(context).orientation;
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    return PreferredSize(
+      child: AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: tabBar(),
+        ),
+      ),
+      preferredSize: Size.fromHeight(50),
+    );
+  }
+
+  List<Widget> plansWidgets() {
+    List<Widget> plans = [
+      listPlan(instagramPlans.likes, "likes"),
+      listPlan(instagramPlans.followers, "followers"),
+      listPlan(instagramPlans.autoLikesPost, "autoLikesPost"),
+      listPlan(instagramPlans.views, "views"),
+      listPlan(instagramPlans.comments, "comments"),
+    ];
+
+    return plans;
+  }
+
+  Widget listPlan(List<Plan> plan, String planName) {
     return ListView.builder(
-      itemCount: likes.length,
+      itemCount: plan.length,
       itemBuilder: (BuildContext context, int index) {
-        return cardItem(likes[index], "Likes");
+        return cardItem(plan[index], planName);
       },
     );
   }
+
+  Widget tabBar() => Align(
+        alignment: Alignment.centerLeft,
+        child: TabBar(
+          controller: _tabController,
+          isScrollable: true,
+          labelStyle: UI.getTextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+          unselectedLabelStyle: UI.getTextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          indicatorColor: AppColors.primary,
+          labelColor: AppColors.primary,
+          unselectedLabelColor: Colors.black,
+          indicatorSize: TabBarIndicatorSize.tab,
+          labelPadding: EdgeInsets.symmetric(horizontal: 30),
+          tabs: [
+            Tab(text: "Likes"),
+            Tab(text: "Followers"),
+            Tab(text: "Auto-Likes"),
+            Tab(text: "Views"),
+            Tab(text: "Comments"),
+          ],
+        ),
+      );
 
   Widget cardItem(Plan plan, name) {
     return Padding(
