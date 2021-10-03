@@ -4,6 +4,7 @@ import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/utils/app_colors.dart';
 import 'package:poprey_app/utils/ui.dart';
+import 'package:poprey_app/utils/utils.dart';
 
 class InstagramPlans extends StatefulWidget {
   const InstagramPlans({Key? key}) : super(key: key);
@@ -47,34 +48,42 @@ class _InstagramPlansState extends State<InstagramPlans>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _getInstaPlans,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            instagramPlans = Instagram.fromJson(snapshot.data);
-            return plansWidget();
-          } else if (snapshot.hasError) {
-            return Icon(Icons.error_outline);
-          } else {
-            return CircularProgressIndicator();
-          }
-        });
+    return Utils.futureWidget(
+      future: _getInstaPlans,
+      onDidInitialize: (context, snapshot) {
+        instagramPlans = Instagram.fromJson(snapshot.data);
+        return instaPlans();
+      },
+    );
+
+    // return FutureBuilder(
+    //   future: _getInstaPlans,
+    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+    //     if (snapshot.hasData) {
+    //       instagramPlans = Instagram.fromJson(snapshot.data);
+    //       return instaPlans();
+    //     } else if (snapshot.hasError) {
+    //       return UI.errorIcon;
+    //     } else {
+    //       return UI.loading;
+    //     }
+    //   },
+    // );
   }
 
-  Widget plansWidget() {
-    return Scaffold(
-      appBar: appBar(),
-      body: TabBarView(
-        //physics: NeverScrollableScrollPhysics(),
-        controller: _tabController,
-        children: plansWidgets(),
+  Widget instaPlans() {
+    return Expanded(
+      child: Scaffold(
+        appBar: appBar(),
+        body: TabBarView(
+          controller: _tabController,
+          children: plansWidgets(),
+        ),
       ),
     );
   }
 
   PreferredSize appBar() {
-    var orientation = MediaQuery.of(context).orientation;
-    var shortestSide = MediaQuery.of(context).size.shortestSide;
     return PreferredSize(
       child: AppBar(
         backgroundColor: Colors.white,
@@ -85,6 +94,38 @@ class _InstagramPlansState extends State<InstagramPlans>
         ),
       ),
       preferredSize: Size.fromHeight(50),
+    );
+  }
+
+  Widget tabBar() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TabBar(
+        controller: _tabController,
+        isScrollable: true,
+        labelStyle: UI.getTextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: AppColors.primary,
+        ),
+        unselectedLabelStyle: UI.getTextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        indicatorColor: AppColors.primary,
+        labelColor: AppColors.primary,
+        unselectedLabelColor: Colors.black,
+        indicatorSize: TabBarIndicatorSize.tab,
+        labelPadding: EdgeInsets.symmetric(horizontal: 30),
+        tabs: [
+          Tab(text: "Likes"),
+          Tab(text: "Followers"),
+          Tab(text: "Auto-Likes"),
+          Tab(text: "Views"),
+          Tab(text: "Comments"),
+        ],
+      ),
     );
   }
 
@@ -108,36 +149,6 @@ class _InstagramPlansState extends State<InstagramPlans>
       },
     );
   }
-
-  Widget tabBar() => Align(
-        alignment: Alignment.centerLeft,
-        child: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          labelStyle: UI.getTextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primary,
-          ),
-          unselectedLabelStyle: UI.getTextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          indicatorColor: AppColors.primary,
-          labelColor: AppColors.primary,
-          unselectedLabelColor: Colors.black,
-          indicatorSize: TabBarIndicatorSize.tab,
-          labelPadding: EdgeInsets.symmetric(horizontal: 30),
-          tabs: [
-            Tab(text: "Likes"),
-            Tab(text: "Followers"),
-            Tab(text: "Auto-Likes"),
-            Tab(text: "Views"),
-            Tab(text: "Comments"),
-          ],
-        ),
-      );
 
   Widget cardItem(Plan plan, name) {
     return Padding(

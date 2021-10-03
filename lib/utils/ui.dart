@@ -6,16 +6,25 @@ class UI {
 
   static Widget get loading => const Center(child: CircularProgressIndicator());
 
-  static Widget get doneIcon => const Icon(
-        Icons.check_circle_outline,
-        color: Colors.green,
-        size: 60,
+  static Widget get doneIcon => const Center(
+        child: Icon(
+          Icons.check_circle_outline,
+          color: Colors.green,
+          size: 60,
+        ),
       );
 
-  static Widget get divider =>
-        Container(
-          height: 1,
-          color: Colors.black.withOpacity(0.3),
+  static Widget get errorIcon => const Center(
+        child: Icon(
+          Icons.error_outline,
+          color: Colors.red,
+          size: 60,
+        ),
+      );
+
+  static Widget get divider => Container(
+        height: 1,
+        color: Colors.black.withOpacity(0.3),
       );
 
   static SizedBox spacer({double? height = 15, double? width = 15}) =>
