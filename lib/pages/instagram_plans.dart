@@ -154,6 +154,7 @@ class _InstagramPlansState extends State<InstagramPlans>
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Card(
+        color: AppColors.chip,
         child: Column(
           children: [
             Padding(

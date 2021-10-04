@@ -24,7 +24,7 @@ class AppColors {
 
   static final snackBar = Color.fromRGBO(247, 247, 247, 1.0);
 
-  static final chip = Color.fromRGBO(245, 245, 245, 1);
+  static final chip = Color.fromRGBO(244, 244, 244, 1);
 
   static final shadow = Color.fromRGBO(0, 0, 0, 0.16);
 
