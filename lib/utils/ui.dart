@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'app_colors.dart';
+
 class UI {
   static Widget get empty => Container();
 
@@ -24,7 +26,7 @@ class UI {
 
   static Widget get divider => Container(
         height: 1,
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withOpacity(0.1),
       );
 
   static SizedBox spacer({double? height = 15, double? width = 15}) =>
@@ -41,7 +43,7 @@ class UI {
   }) {
     return Text(
       text,
-      style: GoogleFonts.montserrat(
+      style: GoogleFonts.nunito(
         fontSize: fontSize ?? 14,
         fontWeight: fontWeight ?? FontWeight.normal,
         color: color ?? Colors.black,
@@ -63,6 +65,46 @@ class UI {
       fontWeight: fontWeight,
       color: color,
       height: height,
+    );
+  }
+
+  static ElevatedButton elevatedButton({
+    required Widget child,
+    required VoidCallback onPressed,
+    bool disabled = false,
+    bool rounded = false,
+  }) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        shape: rounded
+            ? MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              )
+            : null,
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) => disabled ? AppColors.black(0.35) : AppColors.primary,
+        ),
+      ),
+      child: child,
+      onPressed: disabled ? null : onPressed,
+    );
+  }
+
+  static TextButton textButton({
+    required String text,
+    required VoidCallback onPressed,
+    bool disabled = false,
+  }) {
+    return TextButton(
+      child: UI.text(
+        text: text,
+        color: disabled ? AppColors.black(0.35) : AppColors.primary,
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+      onPressed: disabled ? null : onPressed,
     );
   }
 }

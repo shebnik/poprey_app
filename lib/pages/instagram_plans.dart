@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/utils/app_colors.dart';
+import 'package:poprey_app/utils/logger.dart';
 import 'package:poprey_app/utils/ui.dart';
 import 'package:poprey_app/utils/utils.dart';
 
@@ -142,47 +143,68 @@ class _InstagramPlansState extends State<InstagramPlans>
   }
 
   Widget listPlan(List<Plan> plan, String planName) {
-    return ListView.builder(
+    return GridView.builder(
       itemCount: plan.length,
+      scrollDirection: Axis.vertical,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio:
+            MediaQuery.of(context).orientation == Orientation.landscape
+                ? 1200 /
+                    (MediaQuery.of(context).size.width)
+                : MediaQuery.of(context).size.height / 1000,
+      ),
       itemBuilder: (BuildContext context, int index) {
         return cardItem(plan[index], planName);
       },
     );
   }
+}
 
-  Widget cardItem(Plan plan, name) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: Card(
-        color: AppColors.chip,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(30),
-              child: Column(
-                children: [
-                  UI.text(
-                    text: plan.count.toString(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                  UI.text(
-                    text: name,
-                  ),
-                ],
-              ),
-            ),
-            UI.divider,
-            Padding(
-              padding: EdgeInsets.all(30),
-              child: UI.text(
-                text: "\$" + plan.price.toString(),
-                color: AppColors.lightBlue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+Widget cardItem(Plan plan, name) {
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+    child: Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
       ),
-    );
-  }
+      color: AppColors.chip,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 15),
+            child: Column(
+              children: [
+                UI.text(
+                  text: plan.count.toString(),
+                  fontSize: 20,
+                ),
+                UI.text(
+                  text: name,
+                ),
+              ],
+            ),
+          ),
+          UI.divider,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 15),
+            child: UI.text(
+              text: "\$" + plan.price.toString() + '0',
+              color: AppColors.lightBlue,
+              fontSize: 20,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: UI.elevatedButton(
+              onPressed: () => {},
+              child: UI.text(text: "Buy Now", color: Colors.white),
+              rounded: true,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -36,5 +38,22 @@ class AppColors {
       Color.fromRGBO(174, 174, 174, 1); // ignore: non_constant_identifier_names
 
   static final FC1CAE =
-      Color.fromRGBO(252, 28, 174, 1); // ignore: non_constant_identifier_names
+      Color.fromRGBO(252, 28, 174, 1);
+
+  static random([int? index]) {
+    Random random = Random();
+    final randomColors = [
+      Colors.lightBlue,
+      Colors.amber,
+      Colors.red,
+      Colors.black,
+      Colors.pink,
+      Colors.orange,
+      Colors.green,
+      Colors.lightGreen,
+      Colors.brown,
+      Colors.cyan,
+    ];
+    return randomColors[index ?? random.nextInt(10)];
+  }
 }
