@@ -1,26 +1,19 @@
-import 'package:intl/intl.dart';
+// ignore_for_file: avoid_print
 
 class Logger {
-  static void i(dynamic msg) {
-    // TODO Dev: uncomment
-    print('[${getTime()}] [Info] $msg');
+  static void d(dynamic object) {
+    print('$getTime [Debug]');
+    print(object);
   }
 
-  static void e([dynamic msg, dynamic? e]) {
-    // TODO Dev: uncomment
-    var time = getTime();
-    print('[$time] [ERROR] $msg');
-    if (e != null) print('[$time] [ERROR] $e');
+  static void i(String msg) {
+    print('$getTime [Info] $msg');
   }
 
-  static String getTime() {
-    var date = DateTime.now();
-    final DateFormat formatter = DateFormat('HH:mm:ss');
-    var time = formatter.format(date) + ':';
-
-    var millisecond = date.millisecond;
-    if (millisecond < 100) time += '0';
-    time += millisecond.toString();
-    return time;
+  static void e(String msg, [dynamic e]) {
+    print('$getTime [Error] $msg');
+    if (e != null) print('$getTime [Error] $e');
   }
+
+  static get getTime => DateTime.now().toString();
 }

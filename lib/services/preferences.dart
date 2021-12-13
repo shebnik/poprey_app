@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/utils/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService extends ChangeNotifier {
@@ -13,17 +12,17 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  static const connectionAvailableKey = "connectionAvailable";
+  static const connectionAvailableKey = 'connectionAvailable';
 
   set connectionAvailable(bool val) {
-    Logger.i("[PreferencesService] connectionAvailable set to - $val");
+    Logger.i('[PreferencesService] connectionAvailable set to - $val');
     prefs.setBool(connectionAvailableKey, val);
     notifyListeners();
   }
 
   bool get connectionAvailable {
     final val = prefs.getBool(connectionAvailableKey) ?? false;
-    Logger.i("[PreferencesService] connectionAvailable got - $val");
+    Logger.i('[PreferencesService] connectionAvailable got - $val');
     return val;
   }
 }

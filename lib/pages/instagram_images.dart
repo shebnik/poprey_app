@@ -32,12 +32,10 @@ class _InstagramWidgetState extends State<InstagramWidget> {
 
   Future<void> fetchInstaImages() async {
     List<Widget> _widgetsList = [];
-    List<String> _imagesList = [];
-    List<String> _postsUrls = await InstaParser.postsUrlsFromProfile(
+    List<String>? _postsUrls = await InstaParser.postsUrlsFromProfile(
         'https://www.instagram.com/shebalinik');
 
     if (_postsUrls != null) {
-      Map<String, String> photosUrls = new Map<String, String>();
       for (var item in _postsUrls) {
         Map<String, String> photosUrls =
         await InstaParser.photoUrlsFromPost(item);

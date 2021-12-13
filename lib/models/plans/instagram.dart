@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Instagram {
   final List<Plan> likes;
   final List<Plan> followers;
@@ -62,14 +60,14 @@ class Plan {
   });
 
   factory Plan.fromJson(json) {
-    var typesJson = json["types"];
+    var typesJson = json['types'];
 
     return Plan(
-      count: int.parse(json["count"]),
-      price: double.parse(json["price"]),
+      count: int.parse(json['count']),
+      price: double.parse(json['price']),
       types: {
-        "t1": Type.fromJson(typesJson["t1"]),
-        "t2": Type.fromJson(typesJson["t2"]),
+        't1': Type.fromJson(typesJson['t1']),
+        't2': Type.fromJson(typesJson['t2']),
       },
     );
   }
@@ -90,10 +88,10 @@ class Type {
 
   factory Type.fromJson(json) {
     return Type(
-      name: json["name"],
-      price: double.parse(json["price"]),
-      disabled: int.tryParse(json["disabled"].toString()) == 1 ? true : false,
-      discount: int.tryParse(json["discount"].toString()) == 1 ? true : false,
+      name: json['name'],
+      price: double.parse(json['price']),
+      disabled: int.tryParse(json['disabled'].toString()) == 1 ? true : false,
+      discount: int.tryParse(json['discount'].toString()) == 1 ? true : false,
     );
   }
 }

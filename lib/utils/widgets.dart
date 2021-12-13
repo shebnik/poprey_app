@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-class UI {
+class Widgets {
   static Widget get empty => Container();
 
   static Widget get loading => const Center(child: CircularProgressIndicator());
@@ -98,7 +98,7 @@ class UI {
     bool disabled = false,
   }) {
     return TextButton(
-      child: UI.text(
+      child: Widgets.text(
         text: text,
         color: disabled ? AppColors.black(0.35) : AppColors.primary,
         fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:poprey_app/utils/ui.dart';
+import 'package:poprey_app/utils/widgets.dart';
 
 class Utils {
   static Widget futureWidget({
@@ -13,9 +13,9 @@ class Utils {
         if (snapshot.hasData) {
           return onDidInitialize(context, snapshot);
         } else if (snapshot.hasError) {
-          return UI.errorIcon;
+          return Widgets.errorIcon;
         } else {
-          return UI.loading;
+          return Widgets.loading;
         }
       },
     );
@@ -35,10 +35,10 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
     this.height = 56.0,
-  })  : assert(crossAxisCount != null && crossAxisCount > 0),
-        assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
-        assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
-        assert(height != null && height > 0);
+  })  : assert(crossAxisCount > 0),
+        assert(mainAxisSpacing >= 0),
+        assert(crossAxisSpacing >= 0),
+        assert(height > 0);
 
   /// The number of children in the cross axis.
   final int crossAxisCount;

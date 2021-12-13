@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/utils/app_colors.dart';
-import 'package:poprey_app/utils/logger.dart';
-import 'package:poprey_app/utils/ui.dart';
+import 'package:poprey_app/utils/widgets.dart';
 import 'package:poprey_app/utils/utils.dart';
 
 class InstagramPlans extends StatefulWidget {
@@ -90,11 +88,11 @@ class _InstagramPlansState extends State<InstagramPlans>
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: const Size.fromHeight(50),
           child: tabBar(),
         ),
       ),
-      preferredSize: Size.fromHeight(50),
+      preferredSize: const Size.fromHeight(50),
     );
   }
 
@@ -104,12 +102,12 @@ class _InstagramPlansState extends State<InstagramPlans>
       child: TabBar(
         controller: _tabController,
         isScrollable: true,
-        labelStyle: UI.getTextStyle(
+        labelStyle: Widgets.getTextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: AppColors.primary,
         ),
-        unselectedLabelStyle: UI.getTextStyle(
+        unselectedLabelStyle: Widgets.getTextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.black,
@@ -118,13 +116,13 @@ class _InstagramPlansState extends State<InstagramPlans>
         labelColor: AppColors.primary,
         unselectedLabelColor: Colors.black,
         indicatorSize: TabBarIndicatorSize.tab,
-        labelPadding: EdgeInsets.symmetric(horizontal: 30),
-        tabs: [
-          Tab(text: "Likes"),
-          Tab(text: "Followers"),
-          Tab(text: "Auto-Likes"),
-          Tab(text: "Views"),
-          Tab(text: "Comments"),
+        labelPadding: const EdgeInsets.symmetric(horizontal: 30),
+        tabs: const [
+          Tab(text: 'Likes'),
+          Tab(text: 'Followers'),
+          Tab(text: 'Auto-Likes'),
+          Tab(text: 'Views'),
+          Tab(text: 'Comments'),
         ],
       ),
     );
@@ -132,11 +130,11 @@ class _InstagramPlansState extends State<InstagramPlans>
 
   List<Widget> plansWidgets() {
     List<Widget> plans = [
-      listPlan(instagramPlans.likes, "likes"),
-      listPlan(instagramPlans.followers, "followers"),
-      listPlan(instagramPlans.autoLikesPost, "autoLikesPost"),
-      listPlan(instagramPlans.views, "views"),
-      listPlan(instagramPlans.comments, "comments"),
+      listPlan(instagramPlans.likes, 'likes'),
+      listPlan(instagramPlans.followers, 'followers'),
+      listPlan(instagramPlans.autoLikesPost, 'autoLikesPost'),
+      listPlan(instagramPlans.views, 'views'),
+      listPlan(instagramPlans.comments, 'comments'),
     ];
 
     return plans;
@@ -163,7 +161,7 @@ class _InstagramPlansState extends State<InstagramPlans>
 
 Widget cardItem(Plan plan, name) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
     child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -173,33 +171,33 @@ Widget cardItem(Plan plan, name) {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Column(
               children: [
-                UI.text(
+                Widgets.text(
                   text: plan.count.toString(),
                   fontSize: 20,
                 ),
-                UI.text(
+                Widgets.text(
                   text: name,
                 ),
               ],
             ),
           ),
-          UI.divider,
+          Widgets.divider,
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 15),
-            child: UI.text(
-              text: "\$" + plan.price.toString() + '0',
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Widgets.text(
+              text: '\$${plan.price.toString()} 0',
               color: AppColors.lightBlue,
               fontSize: 20,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
-            child: UI.elevatedButton(
+            child: Widgets.elevatedButton(
               onPressed: () => {},
-              child: UI.text(text: "Buy Now", color: Colors.white),
+              child: Widgets.text(text: 'Buy Now', color: Colors.white),
               rounded: true,
             ),
           ),

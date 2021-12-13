@@ -3,6 +3,7 @@ library insta_parser;
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
+import 'package:poprey_app/utils/logger.dart';
 
 class InstaParser {
   static List<String> lastPostsParsed = [];
@@ -11,7 +12,7 @@ class InstaParser {
   static String lastVideoUrlParsed = '';
 
   /// Returns the first 12 posts of a public Instagram profile and also saves it on `lastPostsParsed`.
-  static Future<List<String>> postsUrlsFromProfile(String? profileUrl) async {
+  static Future<List<String>?> postsUrlsFromProfile(String? profileUrl) async {
     if (profileUrl == null || profileUrl == '') {
       return [];
     }
@@ -21,15 +22,16 @@ class InstaParser {
     List<String> _postsUrls = [];
     Client _client = Client();
     Response _response;
-    var _elements;
-    var _document;
+    late List<Element> _elements;
+    Document _document;
 
     try {
       _response = await _client.get(Uri.parse(profileUrl));
       _document = parse(_response.body);
       _elements = _document.querySelectorAll('body');
     } catch (error) {
-      print('[InstaParser] [ParsePostsUrlsFromInstaProfile] ERROR: $error');
+      Logger.i('[InstaParser] [ParsePostsUrlsFromInstaProfile] ERROR: $error');
+      return null;
     }
 
     _profilePageData = _elements[0].text;
@@ -42,14 +44,14 @@ class InstaParser {
       String _postUrl;
 
       _postsUrls.add('');
-      _inx = _temporaryProfileData.indexOf("shortcode\":\"");
+      _inx = _temporaryProfileData.indexOf('shortcode":"');
       _urlLenght = 11; //ex: BxFcM54hJMb
-      _inx += "shortcode\":\"".length; // Advance
+      _inx += 'shortcode":"'.length; // Advance
       _postUrl = _temporaryProfileData
           .substring(_inx)
           .substring(0, _urlLenght); // Gets the postUrl
       _postsUrls[i] =
-          "https://www.instagram.com/p/$_postUrl"; // Adds to the postsUrls list
+          'https://www.instagram.com/p/$_postUrl'; // Adds to the postsUrls list
       _temporaryProfileData =
           _temporaryProfileData.substring(_inx); // Cuts the read shortcode
 
@@ -61,7 +63,7 @@ class InstaParser {
 
   /// Returns the video url of a post if it exists or empty string if it doesn't or the profile is private
   /// and also saves it on `lastVideoUrlParsed`.
-  static Future<String> videoUrlFromPost(String? postUrl) async {
+  static Future<String?> videoUrlFromPost(String? postUrl) async {
     if (postUrl == null || postUrl == '') return '';
 
     String _profilePageData;
@@ -70,7 +72,7 @@ class InstaParser {
     List<String> _videosUrls = [];
     Client _client = Client();
     Response _response;
-    var _elements;
+    late List<Element> _elements;
     int _endInx;
 
     try {
@@ -78,7 +80,8 @@ class InstaParser {
       var _document = parse(_response.body);
       _elements = _document.querySelectorAll('body');
     } catch (error) {
-      print('[InstaParser] [ParseVideoUrlFromInstaPost] ERROR: $error');
+      Logger.i('[InstaParser] [ParseVideoUrlFromInstaPost] ERROR: $error');
+      return null;
     }
 
     _profilePageData = _elements[0].text;
@@ -86,14 +89,14 @@ class InstaParser {
     // Step 2 - Get videoUrl (video_url tag)
     _temporaryProfileData = _profilePageData;
     _endInx =
-        _temporaryProfileData.indexOf("mp4?_nc_ht=scontent.cdninstagram.com");
+        _temporaryProfileData.indexOf('mp4?_nc_ht=scontent.cdninstagram.com');
 
     if (_endInx > -1) {
       // If found
       int _startInx;
-      _endInx += "mp4?_nc_ht=scontent.cdninstagram.com".length; // Advance
-      _startInx = _temporaryProfileData.indexOf("video_url\":\""); //Search
-      _startInx += "video_url\":\"".length; // Advance
+      _endInx += 'mp4?_nc_ht=scontent.cdninstagram.com'.length; // Advance
+      _startInx = _temporaryProfileData.indexOf('video_url":"'); //Search
+      _startInx += 'video_url":"'.length; // Advance
       _videoUrl = _temporaryProfileData
           .substring(_startInx)
           .substring(0, _endInx - _startInx); // Gets the videoUrl
@@ -114,13 +117,13 @@ class InstaParser {
     Map<String, String> _photosAllSizes = <String, String>{};
 
     if (postUrl[postUrl.length - 1] == '/') {
-      _photosAllSizes['small'] = postUrl + 'media/?size=t';
-      _photosAllSizes['medium'] = postUrl + 'media/?size=m';
-      _photosAllSizes['large'] = postUrl + 'media/?size=l';
+      _photosAllSizes['small'] = '$postUrl/media/?size=t';
+      _photosAllSizes['medium'] = '$postUrl/media/?size=m';
+      _photosAllSizes['large'] = '$postUrl/media/?size=l';
     } else {
-      _photosAllSizes['small'] = postUrl + '/media/?size=t';
-      _photosAllSizes['medium'] = postUrl + '/media/?size=m';
-      _photosAllSizes['large'] = postUrl + '/media/?size=l';
+      _photosAllSizes['small'] = '$postUrl/media/?size=t';
+      _photosAllSizes['medium'] = '$postUrl/media/?size=m';
+      _photosAllSizes['large'] = '$postUrl/media/?size=l';
     }
 
     lastPhotoUrlsParsed = _photosAllSizes;
@@ -147,47 +150,47 @@ class InstaParser {
     int _endInx = 1;
 
     String _biography = '';
-    String _biographyPatternStart = "biography\":\"";
-    String _biographyPatternEnd = "\",\"blocked_by_viewer\":";
+    String _biographyPatternStart = 'biography":"';
+    String _biographyPatternEnd = '","blocked_by_viewer":';
 
     String _followersCount = '';
-    String _followersCountPatternStart = "edge_followed_by\":{\"count\":";
-    String _followersCountPatternEnd = "},\"followed_by_viewer\":";
+    String _followersCountPatternStart = 'edge_followed_by":{"count":';
+    String _followersCountPatternEnd = '},"followed_by_viewer":';
 
     String _followingsCount = '';
     String _followingsCountPatternStart = 'edge_follow":{"count":';
     String _followingsCountPatternEnd = '},"follows_viewer":';
 
     String _fullName = '';
-    String _fullNamePatternStart = "full_name\":\"";
-    String _fullNamePatternEnd = "\",\"has_channel\":";
+    String _fullNamePatternStart = 'full_name":"';
+    String _fullNamePatternEnd = '","has_channel":';
 
     String _isPrivate = '';
-    String _isPrivatePatternStart = "is_private\":";
-    String _isPrivatePatternEnd = ",\"is_verified\":";
+    String _isPrivatePatternStart = 'is_private":';
+    String _isPrivatePatternEnd = ',"is_verified":';
 
     String _isVerified = '';
-    String _isVerifiedPatternStart = "is_verified\":";
-    String _isVerifiedPatternEnd = ",\"edge_mutual_followed_by\":";
+    String _isVerifiedPatternStart = 'is_verified":';
+    String _isVerifiedPatternEnd = ',"edge_mutual_followed_by":';
 
     String _profilePicUrl = '';
-    String _profilePicUrlPatternStart = "profile_pic_url\":\"";
+    String _profilePicUrlPatternStart = 'profile_pic_url":"';
     String _profilePicUrlPatternEnd =
-        "jpg?_nc_ht=instagram.fsdu5-1.fna.fbcdn.net";
+        'jpg?_nc_ht=instagram.fsdu5-1.fna.fbcdn.net';
 
     String _profilePicUrlHd = '';
-    String _profilePicUrlHdPatternStart = "profile_pic_url_hd\":\"";
+    String _profilePicUrlHdPatternStart = 'profile_pic_url_hd":"';
     String _profilePicUrlHdPatternEnd =
-        "jpg?_nc_ht=instagram.fsdu5-1.fna.fbcdn.net";
+        'jpg?_nc_ht=instagram.fsdu5-1.fna.fbcdn.net';
 
     String _username = '';
-    String _usernamePatternStart = "username\":\"";
-    String _usernamePatternEnd = "\",\"connected_fb_page\":";
+    String _usernamePatternStart = 'username":"';
+    String _usernamePatternEnd = '","connected_fb_page":';
 
     String _postsCount = '';
     String _postsCountPatternStart =
-        "edge_owner_to_timeline_media\":{\"count\":";
-    String _postsCountPatternEnd = ",\"page_info\":{";
+        'edge_owner_to_timeline_media":{"count":';
+    String _postsCountPatternEnd = ',"page_info":{';
 
     Map<String, String> _userData = <String, String>{};
 
@@ -196,7 +199,7 @@ class InstaParser {
       _document = parse(_response.body);
       _elements = _document.querySelectorAll('body');
     } catch (error) {
-      print('[InstaParser] [ParsePostsUrlsFromInstaProfile] ERROR: $error');
+      Logger.i('[InstaParser] [ParsePostsUrlsFromInstaProfile] ERROR: $error');
     }
 
     _profilePageData = _elements[0].text;
