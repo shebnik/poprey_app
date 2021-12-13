@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
-import 'package:poprey_app/utils/app_colors.dart';
-import 'package:poprey_app/utils/widgets.dart';
+import 'package:poprey_app/utils/app_theme.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/utils.dart';
 
 class InstagramPlans extends StatefulWidget {
@@ -105,15 +105,15 @@ class _InstagramPlansState extends State<InstagramPlans>
         labelStyle: Widgets.getTextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: AppColors.primary,
+          color: AppTheme.primary,
         ),
         unselectedLabelStyle: Widgets.getTextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.black,
         ),
-        indicatorColor: AppColors.primary,
-        labelColor: AppColors.primary,
+        indicatorColor: AppTheme.primary,
+        labelColor: AppTheme.primary,
         unselectedLabelColor: Colors.black,
         indicatorSize: TabBarIndicatorSize.tab,
         labelPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -166,7 +166,7 @@ Widget cardItem(Plan plan, name) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      color: AppColors.chip,
+      color: AppTheme.chip,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -189,7 +189,7 @@ Widget cardItem(Plan plan, name) {
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Widgets.text(
               text: '\$${plan.price.toString()} 0',
-              color: AppColors.lightBlue,
+              color: AppTheme.lightBlue,
               fontSize: 20,
             ),
           ),

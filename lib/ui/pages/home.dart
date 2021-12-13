@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:poprey_app/assets/assets.dart';
+import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/pages/additional_plans.dart';
-import 'package:poprey_app/utils/widgets.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/pages/instagram_plans.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
                     pageNumber = 0;
                   }),
                   icon: SvgPicture.asset(
-                    Assets.instagram,
+                    AppAssets.instagram,
                     width: 60,
                     height: 60,
                   ),
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                     pageNumber = 1;
                   }),
                   icon: SvgPicture.asset(
-                    Assets.additionalServices,
+                    AppAssets.additionalServices,
                     width: 60,
                     height: 60,
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/services/plans_parser.dart';
-import 'package:poprey_app/utils/widgets.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
 
 class AdditionalPlans extends StatefulWidget {
   const AdditionalPlans({Key? key}) : super(key: key);
