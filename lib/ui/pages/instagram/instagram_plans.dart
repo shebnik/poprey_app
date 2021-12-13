@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:poprey_app/models/plans/instagram.dart';
+import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/ui/widgets/future_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
@@ -14,7 +14,7 @@ class InstagramPlans extends StatefulWidget {
 class _InstagramPlansState extends State<InstagramPlans>
     with SingleTickerProviderStateMixin, RestorationMixin {
   late Future<Map?> _getInstaPlans;
-  late Instagram instagramPlans;
+  late InstagramModel instagramPlans;
   CupertinoTabController? _tabController;
   final RestorableInt tabIndex = RestorableInt(0);
 
@@ -30,7 +30,7 @@ class _InstagramPlansState extends State<InstagramPlans>
   @override
   void initState() {
     super.initState();
-    _getInstaPlans = PlansParser().getInstaPlans();
+    _getInstaPlans = PlansParser.getInstaPlans();
 
     _tabController = CupertinoTabController(
       initialIndex: 0,

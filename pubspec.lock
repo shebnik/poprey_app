@@ -204,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  dart_json_mapper:
+    dependency: "direct main"
+    description:
+      name: dart_json_mapper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.17"
   dart_style:
     dependency: transitive
     description:
@@ -525,6 +532,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  reflectable:
+    dependency: transitive
+    description:
+      name: reflectable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.4"
   shared_preferences:
     dependency: "direct main"
     description:

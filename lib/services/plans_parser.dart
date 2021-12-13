@@ -6,11 +6,11 @@ import 'package:poprey_app/utils/logger.dart';
 import 'package:connectivity/connectivity.dart';
 
 class PlansParser {
-  String instaPlansUrl = 'https://core.poprey.com/api/get_plans.php';
-  String additionalServicesUrl =
+  static String instaPlansUrl = 'https://core.poprey.com/api/get_plans.php';
+  static String additionalServicesUrl =
       'https://core.poprey.com/api/additional_services.php';
 
-  Future<Map?> parsePlanURL(String url) async {
+  static Future<Map?> parsePlanURL(String url) async {
     Client _client = Client();
     Response _response;
     try {
@@ -31,7 +31,7 @@ class PlansParser {
     }
   }
 
-  Future<Map?> getInstaPlans() async {
+  static Future<Map?> getInstaPlans() async {
     Map? plans = await parsePlanURL(instaPlansUrl);
     if (plans != null) {
       Logger.i('[PlansParser] getInstaPlans - Ok');
@@ -42,7 +42,7 @@ class PlansParser {
     }
   }
 
-  Future<Map?> getAdditionalPlans() async {
+  static Future<Map?> getAdditionalPlans() async {
     Map? plans = await parsePlanURL(additionalServicesUrl);
     if (plans != null) {
       Logger.i('[PlansParser] getAdditionalPlans - Ok');

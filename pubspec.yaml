@@ -24,6 +24,7 @@ dependencies:
   provider: ^6.0.1
   flutter_svg: ^1.0.0
   flutter_native_splash: ^1.3.2
+  dart_json_mapper: ^2.1.17
 
 dev_dependencies:
   flutter_test:

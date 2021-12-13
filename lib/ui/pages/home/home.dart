@@ -101,8 +101,12 @@ class _HomeState extends State<Home> {
           switch (index) {
             case 0:
               returnValue = CupertinoTabView(builder: (context) {
-                return const CupertinoPageScaffold(
-                  child: InstagramTab(),
+                return CupertinoPageScaffold(
+                  child: Obx(
+                    () => InstagramTab(
+                      instagramModel: controller.instagramModel.value,
+                    ),
+                  ),
                 );
               });
               break;
