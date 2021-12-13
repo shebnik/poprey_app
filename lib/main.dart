@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
+import 'package:poprey_app/ui/pages/home/home.dart';
 import 'package:poprey_app/ui/widgets/loading_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   Logger.i('[App] Starting app..');
@@ -32,30 +35,24 @@ class MyApp extends StatelessWidget {
     controller.prepare();
 
     return GetCupertinoApp(
+      debugShowCheckedModeBanner: false,
       title: AppConstants.appName,
       theme: AppTheme.theme,
-      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        AppLocalizations.delegate, 
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('ru', ''),
+      ],
       initialRoute: initRoutePath,
       getPages: [
         GetPage(
-          name: Start.routeName,
-          page: () => const Start(),
-        ),
-        GetPage(
-          name: CreateAccount.routeName,
-          page: () => const CreateAccount(),
-        ),
-        GetPage(
-          name: Login.routeName,
-          page: () => const Login(),
-        ),
-        GetPage(
-          name: ResetPassword.routeName,
-          page: () => const ResetPassword(),
-        ),
-        GetPage(
-          name: LoadDashboard.routeName,
-          page: () => const LoadDashboard(),
+          name: Home.routeName,
+          page: () => const Home(),
         ),
       ],
       builder: (context, child) {
@@ -69,7 +66,7 @@ class MyApp extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {},
                     child: Container(
-                      child: const LoadingWidget(),
+                      child: const SplashLoadingWidget(),
                       color: CupertinoColors.systemGrey.withOpacity(0.5),
                     ),
                   ),

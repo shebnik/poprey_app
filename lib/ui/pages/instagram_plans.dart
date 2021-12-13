@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:poprey_app/models/plans/instagram.dart';
 import 'package:poprey_app/services/plans_parser.dart';
+import 'package:poprey_app/ui/widgets/future_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
-import 'package:poprey_app/utils/utils.dart';
 
 class InstagramPlans extends StatefulWidget {
   const InstagramPlans({Key? key}) : super(key: key);
@@ -16,7 +15,7 @@ class _InstagramPlansState extends State<InstagramPlans>
     with SingleTickerProviderStateMixin, RestorationMixin {
   late Future<Map?> _getInstaPlans;
   late Instagram instagramPlans;
-  TabController? _tabController;
+  CupertinoTabController? _tabController;
   final RestorableInt tabIndex = RestorableInt(0);
 
   @override
@@ -33,10 +32,8 @@ class _InstagramPlansState extends State<InstagramPlans>
     super.initState();
     _getInstaPlans = PlansParser().getInstaPlans();
 
-    _tabController = TabController(
+    _tabController = CupertinoTabController(
       initialIndex: 0,
-      length: 5,
-      vsync: this,
     );
     _tabController!.addListener(() {
       setState(() {
@@ -47,13 +44,14 @@ class _InstagramPlansState extends State<InstagramPlans>
 
   @override
   Widget build(BuildContext context) {
-    return Utils.futureWidget(
-      future: _getInstaPlans,
-      onDidInitialize: (context, snapshot) {
-        instagramPlans = Instagram.fromJson(snapshot.data);
-        return instaPlans();
-      },
-    );
+    return Container();
+    // return FutureWidget(
+    //   future: _getInstaPlans,
+    //   onDidInitialize: (context, snapshot) {
+    //     instagramPlans = Instagram.fromJson(snapshot.data);
+    //     return instaPlans();
+    //   },
+    // );
 
     // return FutureBuilder(
     //   future: _getInstaPlans,
@@ -70,139 +68,133 @@ class _InstagramPlansState extends State<InstagramPlans>
     // );
   }
 
-  Widget instaPlans() {
-    return Expanded(
-      child: Scaffold(
-        appBar: appBar(),
-        body: TabBarView(
-          controller: _tabController,
-          children: plansWidgets(),
-        ),
-      ),
-    );
-  }
+  // Widget instaPlans() {
+  //   return Expanded(
+  //     child: CupertinoPageScaffold(
+  //       navigationBar: CupertinoNavigationBar(
+  //         backgroundColor: CupertinoColors.white,
+  //         automaticallyImplyLeading: false,
+  //         leading: PreferredSize(
+  //           preferredSize: const Size.fromHeight(50),
+  //           child: tabBar(),
+  //         ),
+  //       ),
+  //       child: CupertinoTabView(
+  //         controller: _tabController,
+  //         children: plansWidgets(),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  PreferredSize appBar() {
-    return PreferredSize(
-      child: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: tabBar(),
-        ),
-      ),
-      preferredSize: const Size.fromHeight(50),
-    );
-  }
+//   Widget tabBar() {
+//     return Align(
+//       alignment: Alignment.centerLeft,
+//       child: CupertinoTabBar(
+//         controller: _tabController,
+//         isScrollable: true,
+//         labelStyle: const TextStyle(
+//           fontSize: 18,
+//           fontWeight: FontWeight.bold,
+//           color: AppTheme.primary,
+//         ),
+//         unselectedLabelStyle: const TextStyle(
+//           fontSize: 18,
+//           fontWeight: FontWeight.bold,
+//           color: Colors.black,
+//         ),
+//         indicatorColor: AppTheme.primary,
+//         labelColor: AppTheme.primary,
+//         unselectedLabelColor: Colors.black,
+//         indicatorSize: TabBarIndicatorSize.tab,
+//         labelPadding: const EdgeInsets.symmetric(horizontal: 30),
+//         tabs: const [
+//           Tab(text: 'Likes'),
+//           Tab(text: 'Followers'),
+//           Tab(text: 'Auto-Likes'),
+//           Tab(text: 'Views'),
+//           Tab(text: 'Comments'),
+//         ],
+//       ),
+//     );
+//   }
 
-  Widget tabBar() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: TabBar(
-        controller: _tabController,
-        isScrollable: true,
-        labelStyle: Widgets.getTextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: AppTheme.primary,
-        ),
-        unselectedLabelStyle: Widgets.getTextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-        indicatorColor: AppTheme.primary,
-        labelColor: AppTheme.primary,
-        unselectedLabelColor: Colors.black,
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 30),
-        tabs: const [
-          Tab(text: 'Likes'),
-          Tab(text: 'Followers'),
-          Tab(text: 'Auto-Likes'),
-          Tab(text: 'Views'),
-          Tab(text: 'Comments'),
-        ],
-      ),
-    );
-  }
+//   List<Widget> plansWidgets() {
+//     List<Widget> plans = [
+//       listPlan(instagramPlans.likes, 'likes'),
+//       listPlan(instagramPlans.followers, 'followers'),
+//       listPlan(instagramPlans.autoLikesPost, 'autoLikesPost'),
+//       listPlan(instagramPlans.views, 'views'),
+//       listPlan(instagramPlans.comments, 'comments'),
+//     ];
 
-  List<Widget> plansWidgets() {
-    List<Widget> plans = [
-      listPlan(instagramPlans.likes, 'likes'),
-      listPlan(instagramPlans.followers, 'followers'),
-      listPlan(instagramPlans.autoLikesPost, 'autoLikesPost'),
-      listPlan(instagramPlans.views, 'views'),
-      listPlan(instagramPlans.comments, 'comments'),
-    ];
+//     return plans;
+//   }
 
-    return plans;
-  }
+//   Widget listPlan(List<Plan> plan, String planName) {
+//     return GridView.builder(
+//       itemCount: plan.length,
+//       scrollDirection: Axis.vertical,
+//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 2,
+//         childAspectRatio:
+//             MediaQuery.of(context).orientation == Orientation.landscape
+//                 ? 1200 / (MediaQuery.of(context).size.width)
+//                 : MediaQuery.of(context).size.height / 1000,
+//       ),
+//       itemBuilder: (BuildContext context, int index) {
+//         return cardItem(plan[index], planName);
+//       },
+//     );
+//   }
+// }
 
-  Widget listPlan(List<Plan> plan, String planName) {
-    return GridView.builder(
-      itemCount: plan.length,
-      scrollDirection: Axis.vertical,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio:
-            MediaQuery.of(context).orientation == Orientation.landscape
-                ? 1200 /
-                    (MediaQuery.of(context).size.width)
-                : MediaQuery.of(context).size.height / 1000,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return cardItem(plan[index], planName);
-      },
-    );
-  }
-}
-
-Widget cardItem(Plan plan, name) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-    child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      color: AppTheme.chip,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Column(
-              children: [
-                Widgets.text(
-                  text: plan.count.toString(),
-                  fontSize: 20,
-                ),
-                Widgets.text(
-                  text: name,
-                ),
-              ],
-            ),
-          ),
-          Widgets.divider,
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Widgets.text(
-              text: '\$${plan.price.toString()} 0',
-              color: AppTheme.lightBlue,
-              fontSize: 20,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Widgets.elevatedButton(
-              onPressed: () => {},
-              child: Widgets.text(text: 'Buy Now', color: Colors.white),
-              rounded: true,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+// Widget cardItem(Plan plan, name) {
+//   return Padding(
+//     padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+//     child: Card(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(15),
+//       ),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.symmetric(vertical: 15),
+//             child: Column(
+//               children: [
+//                 Text(
+//                   plan.count.toString(),
+//                   style: const TextStyle(
+//                     fontSize: 20,
+//                   ),
+//                 ),
+//                 Text(
+//                   name,
+//                 ),
+//               ],
+//             ),
+//           ),
+//           const SizedBox(height: 12),
+//           Padding(
+//             padding: const EdgeInsets.symmetric(vertical: 15),
+//             child: Text(
+//               '\$${plan.price.toString()} 0',
+//               style: const TextStyle(
+//                 fontSize: 20,
+//               ),
+//             ),
+//           ),
+//           // Padding(
+//           //   padding: const EdgeInsets.symmetric(vertical: 15),
+//           //   child: AppElevatedButton(
+//           //     onPressed: () => {},
+//           //     child: Widgets.text(text: 'Buy Now', color: Colors.white),
+//           //     rounded: true,
+//           //   ),
+//           // ),
+//         ],
+//       ),
+//     ),
+//   );
 }

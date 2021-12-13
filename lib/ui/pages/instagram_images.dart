@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:poprey_app/services/insta_parser.dart';
 
 class InstagramWidget extends StatefulWidget {

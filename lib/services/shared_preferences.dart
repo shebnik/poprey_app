@@ -57,4 +57,6 @@ class SharedPreferencesService {
   static clear() {
     sharedPreferences.clear();
   }
+
+  static void closeStreams() {}
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/services/plans_parser.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
 
 class AdditionalPlans extends StatefulWidget {
   const AdditionalPlans({Key? key}) : super(key: key);
@@ -25,7 +24,7 @@ class _AdditionalPlansState extends State<AdditionalPlans> {
         future: _getAdditionalPlans,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return Widgets.doneIcon;
+            return Container();
           } else if (snapshot.hasError) {
             return const Icon(Icons.error_outline);
           } else {
