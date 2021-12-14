@@ -5,12 +5,17 @@ import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/hex_color.dart';
 
 class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
-  const HomeNavigationBar({Key? key}) : super(key: key);
+  final bool applyElevation;
+
+  const HomeNavigationBar({
+    Key? key,
+    this.applyElevation = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0.04,
+      elevation: applyElevation ? 0.04 : 0.0,
       backgroundColor: HexColor.fromHex('#FFFFFF'),
       leading: IconButton(
         icon: SvgPicture.asset(

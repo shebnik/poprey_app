@@ -10,12 +10,12 @@ import 'package:poprey_app/utils/hex_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectionSlider extends StatefulWidget {
-  final String title;
+  final String planTitle;
   final InstagramPlan plan;
 
   const SelectionSlider({
     Key? key,
-    required this.title,
+    required this.planTitle,
     required this.plan,
   }) : super(key: key);
 
@@ -54,7 +54,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    widget.planTitle,
                     style: Theme.of(context).textTheme.headline5!.apply(
                           color: AppTheme.secondary,
                         ),
@@ -121,7 +121,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
             top: 5,
             right: 0,
             child: SvgPicture.asset(
-              controller.getAssetByTitle(widget.title)
+              controller.getAssetByTitle(widget.planTitle)
             ),
           ),
           Positioned(

@@ -26,26 +26,31 @@ class _InstagramTabState extends State<InstagramTab> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 5,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return GetBuilder<SharedPreferencesController>(
-            init: Get.find<SharedPreferencesController>(),
-            builder: (value) {
-              var plan =
-                  controller.getPlanByIndex(index, value.getInstagramModel());
-              if (plan.plan != null) {
-                return SelectionSlider(
-                  key: Key(plan.title),
-                  plan: plan.plan!,
-                  title: plan.title,
-                );
-              }
-              return Container();
-            });
-      },
-      separatorBuilder: (context, index) => const SizedBox(height: 10),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
+        child: ListView.separated(
+          itemCount: 5,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return GetBuilder<SharedPreferencesController>(
+                init: Get.find<SharedPreferencesController>(),
+                builder: (value) {
+                  var plan = controller.getPlanByIndex(
+                      index, value.getInstagramModel());
+                  if (plan.plan != null) {
+                    return SelectionSlider(
+                      key: Key(plan.title),
+                      plan: plan.plan!,
+                      planTitle: plan.title,
+                    );
+                  }
+                  return Container();
+                });
+          },
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+        ),
+      ),
     );
   }
 }

@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         return CupertinoTabView(
           builder: (context) {
             if (index == 1) {
-              return tabPage(const OtherSmTab());
+              return tabPage(const OtherSmTab(), false);
             }
             return tabPage(const InstagramTab());
           },
@@ -61,20 +61,14 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget tabPage(Widget tab) {
+  Widget tabPage(Widget tab, [bool applyElevation = true]) {
     return Scaffold(
-      appBar: const HomeNavigationBar(),
+      appBar: HomeNavigationBar(applyElevation: applyElevation),
       body: SafeArea(
         child: Scrollbar(
           isAlwaysShown: false,
           thickness: 5,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
-              child: tab,
-            ),
-          ),
+          child: tab,
         ),
       ),
     );
