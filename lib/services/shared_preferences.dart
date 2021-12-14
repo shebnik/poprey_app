@@ -21,14 +21,15 @@ class SharedPreferencesController extends GetxController {
     }
   }
 
-  Future<void> setInstagramModel(InstagramModel? instagramModel) async {
-    if (instagramModel != null) {
+  Future<void> setInstagramModel(InstagramModel? _instagramModel) async {
+    if (_instagramModel != null) {
       await saveJson(
         AppConstants.instagramModel,
-        instagramModel.toJson(),
+        _instagramModel.toJson(),
       );
+      // await Future.delayed(Duration(seconds: 3));
+      Logger.i('setInstagramModel done');
       update();
-      Logger.i('updated instagramModel');
     }
   }
 

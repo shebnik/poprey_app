@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/home/app_navigation_bar.dart';
 import 'package:poprey_app/ui/pages/home/home_controller.dart';
-import 'package:poprey_app/ui/pages/instagram/instagram_tab.dart';
+import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';

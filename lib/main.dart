@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainController controller = Get.put(MainController());
+    Get.put(SharedPreferencesController());
     controller.prepare();
 
     return GetCupertinoApp(

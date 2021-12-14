@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   final MainController mainController = Get.find();
+  final SharedPreferencesController sharedPreferencesController = Get.find();
 
   late CupertinoTabController cupertinoTabController = CupertinoTabController();
   var selectedTab = RxInt(0);
@@ -22,10 +23,10 @@ class HomeController extends GetxController {
     if (instaPlans != null) {
       final instagramModel = InstagramModel.fromJson(instaPlans);
       Logger.i('Model deserialized');
-      await SharedPreferencesController().setInstagramModel(instagramModel);
+      await sharedPreferencesController.setInstagramModel(instagramModel);
       mainController.isLoading = false;
+      Logger.i('Model set');
     }
-    // Logger.i('Model set');
   }
 
   void onTabBarTap(int value) {
