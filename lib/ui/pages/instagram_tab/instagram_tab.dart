@@ -37,6 +37,7 @@ class _InstagramTabState extends State<InstagramTab> {
                   controller.getPlanByIndex(index, value.getInstagramModel());
               if (plan.plan != null) {
                 return SelectionSlider(
+                  key: Key(plan.title),
                   plan: plan.plan!,
                   title: plan.title,
                 );
@@ -44,7 +45,7 @@ class _InstagramTabState extends State<InstagramTab> {
               return Container();
             });
       },
-      separatorBuilder: (context, index) => SizedBox(height: 10),
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
     );
   }
 }

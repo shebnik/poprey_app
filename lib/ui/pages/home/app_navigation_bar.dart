@@ -1,40 +1,43 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/hex_color.dart';
 
-class HomeNavigationBar extends StatelessWidget
-    with ObstructingPreferredSizeWidget {
+class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
   const HomeNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoNavigationBar(
+    return AppBar(
+      elevation: 0.04,
       backgroundColor: HexColor.fromHex('#FFFFFF'),
-      leading: GestureDetector(
-        child: SvgPicture.asset(
+      leading: IconButton(
+        icon: SvgPicture.asset(
           AppAssets.menuIcon,
         ),
-        onTap: () {},
+        onPressed: () {},
       ),
-      middle: const Text(
+      centerTitle: true,
+      title: const Text(
         AppConstants.appName,
-      ),
-      trailing: GestureDetector(
-        child: SvgPicture.asset(
-          AppAssets.mailIcon,
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+          fontSize: 18,
         ),
-        onTap: () {},
       ),
+      actions: [
+        IconButton(
+          icon: SvgPicture.asset(
+            AppAssets.mailIcon,
+          ),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 
   @override
   Size get preferredSize => const Size.fromHeight(50);
-
-  @override
-  bool shouldFullyObstruct(BuildContext context) {
-    return true;
-  }
 }

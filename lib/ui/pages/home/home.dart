@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/home/app_navigation_bar.dart';
@@ -61,10 +62,10 @@ class _HomeState extends State<Home> {
   }
 
   Widget tabPage(Widget tab) {
-    return CupertinoPageScaffold(
-      navigationBar: const HomeNavigationBar(),
-      child: SafeArea(
-        child: CupertinoScrollbar(
+    return Scaffold(
+      appBar: const HomeNavigationBar(),
+      body: SafeArea(
+        child: Scrollbar(
           isAlwaysShown: false,
           thickness: 5,
           child: SingleChildScrollView(

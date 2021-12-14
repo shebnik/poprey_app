@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
+import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/hex_color.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectionSlider extends StatefulWidget {
@@ -29,7 +29,8 @@ class _SelectionSliderState extends State<SelectionSlider> {
   @override
   void initState() {
     super.initState();
-    controller = Get.put(SelectionSliderController());
+    controller = SelectionSliderController(widget.plan);
+    controller.initValues();
   }
 
   @override
@@ -45,65 +46,66 @@ class _SelectionSliderState extends State<SelectionSlider> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 9.5, left: 14),
-        child: Material(
-          // color: Colors.black,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.title,
-                      style: const TextStyle(
-                        color: AppTheme.secondary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 10,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '200',
-                          style: TextStyle(
-                            color: AppTheme.black(1),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: Theme.of(context).textTheme.headline5!.apply(
+                          color: AppTheme.secondary,
                         ),
-                        Text(
-                          '\$5.90',
-                          style: TextStyle(
-                            color: AppTheme.black(1),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Obx(
-                      () => SizedBox(
-                        height: 27,
-                        child: Slider(
-                          value: controller.currentValue.value,
-                          min: 26,
-                          max: 20000,
-                          divisions: 10,
-                          onChanged: (value) {
-                            print(value);
-                            controller.currentValue.value = value;
-                          },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(
+                        () => Text(
+                          controller.countValue.value,
+                          style: Theme.of(context).textTheme.headline4,
                         ),
                       ),
-                    )
-                  ],
-                ),
+                      Obx(
+                        () => Text(
+                          '\$${controller.priceValue.value}',
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Obx(
+                    () => SizedBox(
+                      height: 27,
+                      child: Slider(
+                        value: controller.currentValue.value,
+                        min: controller.minValue,
+                        max: controller.maxValue,
+                        divisions: controller.divisions,
+                        onChanged: controller.onSliderChanged,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        controller.minValue.toStringAsFixed(0),
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      Text(
+                        controller.maxValue.toStringAsFixed(0),
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ],
+                  )
+                ],
               ),
-              buySide(),
-            ],
-          ),
+            ),
+            buySide(),
+          ],
         ),
       ),
     );
@@ -115,6 +117,13 @@ class _SelectionSliderState extends State<SelectionSlider> {
       child: Stack(
         alignment: Alignment.center,
         children: [
+          Positioned(
+            top: 5,
+            right: 0,
+            child: SvgPicture.asset(
+              controller.getAssetByTitle(widget.title)
+            ),
+          ),
           Positioned(
             right: 10,
             child: SizedBox(
