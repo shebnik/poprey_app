@@ -36,7 +36,7 @@ class MainController extends GetxController {
   @override
   void onClose() {
     streamSubscriptions.map((e) => e.cancel());
-    SharedPreferencesService.closeStreams();
+    // SharedPreferencesController.closeStreams();
     // firestoreDataChangeStreamController.close();
     connectivityStream.cancel();
     // PaymentService.instance.dispose();

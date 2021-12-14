@@ -14,23 +14,15 @@ class _InstagramTabState extends State<InstagramTab> {
   @override
   void initState() {
     super.initState();
-    Logger.i('Instagram tab');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-        SelectionSlider(),
-      ],
+    return ListView.separated(
+      itemCount: 5,
+      shrinkWrap: true,
+      itemBuilder: (context, index) => SelectionSlider(),
+      separatorBuilder: (context, index) => SizedBox(height: 10),
     );
   }
 }

@@ -9,18 +9,20 @@ import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'main.mapper.g.dart' show initializeJsonMapper;
 
 void main() async {
   Logger.i('[App] Starting app..');
   WidgetsFlutterBinding.ensureInitialized();
 
-  initializeJsonMapper();
+  // final SharedPreferencesController spController =
+  //     Get.put(SharedPreferencesController());
 
-  SharedPreferencesService.sharedPreferences =
-      await SharedPreferences.getInstance();
+  // spController.sharedPreferences = await SharedPreferences.getInstance();
+
+  initializeJsonMapper();
 
   initRoutePath = AuthService.defineInitRoutePath();
 
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       title: AppConstants.appName,
       theme: AppTheme.theme,
       localizationsDelegates: const [
-        AppLocalizations.delegate, 
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

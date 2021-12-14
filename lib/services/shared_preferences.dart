@@ -1,35 +1,62 @@
 import 'dart:convert';
 
+import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:get/get.dart';
+import 'package:poprey_app/models/instagram_model.dart';
+import 'package:poprey_app/utils/app_constants.dart';
+import 'package:poprey_app/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesService {
-  static late final SharedPreferences sharedPreferences;
+class SharedPreferencesController extends GetxController {
+  late final SharedPreferences sharedPreferences;
 
-  static readString(String key) {
+  InstagramModel? getInstagramModel() {
+    try {
+      return JsonMapper.deserialize<InstagramModel>(
+        readJson(AppConstants.instagramModel),
+      );
+    } catch (e) {
+      Logger.e('getInstagramModel error: ', e);
+      return null;
+    }
+  }
+
+  Future<void> setInstagramModel(InstagramModel? instagramModel) async {
+    if (instagramModel != null) {
+      await saveJson(
+        AppConstants.instagramModel,
+        JsonMapper.serialize(instagramModel),
+      );
+      update();
+      Logger.i('updated instagramModel');
+    }
+  }
+
+  String? readString(String key) {
     return sharedPreferences.getString(key);
   }
 
-  static saveString(String key, String value) {
+  Future<bool> saveString(String key, String value) {
     return sharedPreferences.setString(key, value);
   }
 
-  static readInt(String key) {
+  int? readInt(String key) {
     return sharedPreferences.getInt(key);
   }
 
-  static saveInt(String key, int value) {
+  Future<bool> saveInt(String key, int value) {
     return sharedPreferences.setInt(key, value);
   }
 
-  static readBoolean(String key) {
+  bool? readBoolean(String key) {
     return sharedPreferences.getBool(key);
   }
 
-  static saveBoolean(String key, bool value) {
+  Future<bool> saveBoolean(String key, bool value) {
     return sharedPreferences.setBool(key, value);
   }
 
-  static readJson(String key) {
+  String? readJson(String key) {
     try {
       return json.decode(
         sharedPreferences.getString(key) ?? '',
@@ -40,8 +67,8 @@ class SharedPreferencesService {
     }
   }
 
-  static saveJson(String key, value) {
-    sharedPreferences.setString(
+  Future<bool> saveJson(String key, value) {
+    return sharedPreferences.setString(
       key,
       json.encode(
         value,
@@ -50,13 +77,11 @@ class SharedPreferencesService {
     );
   }
 
-  static remove(String key) {
-    sharedPreferences.remove(key);
+  Future<bool> remove(String key) {
+    return sharedPreferences.remove(key);
   }
 
-  static clear() {
-    sharedPreferences.clear();
+  Future<bool> clear() {
+    return sharedPreferences.clear();
   }
-
-  static void closeStreams() {}
 }
