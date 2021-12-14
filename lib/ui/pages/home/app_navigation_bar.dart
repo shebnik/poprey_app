@@ -4,9 +4,9 @@ import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/hex_color.dart';
 
-class AppNavigationBar extends StatelessWidget
+class HomeNavigationBar extends StatelessWidget
     with ObstructingPreferredSizeWidget {
-  const AppNavigationBar({Key? key}) : super(key: key);
+  const HomeNavigationBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,10 @@ class AppNavigationBar extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(0);
+  Size get preferredSize => const Size.fromHeight(50);
 
   @override
   bool shouldFullyObstruct(BuildContext context) {
-    return false;
+    return true;
   }
 }

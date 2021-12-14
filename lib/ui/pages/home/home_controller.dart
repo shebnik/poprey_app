@@ -1,3 +1,4 @@
+import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
@@ -10,15 +11,14 @@ class HomeController extends GetxController {
   late CupertinoTabController cupertinoTabController;
   var selectedTab = RxInt(0);
 
-  Rx<InstagramModel?> instagramModel = InstagramModel.fromJson(null).obs;
-
   @override
   Future<void> onInit() async {
     super.onInit();
     cupertinoTabController = CupertinoTabController();
-    instagramModel.value = InstagramModel.fromJson(
+    final instagramModel = JsonMapper.deserialize<InstagramModel>(
       await PlansParser.getInstaPlans(),
     );
+    print(instagramModel.toString());
     mainController.isLoading = false;
   }
 

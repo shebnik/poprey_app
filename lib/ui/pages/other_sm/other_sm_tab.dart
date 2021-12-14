@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OtherSmTab extends StatefulWidget {
-  const OtherSmTab({ Key? key }) : super(key: key);
+  const OtherSmTab({Key? key}) : super(key: key);
 
   @override
   _OtherSmTabState createState() => _OtherSmTabState();
@@ -10,8 +11,6 @@ class OtherSmTab extends StatefulWidget {
 class _OtherSmTabState extends State<OtherSmTab> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-    );
+    return Container();
   }
 }

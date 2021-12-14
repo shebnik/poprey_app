@@ -1,7 +1,6 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
-import 'package:poprey_app/models/bool_converter.dart';
 
-part 'instagram_model.g.dart';
+import 'package:poprey_app/models/bool_converter.dart';
 
 @jsonSerializable
 class InstagramModel {
@@ -32,10 +31,10 @@ class InstagramModel {
     required this.comments,
   });
 
-  factory InstagramModel.fromJson(Map<String, dynamic> json) =>
-      _$InstagramModelFromJson(json);
+  // factory InstagramModel.fromJson(Map<String, dynamic> json) =>
+  //     _$InstagramModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InstagramModelToJson(this);
+  // Map<String, dynamic> toJson() => _$InstagramModelToJson(this);
 
   @override
   String toString() {
@@ -73,13 +72,14 @@ class Plan {
     this.extra3,
   });
 
-  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
+  // factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlanToJson(this);
+  // Map<String, dynamic> toJson() => _$PlanToJson(this);
+
 
   @override
   String toString() {
-    return 'Plan(count: $count, price: $price, types: $types, extra: $extra)';
+    return 'Plan(count: $count, price: $price, type1: $type1, type2: $type2, extra1: $extra1, extra2: $extra2, extra3: $extra3)';
   }
 }
 
@@ -100,9 +100,9 @@ class Type {
     required this.discount,
   });
 
-  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+  // factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TypeToJson(this);
+  // Map<String, dynamic> toJson() => _$TypeToJson(this);
 
   @override
   String toString() {
@@ -125,9 +125,9 @@ class Extra {
     required this.disabled,
   });
 
-  factory Extra.fromJson(Map<String, dynamic> json) => _$ExtraFromJson(json);
+  // factory Extra.fromJson(Map<String, dynamic> json) => _$ExtraFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExtraToJson(this);
+  // Map<String, dynamic> toJson() => _$ExtraToJson(this);
 
   @override
   String toString() {

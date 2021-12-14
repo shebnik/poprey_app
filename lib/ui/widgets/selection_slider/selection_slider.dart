@@ -3,11 +3,9 @@ import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/utils/hex_color.dart';
 
 class SelectionSlider extends StatelessWidget {
-  final List<Plan> plan;
 
   const SelectionSlider({
     Key? key,
-    required this.plan,
   }) : super(key: key);
 
   @override

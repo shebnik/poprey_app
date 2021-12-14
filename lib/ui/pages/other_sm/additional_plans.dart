@@ -14,7 +14,7 @@ class _AdditionalPlansState extends State<AdditionalPlans> {
 
   @override
   void initState() {
-    _getAdditionalPlans = PlansParser().getAdditionalPlans();
+    _getAdditionalPlans = PlansParser.getAdditionalPlans();
     super.initState();
   }
 

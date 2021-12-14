@@ -11,10 +11,13 @@ import 'package:poprey_app/utils/logger.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'main.mapper.g.dart' show initializeJsonMapper;
 
 void main() async {
   Logger.i('[App] Starting app..');
   WidgetsFlutterBinding.ensureInitialized();
+
+  initializeJsonMapper();
 
   SharedPreferencesService.sharedPreferences =
       await SharedPreferences.getInstance();
