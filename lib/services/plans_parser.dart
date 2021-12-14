@@ -31,7 +31,7 @@ class PlansParser {
     }
   }
 
-  static Future<Map?> getInstaPlans() async {
+  static Future<Map<String, dynamic>?> getInstaPlans() async {
     Map? plans = await parsePlanURL(instaPlansUrl);
     if (plans != null) {
       Logger.i('[PlansParser] getInstaPlans - Ok');
@@ -42,11 +42,11 @@ class PlansParser {
     }
   }
 
-  static Future<Map?> getAdditionalPlans() async {
+  static Future<Map<String, dynamic>?> getAdditionalPlans() async {
     Map? plans = await parsePlanURL(additionalServicesUrl);
     if (plans != null) {
       Logger.i('[PlansParser] getAdditionalPlans - Ok');
-      return plans;
+      return plans as Map<String, dynamic>;
     } else {
       Logger.e('[PlansParser] getAdditionalPlans - Error');
       return null;

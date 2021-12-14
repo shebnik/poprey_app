@@ -11,18 +11,13 @@ import 'package:poprey_app/utils/logger.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'main.mapper.g.dart' show initializeJsonMapper;
 
 void main() async {
   Logger.i('[App] Starting app..');
   WidgetsFlutterBinding.ensureInitialized();
 
-  // final SharedPreferencesController spController =
-  //     Get.put(SharedPreferencesController());
-
-  // spController.sharedPreferences = await SharedPreferences.getInstance();
-
-  initializeJsonMapper();
+  SharedPreferencesController.sharedPreferences =
+      await SharedPreferences.getInstance();
 
   initRoutePath = AuthService.defineInitRoutePath();
 

@@ -1,4 +1,3 @@
-import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
@@ -6,10 +5,10 @@ import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   final MainController mainController = Get.find();
-  // final SharedPreferencesController sharedPreferencesController = Get.find();
 
   late CupertinoTabController cupertinoTabController = CupertinoTabController();
   var selectedTab = RxInt(0);
@@ -20,11 +19,12 @@ class HomeController extends GetxController {
     Logger.i('Fetching plans..');
     final instaPlans = await PlansParser.getInstaPlans();
     Logger.i('Plans fetched');
-
-    final instagramModel = JsonMapper.deserialize<InstagramModel>(instaPlans);
-    Logger.i('Model deserialized');
-    // await sharedPreferencesController.setInstagramModel(instagramModel);
-    mainController.isLoading = false;
+    if (instaPlans != null) {
+      final instagramModel = InstagramModel.fromJson(instaPlans);
+      Logger.i('Model deserialized');
+      await SharedPreferencesController().setInstagramModel(instagramModel);
+      mainController.isLoading = false;
+    }
     // Logger.i('Model set');
   }
 

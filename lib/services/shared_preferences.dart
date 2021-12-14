@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -8,13 +7,14 @@ import 'package:poprey_app/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesController extends GetxController {
-  late final SharedPreferences sharedPreferences;
+  static late final SharedPreferences sharedPreferences;
 
   InstagramModel? getInstagramModel() {
     try {
-      return JsonMapper.deserialize<InstagramModel>(
-        readJson(AppConstants.instagramModel),
-      );
+      final json = readJson(AppConstants.instagramModel);
+      if (json != null) {
+        return InstagramModel.fromJson(json);
+      }
     } catch (e) {
       Logger.e('getInstagramModel error: ', e);
       return null;
@@ -25,7 +25,7 @@ class SharedPreferencesController extends GetxController {
     if (instagramModel != null) {
       await saveJson(
         AppConstants.instagramModel,
-        JsonMapper.serialize(instagramModel),
+        instagramModel.toJson(),
       );
       update();
       Logger.i('updated instagramModel');
@@ -56,7 +56,7 @@ class SharedPreferencesController extends GetxController {
     return sharedPreferences.setBool(key, value);
   }
 
-  String? readJson(String key) {
+  dynamic readJson(String key) {
     try {
       return json.decode(
         sharedPreferences.getString(key) ?? '',

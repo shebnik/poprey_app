@@ -1,26 +1,28 @@
-import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-import 'package:poprey_app/models/bool_converter.dart';
+import 'package:poprey_app/models/json_converters.dart';
 
-@jsonSerializable
+part 'instagram_model.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class InstagramModel {
-  @JsonProperty(name: 'Likes/plans')
-  final List<Plan> likes;
+  @JsonKey(name: 'Likes')
+  final InstagramPlan likes;
 
-  @JsonProperty(name: 'Followers/plans')
-  final List<Plan> followers;
+  @JsonKey(name: 'Followers')
+  final InstagramPlan followers;
 
-  @JsonProperty(name: 'Auto-Likes/plans')
-  final List<Plan> autoLikesPost;
+  @JsonKey(name: 'Auto-Likes')
+  final InstagramPlan autoLikesPost;
 
-  @JsonProperty(name: 'Auto-Likes Subs/plans')
-  final List<Plan> autoLikesSubs;
+  @JsonKey(name: 'Auto-Likes Subs')
+  final InstagramPlan autoLikesSubs;
 
-  @JsonProperty(name: 'Views/plans')
-  final List<Plan> views;
+  @JsonKey(name: 'Views')
+  final InstagramPlan views;
 
-  @JsonProperty(name: 'Comments/plans')
-  final List<Plan> comments;
+  @JsonKey(name: 'Comments')
+  final InstagramPlan comments;
 
   InstagramModel({
     required this.likes,
@@ -31,66 +33,67 @@ class InstagramModel {
     required this.comments,
   });
 
-  // factory InstagramModel.fromJson(Map<String, dynamic> json) =>
-  //     _$InstagramModelFromJson(json);
+  factory InstagramModel.fromJson(Map<String, dynamic> json) =>
+      _$InstagramModelFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$InstagramModelToJson(this);
-
-  @override
-  String toString() {
-    return 'InstagramModel(likes: $likes, followers: $followers, autoLikesPost: $autoLikesPost, autoLikesSubs: $autoLikesSubs, views: $views, comments: $comments)';
-  }
+  Map<String, dynamic> toJson() => _$InstagramModelToJson(this);
 }
 
-@jsonSerializable
+@JsonSerializable(explicitToJson: true)
+class InstagramPlan {
+  List<Plan> plans;
+  List<String?> info;
+
+  InstagramPlan({
+    required this.plans,
+    required this.info,
+  });
+
+  factory InstagramPlan.fromJson(Map<String, dynamic> json) =>
+      _$InstagramPlanFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InstagramPlanToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class Plan {
-  @JsonProperty(name: 'count')
-  final int count;
+  @NumConverter()
+  @JsonKey(name: 'count')
+  final num count;
+  
+  @NumConverter()
+  @JsonKey(name: 'price')
+  final num price;
 
-  @JsonProperty(name: 'price')
-  final double price;
+  @JsonKey(name: 'types')
+  final Map<String, Type> type;
 
-  @JsonProperty(name: 'types/t1')
-  final Type type1;
-  @JsonProperty(name: 'types/t2')
-  final Type type2;
-
-  @JsonProperty(name: 'extra/e1')
-  final Extra? extra1;
-  @JsonProperty(name: 'extra/e2')
-  final Extra? extra2;
-  @JsonProperty(name: 'extra/e3')
-  final Extra? extra3;
+  @JsonKey(name: 'extra')
+  final Map<String, Extra>? extra;
 
   Plan({
     required this.count,
     required this.price,
-    required this.type1,
-    required this.type2,
-    this.extra1,
-    this.extra2,
-    this.extra3,
+    required this.type,
+    required this.extra,
   });
 
-  // factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
+  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$PlanToJson(this);
-
-
-  @override
-  String toString() {
-    return 'Plan(count: $count, price: $price, type1: $type1, type2: $type2, extra1: $extra1, extra2: $extra2, extra3: $extra3)';
-  }
+  Map<String, dynamic> toJson() => _$PlanToJson(this);
 }
 
-@jsonSerializable
+@JsonSerializable(explicitToJson: true)
 class Type {
   final String name;
-  final double price;
+  
+  @NumConverter()
+  final num price;
 
-  @JsonProperty(converter: CustomBoolConverter())
+  @BoolConverter()
   final bool disabled;
-  @JsonProperty(converter: CustomBoolConverter())
+
+  @BoolConverter()
   final bool discount;
 
   Type({
@@ -100,22 +103,22 @@ class Type {
     required this.discount,
   });
 
-  // factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$TypeToJson(this);
-
-  @override
-  String toString() {
-    return 'Type(name: $name, price: $price, disabled: $disabled, discount: $discount)';
-  }
+  Map<String, dynamic> toJson() => _$TypeToJson(this);
 }
 
-@jsonSerializable
+@JsonSerializable(explicitToJson: true)
 class Extra {
   final String name;
-  final int count;
-  final double price;
-  @JsonProperty(converter: CustomBoolConverter())
+  
+  @NumConverter()
+  final num count;
+  
+  @NumConverter()
+  final num price;
+
+  @BoolConverter()
   final bool disabled;
 
   Extra({
@@ -125,12 +128,7 @@ class Extra {
     required this.disabled,
   });
 
-  // factory Extra.fromJson(Map<String, dynamic> json) => _$ExtraFromJson(json);
+  factory Extra.fromJson(Map<String, dynamic> json) => _$ExtraFromJson(json);
 
-  // Map<String, dynamic> toJson() => _$ExtraToJson(this);
-
-  @override
-  String toString() {
-    return 'Extra(name: $name, count: $count, price: $price, disabled: $disabled)';
-  }
+  Map<String, dynamic> toJson() => _$ExtraToJson(this);
 }
