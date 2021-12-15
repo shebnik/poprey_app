@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
+import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
@@ -15,18 +16,33 @@ class HomeController extends GetxController {
   var selectedTab = RxInt(0);
 
   @override
-  Future<void> onReady() async {
+  void onReady() {
     super.onReady();
+    fetchPlans();
+  }
+
+  void fetchPlans() async {
     Logger.i('Fetching plans..');
+
     final instaPlans = await PlansParser.getInstaPlans();
-    Logger.i('Plans fetched');
+    Logger.i('Instagram Plans fetched');
     if (instaPlans != null) {
       final instagramModel = InstagramModel.fromJson(instaPlans);
-      Logger.i('Model deserialized');
+      Logger.i('Instagram Model deserialized');
       await sharedPreferencesController.setInstagramModel(instagramModel);
-      mainController.isLoading = false;
-      Logger.i('Model set');
+      Logger.i('Instagram Model set');
     }
+
+    final additionalPlans = await PlansParser.getAdditionalPlans();
+    Logger.i('Additional Plans fetched');
+    if (additionalPlans != null) {
+      final additionalModel = SMPlansModel.fromJson(additionalPlans);
+      Logger.i('Additional Model deserialized');
+      await sharedPreferencesController
+          .setAdditionalPlansModel(additionalModel);
+      Logger.i('Additional Model set');
+    }
+    mainController.isLoading = false;
   }
 
   void onTabBarTap(int value) {

@@ -2,22 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:poprey_app/models/instagram_model.dart';
+import 'package:intl/intl.dart';
+import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
-import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/hex_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectionSlider extends StatefulWidget {
-  final String planTitle;
-  final InstagramPlan plan;
+  final SelectionSliderModel model;
 
   const SelectionSlider({
     Key? key,
-    required this.planTitle,
-    required this.plan,
+    required this.model,
   }) : super(key: key);
 
   @override
@@ -25,12 +23,17 @@ class SelectionSlider extends StatefulWidget {
 }
 
 class _SelectionSliderState extends State<SelectionSlider> {
-  late SelectionSliderController controller;
+  late final SelectionSliderModel model;
+  late final SelectionSliderController controller;
+
+  final double buyWidgetWidth = 110;
 
   @override
   void initState() {
     super.initState();
-    controller = SelectionSliderController(widget.plan);
+    model = widget.model;
+
+    controller = SelectionSliderController(model);
     controller.initValues();
   }
 
@@ -46,75 +49,93 @@ class _SelectionSliderState extends State<SelectionSlider> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 9.5, left: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.planTitle,
-                    style: Theme.of(context).textTheme.headline5!.apply(
-                          color: AppTheme.secondary,
-                        ),
+        padding: const EdgeInsets.only(
+          top: 10,
+          bottom: 9.5,
+          left: 14,
+          right: 0,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Stack(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: buyWidget(),
+                ),
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: constraints.minWidth - buyWidgetWidth,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => Text(
-                          controller.countValue.value,
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
-                      ),
-                      Obx(
-                        () => Text(
-                          '\$${controller.priceValue.value}',
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Obx(
-                    () => SizedBox(
-                      height: 27,
-                      child: Slider(
-                        value: controller.currentValue.value,
-                        min: controller.minValue,
-                        max: controller.maxValue,
-                        divisions: controller.divisions,
-                        onChanged: controller.onSliderChanged,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        controller.minValue.toStringAsFixed(0),
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        controller.maxValue.toStringAsFixed(0),
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            buySide(),
-          ],
+                  child: sliderWidget(),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget buySide() {
+  Widget sliderWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          model.planTitle,
+          style: Theme.of(context).textTheme.headline5!.apply(
+                color: AppTheme.secondary,
+              ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(
+              () => Text(
+                controller.countValue.value,
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
+            Obx(
+              () => Text(
+                '\$${controller.priceValue.value}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
+          ],
+        ),
+        Obx(
+          () => SizedBox(
+            height: 27,
+            child: Slider(
+              value: controller.currentValue.value,
+              min: model.minValue,
+              max: model.maxValue,
+              divisions: model.divisions,
+              onChanged: controller.onSliderChanged,
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              controller.minValue,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
+              controller.maxValue,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget buyWidget() {
     return SizedBox(
-      width: 110,
+      width: buyWidgetWidth,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -122,31 +143,27 @@ class _SelectionSliderState extends State<SelectionSlider> {
             top: 5,
             right: 0,
             child: SvgPicture.asset(
-              controller.getAssetByTitle(widget.planTitle)
+              controller.getImageAsset(),
             ),
           ),
           Positioned(
             right: 10,
-            child: SizedBox(
-              width: 75,
-              height: 36,
-              child: ElevatedButton(
-                onPressed: () => {},
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
+            child: ElevatedButton(
+              onPressed: () => {},
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
-                child: Text(
-                  AppLocalizations.of(context)!.buy,
-                  style: const TextStyle(
-                    fontFamily: AppConstants.SFProText,
-                    color: CupertinoColors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.buy,
+                style: const TextStyle(
+                  fontFamily: AppConstants.SFProText,
+                  color: CupertinoColors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 12,
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
@@ -21,16 +22,34 @@ class SharedPreferencesController extends GetxController {
     }
   }
 
-  Future<void> setInstagramModel(InstagramModel? _instagramModel) async {
-    if (_instagramModel != null) {
-      await saveJson(
-        AppConstants.INSTAGRAM_MODEL,
-        _instagramModel.toJson(),
-      );
-      // await Future.delayed(Duration(seconds: 3));
-      Logger.i('setInstagramModel done');
-      update();
+  Future<void> setInstagramModel(InstagramModel instagramModel) async {
+    await saveJson(
+      AppConstants.INSTAGRAM_MODEL,
+      instagramModel.toJson(),
+    );
+    Logger.i('set InstagramModel');
+    update();
+  }  
+
+  SMPlansModel? getAdditionalPlansModel() {
+    try {
+      final json = readJson(AppConstants.ADDITIONAL_PLANS_MODEL);
+      if (json != null) {
+        return SMPlansModel.fromJson(json);
+      }
+    } catch (e) {
+      Logger.e('getAdditionalPlansModel error: ', e);
+      return null;
     }
+  }
+
+  Future<void> setAdditionalPlansModel(SMPlansModel additionalModel) async {
+    await saveJson(
+      AppConstants.ADDITIONAL_PLANS_MODEL,
+      additionalModel.toJson(),
+    );
+    Logger.i('set AdditionalPlansModel');
+    update();
   }
 
   String? readString(String key) {

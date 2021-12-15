@@ -1,91 +1,91 @@
-import 'package:flutter/cupertino.dart';
-import 'package:poprey_app/models/instagram_model.dart';
-import 'package:poprey_app/services/plans_parser.dart';
-import 'package:poprey_app/ui/widgets/future_widget.dart';
-import 'package:poprey_app/utils/app_theme.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:poprey_app/models/instagram_model.dart';
+// import 'package:poprey_app/services/plans_parser.dart';
+// import 'package:poprey_app/ui/widgets/future_widget.dart';
+// import 'package:poprey_app/utils/app_theme.dart';
 
-class InstagramPlans extends StatefulWidget {
-  const InstagramPlans({Key? key}) : super(key: key);
+// class InstagramPlans extends StatefulWidget {
+//   const InstagramPlans({Key? key}) : super(key: key);
 
-  @override
-  _InstagramPlansState createState() => _InstagramPlansState();
-}
+//   @override
+//   _InstagramPlansState createState() => _InstagramPlansState();
+// }
 
-class _InstagramPlansState extends State<InstagramPlans>
-    with SingleTickerProviderStateMixin, RestorationMixin {
-  late Future<Map?> _getInstaPlans;
-  late InstagramModel instagramPlans;
-  CupertinoTabController? _tabController;
-  final RestorableInt tabIndex = RestorableInt(0);
+// class _InstagramPlansState extends State<InstagramPlans>
+//     with SingleTickerProviderStateMixin, RestorationMixin {
+//   late Future<Map?> _getInstaPlans;
+//   late InstagramModel instagramPlans;
+//   CupertinoTabController? _tabController;
+//   final RestorableInt tabIndex = RestorableInt(0);
 
-  @override
-  String get restorationId => 'tab_plans';
+//   @override
+//   String get restorationId => 'tab_plans';
 
-  @override
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
-    registerForRestoration(tabIndex, 'tab_index');
-    _tabController!.index = tabIndex.value;
-  }
+//   @override
+//   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+//     registerForRestoration(tabIndex, 'tab_index');
+//     _tabController!.index = tabIndex.value;
+//   }
 
-  @override
-  void initState() {
-    super.initState();
-    _getInstaPlans = PlansParser.getInstaPlans();
+//   @override
+//   void initState() {
+//     super.initState();
+//     _getInstaPlans = PlansParser.getInstaPlans();
 
-    _tabController = CupertinoTabController(
-      initialIndex: 0,
-    );
-    _tabController!.addListener(() {
-      setState(() {
-        tabIndex.value = _tabController!.index;
-      });
-    });
-  }
+//     _tabController = CupertinoTabController(
+//       initialIndex: 0,
+//     );
+//     _tabController!.addListener(() {
+//       setState(() {
+//         tabIndex.value = _tabController!.index;
+//       });
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-    // return FutureWidget(
-    //   future: _getInstaPlans,
-    //   onDidInitialize: (context, snapshot) {
-    //     instagramPlans = Instagram.fromJson(snapshot.data);
-    //     return instaPlans();
-    //   },
-    // );
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//     return FutureWidget(
+//       future: _getInstaPlans,
+//       onDidInitialize: (context, snapshot) {
+//         instagramPlans = Instagram.fromJson(snapshot.data);
+//         return instaPlans();
+//       },
+//     );
 
-    // return FutureBuilder(
-    //   future: _getInstaPlans,
-    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //     if (snapshot.hasData) {
-    //       instagramPlans = Instagram.fromJson(snapshot.data);
-    //       return instaPlans();
-    //     } else if (snapshot.hasError) {
-    //       return UI.errorIcon;
-    //     } else {
-    //       return UI.loading;
-    //     }
-    //   },
-    // );
-  }
+//     return FutureBuilder(
+//       future: _getInstaPlans,
+//       builder: (BuildContext context, AsyncSnapshot snapshot) {
+//         if (snapshot.hasData) {
+//           instagramPlans = Instagram.fromJson(snapshot.data);
+//           return instaPlans();
+//         } else if (snapshot.hasError) {
+//           return UI.errorIcon;
+//         } else {
+//           return UI.loading;
+//         }
+//       },
+//     );
+//   }
 
-  // Widget instaPlans() {
-  //   return Expanded(
-  //     child: CupertinoPageScaffold(
-  //       navigationBar: CupertinoNavigationBar(
-  //         backgroundColor: CupertinoColors.white,
-  //         automaticallyImplyLeading: false,
-  //         leading: PreferredSize(
-  //           preferredSize: const Size.fromHeight(50),
-  //           child: tabBar(),
-  //         ),
-  //       ),
-  //       child: CupertinoTabView(
-  //         controller: _tabController,
-  //         children: plansWidgets(),
-  //       ),
-  //     ),
-  //   );
-  // }
+//   Widget instaPlans() {
+//     return Expanded(
+//       child: CupertinoPageScaffold(
+//         navigationBar: CupertinoNavigationBar(
+//           backgroundColor: CupertinoColors.white,
+//           automaticallyImplyLeading: false,
+//           leading: PreferredSize(
+//             preferredSize: const Size.fromHeight(50),
+//             child: tabBar(),
+//           ),
+//         ),
+//         child: CupertinoTabView(
+//           controller: _tabController,
+//           children: plansWidgets(),
+//         ),
+//       ),
+//     );
+//   }
 
 //   Widget tabBar() {
 //     return Align(
@@ -197,4 +197,4 @@ class _InstagramPlansState extends State<InstagramPlans>
 //       ),
 //     ),
 //   );
-}
+// }

@@ -1,21 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
-class TypeConverter implements JsonConverter<List<Type>, dynamic> {
-  const TypeConverter();
-
-  @override
-  List<Type> fromJson(json) {
-    // TODO: implement fromJson
-    throw UnimplementedError();
-  }
-
-  @override
-  toJson(List<Type> object) {
-    // TODO: implement toJson
-    throw UnimplementedError();
-  }
-}
-
 class BoolConverter implements JsonConverter<bool, dynamic> {
   const BoolConverter();
 

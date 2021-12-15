@@ -46,7 +46,7 @@ class PlansParser {
     Map? plans = await parsePlanURL(additionalServicesUrl);
     if (plans != null) {
       Logger.i('[PlansParser] getAdditionalPlans - Ok');
-      return plans as Map<String, dynamic>;
+      return plans['data'];
     } else {
       Logger.e('[PlansParser] getAdditionalPlans - Error');
       return null;

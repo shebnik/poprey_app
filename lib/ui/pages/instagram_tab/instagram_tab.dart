@@ -31,19 +31,19 @@ class _InstagramTabState extends State<InstagramTab> {
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return GetBuilder<SharedPreferencesController>(
-                init: Get.find<SharedPreferencesController>(),
-                builder: (value) {
-                  var plan = controller.getPlanByIndex(
-                      index, value.getInstagramModel());
-                  if (plan.plan != null) {
-                    return SelectionSlider(
-                      key: Key(plan.title),
-                      plan: plan.plan!,
-                      planTitle: plan.title,
-                    );
-                  }
-                  return Container();
-                });
+              init: Get.find<SharedPreferencesController>(),
+              builder: (value) {
+                var model = controller.getPlanModelByIndex(
+                    index, value.getInstagramModel());
+                if (model != null) {
+                  return SelectionSlider(
+                    model: model,
+                    key: Key(model.planTitle),
+                  );
+                }
+                return Container();
+              },
+            );
           },
           separatorBuilder: (context, index) => const SizedBox(height: 10),
         ),

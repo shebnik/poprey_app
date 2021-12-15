@@ -1,22 +1,63 @@
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
+import 'package:poprey_app/models/selection_slider_model.dart';
+import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
 
 class InstagramTabController extends GetxController {
-
-  Plan getPlanByIndex(int index, InstagramModel? model) {
+  SelectionSliderModel? getPlanModelByIndex(int index, InstagramModel? model) {
+    if (model == null) return null;
     switch (index) {
       case 0:
-        return Plan(plan: model?.likes, title: 'Likes');
+        return SelectionSliderModel(
+          planTitle: 'Likes',
+          plans: model.likes.plans
+              .map((e) => PlanPrice(
+                    count: e.count.toInt(),
+                    price: e.price.toDouble(),
+                  ))
+              .toList(),
+        );
       case 1:
-        return Plan(plan: model?.followers, title: 'Followers');
+        return SelectionSliderModel(
+          planTitle: 'Followers',
+          plans: model.followers.plans
+              .map((e) => PlanPrice(
+                    count: e.count.toInt(),
+                    price: e.price.toDouble(),
+                  ))
+              .toList(),
+        );
       case 2:
-        return Plan(plan: model?.autoLikesPost, title: 'Auto-Likes');
+        return SelectionSliderModel(
+          planTitle: 'Auto-Likes',
+          plans: model.autoLikesPost.plans
+              .map((e) => PlanPrice(
+                    count: e.count.toInt(),
+                    price: e.price.toDouble(),
+                  ))
+              .toList(),
+        );
       case 3:
-        return Plan(plan: model?.views, title: 'Views');
+        return SelectionSliderModel(
+          planTitle: 'Views',
+          plans: model.views.plans
+              .map((e) => PlanPrice(
+                    count: e.count.toInt(),
+                    price: e.price.toDouble(),
+                  ))
+              .toList(),
+        );
       case 4:
-        return Plan(plan: model?.comments, title: 'Comments');
+        return SelectionSliderModel(
+          planTitle: 'Comments',
+          plans: model.comments.plans
+              .map((e) => PlanPrice(
+                    count: e.count.toInt(),
+                    price: e.price.toDouble(),
+                  ))
+              .toList(),
+        );
     }
-    return Plan(title: '', plan: null);
   }
 }
 

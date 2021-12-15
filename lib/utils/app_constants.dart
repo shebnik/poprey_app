@@ -15,4 +15,5 @@ class AppConstants {
   static const VK = 'VK';
 
   static const INSTAGRAM_MODEL = 'INSTAGRAM_MODEL';
+  static const ADDITIONAL_PLANS_MODEL = 'ADDITIONAL_PLANS_MODEL';
 }
