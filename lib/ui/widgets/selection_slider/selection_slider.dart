@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
+import 'package:poprey_app/ui/pages/home/home_controller.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
@@ -170,7 +171,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
           Positioned(
             right: 10,
             child: ElevatedButton(
-              onPressed: () => {},
+              onPressed: buyPressed,
               style: ButtonStyle(
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -192,5 +193,9 @@ class _SelectionSliderState extends State<SelectionSlider> {
         ],
       ),
     );
+  }
+
+  void buyPressed() {
+    Get.find<HomeController>().showModalSheet();
   }
 }

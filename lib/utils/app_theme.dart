@@ -8,14 +8,15 @@ class AppTheme {
   static const cupertinoThemeData = CupertinoThemeData(
     textTheme: CupertinoTextThemeData(
       textStyle: TextStyle(
-          fontFamily: AppConstants.SFProDisplay,
-          ),
+        fontFamily: AppConstants.SFProDisplay,
+      ),
     ),
   );
 
   static materialThemeData() => ThemeData(
         primaryColor: primary,
         fontFamily: AppConstants.SFProDisplay,
+        // canvasColor: Colors.transparent,
         textTheme: const TextTheme(
           headline4: TextStyle(
             color: Colors.black,
