@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
 
 class InstagramTabController extends GetxController {
 

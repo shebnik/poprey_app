@@ -60,22 +60,30 @@ class Plan {
   @NumConverter()
   @JsonKey(name: 'count')
   final num count;
-  
+
   @NumConverter()
   @JsonKey(name: 'price')
   final num price;
 
-  @JsonKey(name: 'types')
-  final Map<String, Type> type;
+  @JsonKey(
+    name: 'types',
+    fromJson: typesFromJson,
+    toJson: typesToJson,
+  )
+  final List<Type> types;
 
-  @JsonKey(name: 'extra')
-  final Map<String, Extra>? extra;
+  @JsonKey(
+    name: 'extra',
+    fromJson: extraFromJson,
+    toJson: extraToJson,
+  )
+  final List<Extra>? extras;
 
   Plan({
     required this.count,
     required this.price,
-    required this.type,
-    required this.extra,
+    required this.types,
+    required this.extras,
   });
 
   factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
@@ -83,10 +91,42 @@ class Plan {
   Map<String, dynamic> toJson() => _$PlanToJson(this);
 }
 
+@override
+List<Type> typesFromJson(Map<String, dynamic> json) {
+  return json.entries.map((e) => Type.fromJson(e.value)).toList();
+}
+
+@override
+Map<String, dynamic> typesToJson(List<Type> object) {
+  Map<String, dynamic> json = {};
+  var i = 1;
+  for (var e in object) {
+    json['t$i'] = e.toJson();
+  }
+  return json;
+}
+
+@override
+List<Extra>? extraFromJson(Map<String, dynamic>? json) {
+  if (json == null) return null;
+  return json.entries.map((e) => Extra.fromJson(e.value)).toList();
+}
+
+@override
+Map<String, dynamic>? extraToJson(List<Extra>? object) {
+  if (object == null) return null;
+  Map<String, dynamic> json = {};
+  var i = 1;
+  for (var e in object) {
+    json['e$i'] = e.toJson();
+  }
+  return json;
+}
+
 @JsonSerializable(explicitToJson: true)
 class Type {
   final String name;
-  
+
   @NumConverter()
   final num price;
 
@@ -111,10 +151,10 @@ class Type {
 @JsonSerializable(explicitToJson: true)
 class Extra {
   final String name;
-  
+
   @NumConverter()
   final num count;
-  
+
   @NumConverter()
   final num price;
 

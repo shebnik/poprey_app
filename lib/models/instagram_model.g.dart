@@ -47,19 +47,15 @@ Map<String, dynamic> _$InstagramPlanToJson(InstagramPlan instance) =>
 Plan _$PlanFromJson(Map<String, dynamic> json) => Plan(
       count: const NumConverter().fromJson(json['count'] as String),
       price: const NumConverter().fromJson(json['price'] as String),
-      type: (json['types'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, Type.fromJson(e as Map<String, dynamic>)),
-      ),
-      extra: (json['extra'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, Extra.fromJson(e as Map<String, dynamic>)),
-      ),
+      types: typesFromJson(json['types'] as Map<String, dynamic>),
+      extras: extraFromJson(json['extra'] as Map<String, dynamic>?),
     );
 
 Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
       'count': const NumConverter().toJson(instance.count),
       'price': const NumConverter().toJson(instance.price),
-      'types': instance.type.map((k, e) => MapEntry(k, e.toJson())),
-      'extra': instance.extra?.map((k, e) => MapEntry(k, e.toJson())),
+      'types': typesToJson(instance.types),
+      'extra': extraToJson(instance.extras),
     };
 
 Type _$TypeFromJson(Map<String, dynamic> json) => Type(
