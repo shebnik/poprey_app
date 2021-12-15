@@ -6,7 +6,6 @@ import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/utils/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   final MainController mainController = Get.find();
@@ -39,7 +38,7 @@ class HomeController extends GetxController {
       final additionalModel = SMPlansModel.fromJson(additionalPlans);
       Logger.i('Additional Model deserialized');
       await sharedPreferencesController
-          .setAdditionalPlansModel(additionalModel);
+          .setSMPlansModel(additionalModel);
       Logger.i('Additional Model set');
     }
     mainController.isLoading = false;

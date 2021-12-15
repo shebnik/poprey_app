@@ -31,7 +31,7 @@ class SharedPreferencesController extends GetxController {
     update();
   }  
 
-  SMPlansModel? getAdditionalPlansModel() {
+  SMPlansModel? getSMPlansModel() {
     try {
       final json = readJson(AppConstants.ADDITIONAL_PLANS_MODEL);
       if (json != null) {
@@ -43,7 +43,7 @@ class SharedPreferencesController extends GetxController {
     }
   }
 
-  Future<void> setAdditionalPlansModel(SMPlansModel additionalModel) async {
+  Future<void> setSMPlansModel(SMPlansModel additionalModel) async {
     await saveJson(
       AppConstants.ADDITIONAL_PLANS_MODEL,
       additionalModel.toJson(),

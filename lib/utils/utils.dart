@@ -1,5 +1,3 @@
-import 'package:poprey_app/utils/logger.dart';
-
 class Utils {
   
   static String formatAmount(double amount) {

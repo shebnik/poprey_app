@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
+import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
 import 'other_sm_selection_list.dart';
 
 class OtherSmTab extends StatefulWidget {
@@ -25,13 +26,46 @@ class _OtherSmTabState extends State<OtherSmTab> {
     return Column(
       children: [
         OtherSMSelectionList(controller: controller),
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
-            child: Column(),
+        Expanded(
+          child: Scrollbar(
+            isAlwaysShown: false,
+            thickness: 5,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                child: GetBuilder<SharedPreferencesController>(
+                  builder: (value) {
+                    final model = value.getSMPlansModel();
+                    if (model == null) return Container();
+                    controller.setModel(model);
+                    return listView();
+                  },
+                ),
+              ),
+            ),
           ),
         ),
       ],
     );
+  }
+
+  Widget listView() {
+    return Obx(() {
+      var model = controller.selectionSliderModel.value;
+      return ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: model.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          String key = '${model[index].name}-${model[index].planTitle}';
+          return SelectionSlider(
+            model: model[index],
+            key: Key(key),
+          );
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
+      );
+    });
   }
 }

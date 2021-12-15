@@ -65,11 +65,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: HomeNavigationBar(applyElevation: applyElevation),
       body: SafeArea(
-        child: Scrollbar(
-          isAlwaysShown: false,
-          thickness: 5,
-          child: tab,
-        ),
+        child: tab,
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
 
 class MainController extends GetxController {
   RxBool isLoadingObs = true.obs;

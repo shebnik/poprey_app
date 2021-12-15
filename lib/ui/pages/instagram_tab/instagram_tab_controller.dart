@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
-import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 
 class InstagramTabController extends GetxController {
   SelectionSliderModel? getPlanModelByIndex(int index, InstagramModel? model) {
@@ -9,6 +9,7 @@ class InstagramTabController extends GetxController {
     switch (index) {
       case 0:
         return SelectionSliderModel(
+          name: AppConstants.Instagram,
           planTitle: 'Likes',
           plans: model.likes.plans
               .map((e) => PlanPrice(
@@ -19,6 +20,7 @@ class InstagramTabController extends GetxController {
         );
       case 1:
         return SelectionSliderModel(
+          name: AppConstants.Instagram,
           planTitle: 'Followers',
           plans: model.followers.plans
               .map((e) => PlanPrice(
@@ -29,6 +31,7 @@ class InstagramTabController extends GetxController {
         );
       case 2:
         return SelectionSliderModel(
+          name: AppConstants.Instagram,
           planTitle: 'Auto-Likes',
           plans: model.autoLikesPost.plans
               .map((e) => PlanPrice(
@@ -39,6 +42,7 @@ class InstagramTabController extends GetxController {
         );
       case 3:
         return SelectionSliderModel(
+          name: AppConstants.Instagram,
           planTitle: 'Views',
           plans: model.views.plans
               .map((e) => PlanPrice(
@@ -49,6 +53,7 @@ class InstagramTabController extends GetxController {
         );
       case 4:
         return SelectionSliderModel(
+          name: AppConstants.Instagram,
           planTitle: 'Comments',
           plans: model.comments.plans
               .map((e) => PlanPrice(

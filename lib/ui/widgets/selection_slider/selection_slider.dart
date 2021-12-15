@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -49,10 +48,10 @@ class _SelectionSliderState extends State<SelectionSlider> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(
+        padding: EdgeInsets.only(
           top: 10,
-          bottom: 9.5,
-          left: 14,
+          bottom: 10,
+          left: model.imageAsset != null ? 0.0 : 14.0,
           right: 0,
         ),
         child: LayoutBuilder(
@@ -78,74 +77,96 @@ class _SelectionSliderState extends State<SelectionSlider> {
   }
 
   Widget sliderWidget() {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          model.planTitle,
-          style: Theme.of(context).textTheme.headline5!.apply(
-                color: AppTheme.secondary,
+        if (model.imageAsset != null) ...[
+          SizedBox(
+            width: 30,
+            height: 30,
+            child: ClipOval(
+              child: SvgPicture.asset(
+                model.imageAsset!,
               ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Obx(
-              () => Text(
-                controller.countValue.value,
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ),
-            Obx(
-              () => Text(
-                '\$${controller.priceValue.value}',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ),
-          ],
-        ),
-        Obx(
-          () => SizedBox(
-            height: 27,
-            child: Slider(
-              value: controller.currentValue.value,
-              min: model.minValue,
-              max: model.maxValue,
-              divisions: model.divisions,
-              onChanged: controller.onSliderChanged,
             ),
           ),
+          const SizedBox(width: 10),
+        ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                model.planTitle,
+                style: Theme.of(context).textTheme.headline5!.apply(
+                      color: AppTheme.secondary,
+                    ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(
+                    () => Text(
+                      controller.countValue.value,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                  Obx(
+                    () => Text(
+                      '\$${controller.priceValue.value}',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                ],
+              ),
+              Obx(
+                () => SizedBox(
+                  height: 27,
+                  child: Slider(
+                    value: controller.currentValue.value,
+                    min: 0.0,
+                    max: model.divisions.toDouble(),
+                    divisions: model.divisions,
+                    onChanged: controller.onSliderChanged,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    controller.minValue,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(
+                    controller.maxValue,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              controller.minValue,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Text(
-              controller.maxValue,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-          ],
-        )
       ],
     );
   }
 
   Widget buyWidget() {
+    final imageAsset = controller.getImageAsset();
     return SizedBox(
       width: buyWidgetWidth,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
-            top: 5,
-            right: 0,
-            child: SvgPicture.asset(
-              controller.getImageAsset(),
+          if (imageAsset != null) ...[
+            Positioned(
+              top: 5,
+              right: 0,
+              child: SvgPicture.asset(
+                imageAsset,
+              ),
             ),
-          ),
+          ],
           Positioned(
             right: 10,
             child: ElevatedButton(

@@ -15,10 +15,7 @@ class SelectionSliderController extends GetxController {
   RxString priceValue = RxString('');
   String minValue = '', maxValue = '';
 
-  int sliderIndex = 0;
-
   void initValues() {
-    currentValue.value = model.minValue;
     minValue = formatter.format(model.plans.first.count);
     maxValue = formatter.format(model.plans.last.count);
 
@@ -28,29 +25,28 @@ class SelectionSliderController extends GetxController {
 
   void onSliderChanged(double value) {
     currentValue.value = value;
-    sliderIndex = getSliderIndex(value);
+    int index = value.toInt();
 
-    countValue.value = formatter.format(model.plans[sliderIndex].count);
-    priceValue.value = model.plans[sliderIndex].price.toStringAsFixed(2);
+    countValue.value = formatter.format(model.plans[index].count);
+    priceValue.value = model.plans[index].price.toStringAsFixed(2);
   }
 
-  int getSliderIndex(double value) {
-    return value ~/ (model.maxValue ~/ model.divisions);
-  }
-
-  String getImageAsset() {
+  String? getImageAsset() {
     switch (model.planTitle.toLowerCase()) {
       case 'likes':
         return AppAssets.likes;
       case 'followers':
+      case 'playlist followers':
+      case 'group followers':
         return AppAssets.followers;
       case 'auto-likes':
+      case 'page likes':
+      case 'post likes':
         return AppAssets.autoLikes;
       case 'views':
         return AppAssets.views;
       case 'comments':
         return AppAssets.comments;
     }
-    return '';
   }
 }

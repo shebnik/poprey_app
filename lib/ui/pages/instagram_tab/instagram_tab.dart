@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
@@ -23,29 +22,34 @@ class _InstagramTabState extends State<InstagramTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
-        child: ListView.separated(
-          itemCount: 5,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return GetBuilder<SharedPreferencesController>(
-              init: Get.find<SharedPreferencesController>(),
-              builder: (value) {
-                var model = controller.getPlanModelByIndex(
-                    index, value.getInstagramModel());
-                if (model != null) {
-                  return SelectionSlider(
-                    model: model,
-                    key: Key(model.planTitle),
-                  );
-                }
-                return Container();
-              },
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 10),
+    return Scrollbar(
+      isAlwaysShown: false,
+      thickness: 5,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
+          child: ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 5,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return GetBuilder<SharedPreferencesController>(
+                init: Get.find<SharedPreferencesController>(),
+                builder: (value) {
+                  var model = controller.getPlanModelByIndex(
+                      index, value.getInstagramModel());
+                  if (model != null) {
+                    return SelectionSlider(
+                      model: model,
+                      key: Key('${model.name}-${model.planTitle}'),
+                    );
+                  }
+                  return Container();
+                },
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+          ),
         ),
       ),
     );
