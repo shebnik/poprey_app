@@ -1,21 +1,7 @@
 <svg width="49" height="49" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_i_1_3)">
-<path d="M33.5752 0.375999H15.5752C7.29093 0.375999 0.575199 7.09173 0.575199 15.376V33.376C0.575199 41.6603 7.29093 48.376 15.5752 48.376H33.5752C41.8595 48.376 48.5752 41.6603 48.5752 33.376V15.376C48.5752 7.09173 41.8595 0.375999 33.5752 0.375999Z" fill="#20354C"/>
-<path d="M21.6779 16.1103H17.852C16.8001 16.1103 15.9473 16.9631 15.9473 18.0151V21.8409C15.9473 22.8929 16.8001 23.7457 17.852 23.7457H21.6779C22.7298 23.7457 23.5826 22.8929 23.5826 21.8409V18.0151C23.5826 16.9631 22.7298 16.1103 21.6779 16.1103Z" fill="white"/>
-<path d="M21.6779 25.783H17.852C16.8001 25.783 15.9473 26.6357 15.9473 27.6877V31.5135C15.9473 32.5655 16.8001 33.4183 17.852 33.4183H21.6779C22.7298 33.4183 23.5826 32.5655 23.5826 31.5135V27.6877C23.5826 26.6357 22.7298 25.783 21.6779 25.783Z" fill="white"/>
-<path d="M33.648 18.5809L30.9428 15.8756C30.1989 15.1318 28.9929 15.1318 28.249 15.8756L25.5438 18.5809C24.7999 19.3247 24.7999 20.5308 25.5438 21.2746L28.249 23.9799C28.9929 24.7237 30.1989 24.7237 30.9428 23.9799L33.648 21.2746C34.3919 20.5308 34.3919 19.3247 33.648 18.5809Z" fill="white"/>
-<path d="M31.5086 25.783H27.6828C26.6308 25.783 25.778 26.6357 25.778 27.6877V31.5135C25.778 32.5655 26.6308 33.4183 27.6828 33.4183H31.5086C32.5606 33.4183 33.4134 32.5655 33.4134 31.5135V27.6877C33.4134 26.6357 32.5606 25.783 31.5086 25.783Z" fill="white"/>
-</g>
-<defs>
-<filter id="filter0_i_1_3" x="0.575199" y="0.375999" width="48" height="52" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="10"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0.396078 0 0 0 0 0.423529 0 0 0 0 0.933333 0 0 0 0.2 0"/>
-<feBlend mode="normal" in2="shape" result="effect1_innerShadow_1_3"/>
-</filter>
-</defs>
+<rect x="0.575195" y="0.375977" width="48" height="48" rx="15" fill="#20354C"/>
+<rect x="15.9946" y="14.2155" width="8.01712" height="8.01712" rx="2" fill="white"/>
+<rect x="15.9946" y="24.3722" width="8.01712" height="8.01712" rx="2" fill="white"/>
+<rect x="30.3257" y="12.5551" width="8.01712" height="8.01712" rx="2" transform="rotate(45 30.3257 12.5551)" fill="white"/>
+<rect x="26.3169" y="24.3722" width="8.01712" height="8.01712" rx="2" fill="white"/>
 </svg>

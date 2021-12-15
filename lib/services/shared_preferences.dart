@@ -11,7 +11,7 @@ class SharedPreferencesController extends GetxController {
 
   InstagramModel? getInstagramModel() {
     try {
-      final json = readJson(AppConstants.instagramModel);
+      final json = readJson(AppConstants.INSTAGRAM_MODEL);
       if (json != null) {
         return InstagramModel.fromJson(json);
       }
@@ -24,7 +24,7 @@ class SharedPreferencesController extends GetxController {
   Future<void> setInstagramModel(InstagramModel? _instagramModel) async {
     if (_instagramModel != null) {
       await saveJson(
-        AppConstants.instagramModel,
+        AppConstants.INSTAGRAM_MODEL,
         _instagramModel.toJson(),
       );
       // await Future.delayed(Duration(seconds: 3));

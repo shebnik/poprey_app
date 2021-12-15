@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
         onTap: controller.onTabBarTap,
         backgroundColor: AppTheme.primary,
         items: [
-          tabItem(0, AppConstants.instagram, AppAssets.instagram),
+          tabItem(0, AppConstants.Instagram, AppAssets.instagram),
           tabItem(1, AppLocalizations.of(context)!.otherSM, AppAssets.otherSm),
         ],
       ),
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
               title,
               style: const TextStyle(
                 fontSize: 10,
-                fontFamily: 'SF Pro Text',
+                fontFamily: AppConstants.SFProText,
                 fontWeight: FontWeight.w500,
               ),
             ),

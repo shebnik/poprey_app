@@ -1,57 +1,45 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 
-enum Font { proText, proDisplay }
+// enum Font { proText, proDisplay }
 
 class AppTheme {
   static const cupertinoThemeData = CupertinoThemeData(
     textTheme: CupertinoTextThemeData(
       textStyle: TextStyle(
-        fontFamily: 'SF Pro Display',
-      ),
+          fontFamily: AppConstants.SFProDisplay,
+          ),
     ),
   );
 
   static materialThemeData() => ThemeData(
         primaryColor: primary,
-        fontFamily: 'SF Pro Display',
+        fontFamily: AppConstants.SFProDisplay,
         textTheme: const TextTheme(
           headline4: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,
             fontSize: 14,
+            fontFamily: AppConstants.SFProDisplay,
           ),
           headline5: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
             fontSize: 10,
+            fontFamily: AppConstants.SFProDisplay,
           ),
           headline6: TextStyle(
             color: Color.fromRGBO(169, 175, 182, 1),
             fontWeight: FontWeight.w400,
             fontSize: 10,
+            fontFamily: AppConstants.SFProDisplay,
           ),
         ),
         sliderTheme: SliderThemeData(
           trackShape: CustomTrackShape(),
         ),
       );
-
-  // static getTextStyle({
-  //   Font? font,
-  //   FontWeight? fontWeight,
-  //   Color? color,
-  // }) {
-  //   return TextStyle(
-  //     fontFamily: font != null
-  //         ? font == Font.proText
-  //             ? 'SF Pro Text'
-  //             : 'SF Pro Display'
-  //         : 'SF Pro Display',
-  //     fontWeight: fontWeight ?? FontWeight.normal,
-  //     color: color ?? Colors.black,
-  //   );
-  // }
 
   static const primary = Color.fromRGBO(32, 53, 76, 1);
   static const secondary = Color.fromRGBO(0, 171, 223, 1);

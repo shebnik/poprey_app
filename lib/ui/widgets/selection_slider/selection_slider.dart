@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
 import 'package:poprey_app/utils/app_assets.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/hex_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -141,7 +142,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
                 child: Text(
                   AppLocalizations.of(context)!.buy,
                   style: const TextStyle(
-                    fontFamily: 'SF Pro Text',
+                    fontFamily: AppConstants.SFProText,
                     color: CupertinoColors.white,
                     fontWeight: FontWeight.w800,
                     fontSize: 12,
