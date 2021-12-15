@@ -6,7 +6,6 @@ import 'package:poprey_app/utils/app_assets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 
 class OtherSMSelectionList extends StatelessWidget {
   final OtherSmTabController controller;

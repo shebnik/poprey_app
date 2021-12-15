@@ -67,9 +67,13 @@ class MyApp extends StatelessWidget {
                 () => Visibility(
                   child: GestureDetector(
                     onTap: () {},
-                    child: Container(
-                      child: const SplashLoadingWidget(),
-                      color: CupertinoColors.systemGrey.withOpacity(0.5),
+                    child: Material(
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: const SplashLoadingWidget(),
+                        color: AppTheme.primary,
+                      ),
                     ),
                   ),
                   visible: controller.isLoading,
