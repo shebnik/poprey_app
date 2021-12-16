@@ -1,5 +1,7 @@
 {
     "otherSM": "Other SM",
     "buy": "BUY",
-    "all": "All"
+    "all": "All",
+    "reset": "Reset",
+    "next": "Next"
 }

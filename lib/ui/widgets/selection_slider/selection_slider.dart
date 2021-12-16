@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
-import 'package:poprey_app/ui/pages/home/home_controller.dart';
-import 'package:poprey_app/ui/widgets/bottom_sheet.dart';
+import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
-import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectionSlider extends StatefulWidget {
   final SelectionSliderModel model;
@@ -43,7 +40,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
       height: 90,
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: const Color(0xFFF7F8FB),
+        color: Color(0xFFF7F8FB),
         borderRadius: BorderRadius.all(
           Radius.circular(7),
         ),
@@ -100,7 +97,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
               Text(
                 model.planTitle,
                 style: Theme.of(context).textTheme.headline5!.apply(
-                      color: AppTheme.secondary,
+                      color: AppTheme.primaryBlue,
                     ),
               ),
               Row(
@@ -170,24 +167,10 @@ class _SelectionSliderState extends State<SelectionSlider> {
           ],
           Positioned(
             right: 10,
-            child: ElevatedButton(
+            child: RoundButton(
+              title: AppLocalizations.of(context)!.buy,
               onPressed: controller.buyPressed,
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.buy,
-                style: const TextStyle(
-                  fontFamily: AppConstants.SFProText,
-                  color: CupertinoColors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 12,
-                ),
-              ),
+              fontWeightDelta: 2,
             ),
           ),
         ],

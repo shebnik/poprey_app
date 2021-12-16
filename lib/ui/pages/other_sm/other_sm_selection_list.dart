@@ -73,7 +73,7 @@ class OtherSMSelectionList extends StatelessWidget {
                         fontSize: 10,
                         fontWeight:
                             _isSelected ? FontWeight.w600 : FontWeight.w500,
-                        color: _isSelected ? AppTheme.secondary : null,
+                        color: _isSelected ? AppTheme.primaryBlue : null,
                       ),
                     )
                   ],

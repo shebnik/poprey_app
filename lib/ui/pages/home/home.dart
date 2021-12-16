@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
               () => SvgPicture.asset(
                 imageAsset,
                 color: controller.selectedTab.value == index
-                    ? AppTheme.secondary
+                    ? AppTheme.primaryBlue
                     : null,
               ),
             ),

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';

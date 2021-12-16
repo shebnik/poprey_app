@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
-// enum Font { proText, proDisplay }
-
 class AppTheme {
   static const cupertinoThemeData = CupertinoThemeData(
     textTheme: CupertinoTextThemeData(
@@ -13,43 +11,57 @@ class AppTheme {
     ),
   );
 
-  static materialThemeData() => ThemeData(
-        primaryColor: primary,
-        fontFamily: AppConstants.SFProDisplay,
-        // canvasColor: Colors.transparent,
-        textTheme: const TextTheme(
-          headline3: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-            fontFamily: AppConstants.SFProText,
-          ),
-          headline4: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-            fontSize: 14,
-            fontFamily: AppConstants.SFProDisplay,
-          ),
-          headline5: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 10,
-            fontFamily: AppConstants.SFProDisplay,
-          ),
-          headline6: TextStyle(
-            color: Color.fromRGBO(169, 175, 182, 1),
-            fontWeight: FontWeight.w400,
-            fontSize: 10,
-            fontFamily: AppConstants.SFProDisplay,
-          ),
+  static materialThemeData() {
+    return ThemeData(
+      primaryColor: primary,
+      fontFamily: AppConstants.SFProDisplay,
+      // canvasColor: Colors.transparent,
+      textTheme: const TextTheme(
+        caption: TextStyle(
+          fontFamily: AppConstants.SFProText,
+          color: Color(0xFFCECFD0),
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
         ),
-        sliderTheme: SliderThemeData(
-          trackShape: CustomTrackShape(),
+        button: TextStyle(
+          fontFamily: AppConstants.SFProText,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
         ),
-      );
+        headline3: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+          fontFamily: AppConstants.SFProText,
+        ),
+        headline4: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+          fontFamily: AppConstants.SFProDisplay,
+        ),
+        headline5: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+          fontFamily: AppConstants.SFProDisplay,
+        ),
+        headline6: TextStyle(
+          color: Color.fromRGBO(169, 175, 182, 1),
+          fontWeight: FontWeight.w400,
+          fontSize: 10,
+          fontFamily: AppConstants.SFProDisplay,
+        ),
+      ),
+      sliderTheme: SliderThemeData(
+        trackShape: CustomTrackShape(),
+      ),
+    );
+  }
 
   static const primary = Color.fromRGBO(32, 53, 76, 1);
-  static const secondary = Color.fromRGBO(0, 171, 223, 1);
+  static const primaryBlue = Color.fromRGBO(0, 171, 223, 1);
 
   static Color black(double opacity) => Color.fromRGBO(0, 0, 0, opacity);
 }
