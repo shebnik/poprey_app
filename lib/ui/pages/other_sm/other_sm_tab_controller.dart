@@ -60,8 +60,9 @@ class OtherSmTabController extends GetxController {
 
   List<SelectionSliderModel> get _youTube => smPLansModel.youtube.entries
       .map((e) => SelectionSliderModel.fromMap(
-            name: AppConstants.YouTube,
-            planTitle: e.key,
+            platform: AppConstants.YouTube,
+            countInfo: e.value.countInfo,
+            urlInfo: e.value.urlInfo,
             plans: e.value.plans,
             imageAsset: AppAssets.youtube,
           ))
@@ -69,8 +70,9 @@ class OtherSmTabController extends GetxController {
 
   List<SelectionSliderModel> get _tikTok => smPLansModel.tiktok.entries
       .map((e) => SelectionSliderModel.fromMap(
-            name: AppConstants.TikTok,
-            planTitle: e.key,
+            platform: AppConstants.TikTok,
+            countInfo: e.value.countInfo,
+            urlInfo: e.value.urlInfo,
             plans: e.value.plans,
             imageAsset: AppAssets.tiktok,
           ))
@@ -78,8 +80,9 @@ class OtherSmTabController extends GetxController {
 
   List<SelectionSliderModel> get _facebook => smPLansModel.facebook.entries
       .map((e) => SelectionSliderModel.fromMap(
-            name: AppConstants.Facebook,
-            planTitle: e.key,
+            platform: AppConstants.Facebook,
+            countInfo: e.value.countInfo,
+            urlInfo: e.value.urlInfo,
             plans: e.value.plans,
             imageAsset: AppAssets.facebook,
           ))
@@ -87,8 +90,9 @@ class OtherSmTabController extends GetxController {
 
   List<SelectionSliderModel> get _spotify => smPLansModel.spotify.entries
       .map((e) => SelectionSliderModel.fromMap(
-            name: AppConstants.Spotify,
-            planTitle: e.key,
+            platform: AppConstants.Spotify,
+            countInfo: e.value.countInfo,
+            urlInfo: e.value.urlInfo,
             plans: e.value.plans,
             imageAsset: AppAssets.spotify,
           ))
@@ -96,8 +100,9 @@ class OtherSmTabController extends GetxController {
 
   List<SelectionSliderModel> get _twitter => smPLansModel.twitter.entries
       .map((e) => SelectionSliderModel.fromMap(
-            name: AppConstants.Twitter,
-            planTitle: e.key,
+            platform: AppConstants.Twitter,
+            countInfo: e.value.countInfo,
+            urlInfo: e.value.urlInfo,
             plans: e.value.plans,
             imageAsset: AppAssets.twitter,
           ))
@@ -105,8 +110,9 @@ class OtherSmTabController extends GetxController {
 
   List<SelectionSliderModel> get _vk => smPLansModel.vk.entries
       .map((e) => SelectionSliderModel.fromMap(
-            name: AppConstants.VK,
-            planTitle: e.key,
+            platform: AppConstants.VK,
+            countInfo: e.value.countInfo,
+            urlInfo: e.value.urlInfo,
             plans: e.value.plans,
             imageAsset: AppAssets.vk,
           ))

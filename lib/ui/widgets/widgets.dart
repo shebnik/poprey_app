@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/bottom_sheet.dart';
 
 class Widgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());
 
-  static void showBottomSheet(String title) {
+  static void showBottomSheet(SelectedPlan selectedPlan) {
     Get.bottomSheet(
-      AppBottomSheet(title: title),
+      AppBottomSheet(selectedPlan: selectedPlan),
       backgroundColor: Colors.white,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(

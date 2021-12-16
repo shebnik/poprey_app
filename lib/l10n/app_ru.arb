@@ -3,5 +3,7 @@
     "buy": "Купить",
     "all": "Все",
     "reset": "Сбросить",
-    "next": "Далее"
+    "next": "Далее",
+    "wrongUserName": "Неверный username",
+    "wrongEmail": "Неверный email"
 }

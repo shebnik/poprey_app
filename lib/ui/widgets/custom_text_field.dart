@@ -11,18 +11,18 @@ enum InputType {
 }
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {Key? key,
-      required this.controller,
-      this.label = '',
-      this.hint = '',
-      this.inputType,
-      this.showError = false,
-      this.errorText,
-      this.focusNode,
-      this.prefixIcon,
-      this.onExpandMore})
-      : super(key: key);
+  const CustomTextField({
+    Key? key,
+    required this.controller,
+    this.label = '',
+    this.hint = '',
+    this.inputType,
+    this.showError = false,
+    this.errorText,
+    this.focusNode,
+    this.prefixIcon,
+    this.onExpandMore,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
@@ -64,16 +64,13 @@ class CustomTextField extends StatelessWidget {
                 label,
                 style: const TextStyle(
                   fontFamily: AppConstants.SFProText,
-                  fontWeight: FontWeight.w400
+                  fontWeight: FontWeight.w400,
                 ),
-                // style: Theme.of(context).textTheme.caption,
               ),
               isDense: true,
               hintText: hint,
               errorText: showError ? errorText : null,
               prefixIcon: prefixIcon,
-              // suffixIconConstraints:
-              //     BoxConstraints(minWidth: 23, maxHeight: 20),
               suffixIcon: inputType == InputType.password
                   ? GestureDetector(
                       dragStartBehavior: DragStartBehavior.down,

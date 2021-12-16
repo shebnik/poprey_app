@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_assets.dart';
@@ -14,8 +15,11 @@ class SelectionSliderController extends GetxController {
   RxString priceValue = RxString('');
   String minValue = '', maxValue = '';
 
-  String get getSelectedPlan =>
-      '${model.name} ${countValue.value} ${model.planTitle}';
+  int index = 0;
+  int get currentCount => model.plans[index].count;
+  double get currentPrice => model.plans[index].price;
+
+  String get getPriceAmmount => '\$${priceValue.value}';
 
   void initValues() {
     minValue = Utils.formatNumber(model.plans.first.count);
@@ -27,14 +31,14 @@ class SelectionSliderController extends GetxController {
 
   void onSliderChanged(double value) {
     currentValue.value = value;
-    int index = value.toInt();
+    index = value.toInt();
 
-    countValue.value = Utils.formatNumber(model.plans[index].count);
-    priceValue.value = model.plans[index].price.toStringAsFixed(2);
+    countValue.value = Utils.formatNumber(currentCount);
+    priceValue.value = currentPrice.toStringAsFixed(2);
   }
 
   String? getImageAsset() {
-    switch (model.planTitle.toLowerCase()) {
+    switch (model.countInfo.toLowerCase()) {
       case 'likes':
         return AppAssets.likes;
       case 'followers':
@@ -53,6 +57,14 @@ class SelectionSliderController extends GetxController {
   }
 
   void buyPressed() {
-    Widgets.showBottomSheet(getSelectedPlan);
+    Widgets.showBottomSheet(
+      SelectedPlan.fromSelectionSliderModel(
+        model: model,
+        planPrice: PlanPrice(
+          count: currentCount,
+          price: currentPrice,
+        ),
+      ),
+    );
   }
 }

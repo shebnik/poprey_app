@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/bottom_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/round_button.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 
 class AppBottomSheet extends StatefulWidget {
-  final String title;
+  final SelectedPlan selectedPlan;
 
   const AppBottomSheet({
-    required this.title,
+    required this.selectedPlan,
     Key? key,
   }) : super(key: key);
 
@@ -20,16 +22,19 @@ class AppBottomSheet extends StatefulWidget {
 class _AppBottomSheetState extends State<AppBottomSheet> {
   late BottomSheetController controller;
 
+  late AppLocalizations? localization;
+
   @override
   void initState() {
     super.initState();
-    controller = Get.put(BottomSheetController());
+    controller = Get.put(BottomSheetController(widget.selectedPlan));
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 310,
+    localization = AppLocalizations.of(context);
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 300),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -39,28 +44,35 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
             child: Column(
               children: [
                 Obx(() => CustomTextField(
-                      label: 'Instagram Username (Login)',
+                      label: controller.getUrlTitle,
                       controller: controller.userNameController.value,
                       inputType: InputType.expandMore,
-                      onExpandMore: () {},
+                      onExpandMore: controller.expandMorePressed,
+                      errorText:
+                          localization?.wrongUserName ?? 'Username is wrong',
+                      showError: controller.isUserNameError.value,
                     )),
                 Obx(() => CustomTextField(
-                      label: 'Email',
+                      label: AppConstants.email,
                       controller: controller.emailController.value,
+                      errorText: localization?.wrongEmail ?? 'Email is wrong',
+                      showError: controller.isEmailError.value,
                     )),
-                const SizedBox(height: 30),
+                const SizedBox(height: 35),
                 Row(
                   children: [
                     TextButton(
-                      onPressed: () => {},
+                      onPressed: controller.resetPressed,
                       child: Text(
-                        AppLocalizations.of(context).reset,
+                        localization?.reset ?? 'Reset',
+                        style: Theme.of(context).textTheme.caption,
                       ),
                     ),
+                    const SizedBox(width: 30),
                     Expanded(
                       child: RoundButton(
-                        onPressed: () => {},
-                        title: AppLocalizations.of(context).next,
+                        onPressed: () => controller.nextPressed(context),
+                        title: localization?.next ?? 'Next',
                       ),
                     ),
                   ],
@@ -113,7 +125,7 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
           Positioned(
             top: 25,
             child: Text(
-              widget.title,
+              controller.getTitle,
               style: Theme.of(context).textTheme.headline3,
               overflow: TextOverflow.clip,
               textAlign: TextAlign.start,

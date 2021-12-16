@@ -95,7 +95,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                model.planTitle,
+                model.countInfo,
                 style: Theme.of(context).textTheme.headline5!.apply(
                       color: AppTheme.primaryBlue,
                     ),
@@ -111,7 +111,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
                   ),
                   Obx(
                     () => Text(
-                      '\$${controller.priceValue.value}',
+                      controller.getPriceAmmount,
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),

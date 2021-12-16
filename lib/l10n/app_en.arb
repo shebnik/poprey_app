@@ -3,5 +3,7 @@
     "buy": "BUY",
     "all": "All",
     "reset": "Reset",
-    "next": "Next"
+    "next": "Next",
+    "wrongUserName": "Username is wrong",
+    "wrongEmail": "Email is wrong"
 }

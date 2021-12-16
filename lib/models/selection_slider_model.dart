@@ -1,6 +1,13 @@
 class SelectionSliderModel {
-  final String name;
-  final String planTitle;
+  /// Instagram, YouTube, etc
+  final String platform;
+
+  /// Likes, Followers, etc
+  final String countInfo;
+
+  /// Instagram username, URL to the YouTube Video, etc
+  final String urlInfo;
+
   final List<PlanPrice> plans;
   final String? imageAsset;
 
@@ -9,25 +16,30 @@ class SelectionSliderModel {
   late final int divisions;
 
   SelectionSliderModel({
-    required this.name,
-    required this.planTitle,
+    required this.platform,
+    required this.countInfo,
+    required this.urlInfo,
     required this.plans,
     this.imageAsset,
   }) {
-    minValue = plans.first.price;
-    maxValue = plans.last.price;
-    divisions = plans.length - 1;
+    if (plans.isNotEmpty) {
+      minValue = plans.first.price;
+      maxValue = plans.last.price;
+      divisions = plans.length - 1;
+    }
   }
 
   factory SelectionSliderModel.fromMap({
-    required String name,
-    required String planTitle,
+    required String platform,
+    required String countInfo,
+    required String urlInfo,
     required Map<String, String> plans,
     String? imageAsset,
   }) {
     return SelectionSliderModel(
-      name: name,
-      planTitle: planTitle,
+      platform: platform,
+      countInfo: countInfo,
+      urlInfo: urlInfo,
       plans: plans.entries
           .map((e) => PlanPrice(
                 count: int.parse(e.key.replaceAll(' ', '')),
@@ -35,6 +47,22 @@ class SelectionSliderModel {
               ))
           .toList(),
       imageAsset: imageAsset,
+    );
+  }
+
+  SelectionSliderModel copyWith({
+    String? platform,
+    String? countInfo,
+    String? urlInfo,
+    List<PlanPrice>? plans,
+    String? imageAsset,
+  }) {
+    return SelectionSliderModel(
+      platform: platform ?? this.platform,
+      countInfo: countInfo ?? this.countInfo,
+      urlInfo: urlInfo ?? this.urlInfo,
+      plans: plans ?? this.plans,
+      imageAsset: imageAsset ?? this.imageAsset,
     );
   }
 }

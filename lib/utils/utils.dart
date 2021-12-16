@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
-  static String formatAmount(double amount) {
+  static String formatAmount(dynamic amount) {
     return '\$${amount.toStringAsFixed(2)}';
   }
 

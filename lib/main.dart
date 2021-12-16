@@ -3,6 +3,7 @@ import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/pages/home/home.dart';
+import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
 import 'package:poprey_app/ui/widgets/splash_loading.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -54,6 +55,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: Home.routeName,
           page: () => const Home(),
+        ),
+        GetPage(
+          name: SelectedAccount.routeName,
+          page: () => const SelectedAccount(),
         ),
       ],
       builder: (context, child) {

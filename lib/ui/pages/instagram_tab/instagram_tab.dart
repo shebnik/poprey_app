@@ -41,7 +41,7 @@ class _InstagramTabState extends State<InstagramTab> {
                   if (model != null) {
                     return SelectionSlider(
                       model: model,
-                      key: Key('${model.name}-${model.planTitle}'),
+                      key: Key('${model.platform}-${model.countInfo}'),
                     );
                   }
                   return Container();

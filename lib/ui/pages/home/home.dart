@@ -11,13 +11,6 @@ import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Nav {
-  final String title;
-  final Widget icon;
-
-  Nav({required this.title, required this.icon});
-}
-
 class Home extends StatefulWidget {
   static const routeName = '/';
 

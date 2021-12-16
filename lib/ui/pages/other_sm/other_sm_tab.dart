@@ -58,7 +58,7 @@ class _OtherSmTabState extends State<OtherSmTab> {
         itemCount: model.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          String key = '${model[index].name}-${model[index].planTitle}';
+          String key = '${model[index].platform}-${model[index].countInfo}';
           return SelectionSlider(
             model: model[index],
             key: Key(key),

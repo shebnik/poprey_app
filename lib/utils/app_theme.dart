@@ -21,7 +21,7 @@ class AppTheme {
           fontFamily: AppConstants.SFProText,
           color: Color(0xFFCECFD0),
           fontWeight: FontWeight.w400,
-          fontSize: 12,
+          fontSize: 14,
         ),
         button: TextStyle(
           fontFamily: AppConstants.SFProText,

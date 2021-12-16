@@ -6,11 +6,18 @@ import 'package:poprey_app/utils/app_constants.dart';
 class InstagramTabController extends GetxController {
   SelectionSliderModel? getPlanModelByIndex(int index, InstagramModel? model) {
     if (model == null) return null;
+
+    final selectionSliderModel = SelectionSliderModel(
+      platform: AppConstants.Instagram,
+      urlInfo: 'Instagram Username (Login)',
+      countInfo: '',
+      plans: [],
+    );
+
     switch (index) {
       case 0:
-        return SelectionSliderModel(
-          name: AppConstants.Instagram,
-          planTitle: 'Likes',
+        return selectionSliderModel.copyWith(
+          countInfo: 'Likes',
           plans: model.likes.plans
               .map((e) => PlanPrice(
                     count: e.count.toInt(),
@@ -19,9 +26,8 @@ class InstagramTabController extends GetxController {
               .toList(),
         );
       case 1:
-        return SelectionSliderModel(
-          name: AppConstants.Instagram,
-          planTitle: 'Followers',
+        return selectionSliderModel.copyWith(
+          countInfo: 'Followers',
           plans: model.followers.plans
               .map((e) => PlanPrice(
                     count: e.count.toInt(),
@@ -30,9 +36,8 @@ class InstagramTabController extends GetxController {
               .toList(),
         );
       case 2:
-        return SelectionSliderModel(
-          name: AppConstants.Instagram,
-          planTitle: 'Auto-Likes',
+        return selectionSliderModel.copyWith(
+          countInfo: 'Auto-Likes',
           plans: model.autoLikesPost.plans
               .map((e) => PlanPrice(
                     count: e.count.toInt(),
@@ -41,9 +46,8 @@ class InstagramTabController extends GetxController {
               .toList(),
         );
       case 3:
-        return SelectionSliderModel(
-          name: AppConstants.Instagram,
-          planTitle: 'Views',
+        return selectionSliderModel.copyWith(
+          countInfo: 'Views',
           plans: model.views.plans
               .map((e) => PlanPrice(
                     count: e.count.toInt(),
@@ -52,9 +56,8 @@ class InstagramTabController extends GetxController {
               .toList(),
         );
       case 4:
-        return SelectionSliderModel(
-          name: AppConstants.Instagram,
-          planTitle: 'Comments',
+        return selectionSliderModel.copyWith(
+          countInfo: 'Comments',
           plans: model.comments.plans
               .map((e) => PlanPrice(
                     count: e.count.toInt(),
