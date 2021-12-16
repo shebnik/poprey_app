@@ -3,7 +3,7 @@ import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/pages/home/home.dart';
-import 'package:poprey_app/ui/widgets/loading_widget.dart';
+import 'package:poprey_app/ui/widgets/splash_loading.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';

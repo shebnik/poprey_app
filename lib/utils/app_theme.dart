@@ -18,6 +18,12 @@ class AppTheme {
         fontFamily: AppConstants.SFProDisplay,
         // canvasColor: Colors.transparent,
         textTheme: const TextTheme(
+          headline3: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            fontFamily: AppConstants.SFProText,
+          ),
           headline4: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w700,

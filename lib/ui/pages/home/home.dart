@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    controller = Get.put(HomeController(context));
+    controller = Get.put(HomeController());
   }
 
   @override

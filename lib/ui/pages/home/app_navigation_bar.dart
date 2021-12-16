@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
-import 'package:poprey_app/utils/hex_color.dart';
 
 class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
   final bool applyElevation;
@@ -16,7 +15,7 @@ class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: applyElevation ? 0.04 : 0.0,
-      backgroundColor: HexColor.fromHex('#FFFFFF'),
+      backgroundColor: const Color(0xFFFFFFFF),
       leading: IconButton(
         icon: SvgPicture.asset(
           AppAssets.menuIcon,

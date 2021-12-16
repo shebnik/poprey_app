@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:poprey_app/ui/widgets/loading_widget.dart';
+import 'package:poprey_app/ui/widgets/splash_loading.dart';
 
 class FutureWidget extends StatelessWidget {
   final Future<dynamic> future;
