@@ -11,7 +11,11 @@ class SelectedPlan {
   final String urlInfo;
 
   final PlanPrice planPrice;
+  
+  /// Instagram username (Login) or link
   final String? url;
+  
+  /// User email
   final String? email;
 
   SelectedPlan({

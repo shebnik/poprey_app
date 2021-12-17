@@ -1,11 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:poprey_app/models/insagram_post.dart';
-import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,6 +15,9 @@ class InstagramParser {
   /// GET https://www.instagram.com/web/search/topsearch/?context=blended&query=YOUR_QUERY
   /// first - amount of items to get.
   /// after - id of the last item if you want to get items from that id.
+
+  // static const INSTAGRAM_USERNAME = 'poprey_app';
+  // static const INSTAGRAM_PASSWORD = '5xL3Ek[d6gU,M2`K';
 
   static const QUERY_ID = '17888483320059182';
   static const POSTS_BASE_URL = 'https://instagram.com/graphql/query/';
@@ -36,48 +37,41 @@ class InstagramParser {
       USERS_BASE_URL + '&query=$username';
 
   static String getProfileUrl(String username) =>
-      'https://www.instagram.com/' + username.trim() + '/channel/?__a=1';
+      'https://www.instagram.com/' + username.trim() + '/?__a=1';
 
-  static final Map<String, String> _headers = {
-    'User-Agent':
-        r'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:93.0) Gecko/20100101 Firefox/93.0',
-    'Cookie':
-        r'csrftoken=KwugFcdUbqWmIw5gafx4XceFqG7lL0iy; mid=YXGdmQAEAAGZ8KAkPxbouItPlKZW;ig_did=B1A4CD44-2BC0-46D6-9EA8-183539CC48D0;rur="ASH\0541626909116\0541666509625:01f790737601ddb28113116c4f532ec31a70ba9eed81c465a824b04048f33062c5ad07d8"; ds_user_id=1626909116; sessionid=1626909116%3ASJKuakuknKMwgK%3A29; shbid="13780\0541626909116\0541666509141:01f7550222f10cb6d3fe921d0365f3c16d488e2b5fa5d8df394a2e22bf77b6e58c651ba9"; shbts="1634973141\0541626909116\0541666509141:01f76d9c1887499197411336f50b5e86b6bd269a7d945cef01282c80c8f395ac42412c0f"'
+  static final Map<String, String> headers = {
+    // 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36',
+    'User-Agent': 'python-requests/2.26.0',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept': '*/*',
+    'Connection': 'keep-alive',
+    'cookie':
+        'csrftoken=k1MQxsmhQK8IbdUIlEUCI3HY6dsrdQPn; ds_user_id=50798602235; sessionid=50798602235%3ApDlCcBxd3sIvL6%3A5;'
   };
 
-  static Future<Response> getRequest(String url) async {
+  static Future<Response> getInsagramRequest(String url) async {
     return http.get(
       Uri.parse(Uri.encodeFull(url)),
-      headers: _headers,
+      headers: headers,
     );
   }
 
-  static Future<InstagramProfile?> fetchInstagramProfile(
+  static Future<Map<String, dynamic>?> fetchInstagramProfile(
       String username) async {
     try {
       String url = getProfileUrl(username);
-      var response = await getRequest(url);
+      var response = await getInsagramRequest(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
 
       if (extractedData.isNotEmpty) {
-        var user = extractedData['graphql']['user'] as Map<String, dynamic>;
-        final instagramProfile = InstagramProfile.fromJson(user);
-        var media = user['edge_owner_to_timeline_media'];
-
-        var pageInfo = PageInfo.fromJson(media['page_info']);
-
-        final edges = media['edges'] as List<dynamic>;
-        final posts =
-            edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
-
-        return instagramProfile;
+        return extractedData['graphql']['user'] as Map<String, dynamic>;
       }
     } catch (e) {
       Logger.e('[InstagramParser] getInstagramProfile error', e);
     }
   }
 
-  static Future<List<InsagramPost>?> getPosts(
+  static Future<Map<String, dynamic>?> fetchInsagramPosts(
       String id, PageInfo pageInfo) async {
     if (pageInfo.hasNextPage == false) return null;
     try {
@@ -86,18 +80,11 @@ class InstagramParser {
         count: 20,
         after: pageInfo.endCursor,
       );
-      var response = await getRequest(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      if (extractedData['status'] == 'ok') {
-        var media = extractedData['data']['user']
-            ['edge_owner_to_timeline_media'] as Map<String, dynamic>;
-
-        pageInfo = PageInfo.fromJson(media['page_info']);
-
-        final edges = media['edges'] as List<dynamic>;
-        final posts =
-            edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
-        return posts;
+      var response = await getInsagramRequest(url);
+      final data = json.decode(response.body) as Map<String, dynamic>;
+      if (data['status'] == 'ok') {
+        return data['data']['user']['edge_owner_to_timeline_media']
+            as Map<String, dynamic>;
       }
     } catch (e) {
       Logger.e('[InstagramParser] getPosts error', e);

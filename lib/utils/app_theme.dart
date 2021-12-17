@@ -23,6 +23,18 @@ class AppTheme {
           fontWeight: FontWeight.w400,
           fontSize: 14,
         ),
+        subtitle1: TextStyle(
+          fontFamily: AppConstants.SFProText,
+          color: primary,
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
+        ),
+        subtitle2: TextStyle(
+          fontFamily: AppConstants.SFProText,
+          color: Colors.white,
+          fontWeight: FontWeight.w400,
+          fontSize: 12,
+        ),
         button: TextStyle(
           fontFamily: AppConstants.SFProText,
           color: Colors.white,

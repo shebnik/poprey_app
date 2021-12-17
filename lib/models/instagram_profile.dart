@@ -13,12 +13,16 @@ class InstagramProfile {
   @JsonKey(name: 'profile_pic_url_hd')
   final String profilePicUrl;
 
+  @JsonKey(name: 'edge_followed_by', fromJson: followersFromJson)
+  final int followers;
+
   InstagramProfile({
     required this.id,
     required this.username,
     required this.fullName,
     required this.isPrivate,
     required this.profilePicUrl,
+    required this.followers,
   });
 
   factory InstagramProfile.fromJson(Map<String, dynamic> json) =>
@@ -30,4 +34,9 @@ class InstagramProfile {
   String toString() {
     return 'InstagramProfile(id: $id, username: $username, fullName: $fullName, isPrivate: $isPrivate, profilePicUrl: $profilePicUrl)';
   }
+}
+
+@override
+int followersFromJson(Map<String, dynamic> json) {
+  return json['count'];
 }

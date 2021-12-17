@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
+import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/bottom_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class AppBottomSheet extends StatefulWidget {
@@ -59,23 +59,9 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
                       showError: controller.isEmailError.value,
                     )),
                 const SizedBox(height: 35),
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: controller.resetPressed,
-                      child: Text(
-                        localization?.reset ?? 'Reset',
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                    ),
-                    const SizedBox(width: 30),
-                    Expanded(
-                      child: RoundButton(
-                        onPressed: () => controller.nextPressed(context),
-                        title: localization?.next ?? 'Next',
-                      ),
-                    ),
-                  ],
+                BottomResetNavigation(
+                  resetPressed: controller.resetPressed,
+                  nextPressed: () => controller.nextPressed(context),
                 ),
               ],
             ),

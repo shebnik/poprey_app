@@ -18,4 +18,6 @@ class AppConstants {
   static const ADDITIONAL_PLANS_MODEL = 'ADDITIONAL_PLANS_MODEL';
 
   static const email = 'Email';
+
+  static const instagramPostUrl = 'https://www.instagram.com/p/';
 }

@@ -32,16 +32,22 @@ class BottomSheetController extends GetxController {
   }
 
   void nextPressed(BuildContext context) {
-    String userName = userNameController.value.text.trim();
-    String email = emailController.value.text.trim().toLowerCase();
-
-    if (!validate(userName, email)) return;
-    FocusScope.of(context).unfocus();
-
     Get.toNamed(
       SelectedAccount.routeName,
-      arguments: selectedPlan.copyWith(url: userName, email: email),
+      arguments: selectedPlan.copyWith(url: 'shebalinik', email: 'shebalin13@gmail.com'),
     );
+
+    // TODO: Uncomment
+    // String userName = userNameController.value.text.trim();
+    // String email = emailController.value.text.trim().toLowerCase();
+
+    // if (!validate(userName, email)) return;
+    // FocusScope.of(context).unfocus();
+
+    // Get.toNamed(
+    //   SelectedAccount.routeName,
+    //   arguments: selectedPlan.copyWith(url: userName, email: email),
+    // );
   }
 
   bool validate(String userName, String email) {

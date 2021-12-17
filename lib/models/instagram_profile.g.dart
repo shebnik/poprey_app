@@ -13,6 +13,8 @@ InstagramProfile _$InstagramProfileFromJson(Map<String, dynamic> json) =>
       fullName: json['full_name'] as String,
       isPrivate: json['is_private'] as bool,
       profilePicUrl: json['profile_pic_url_hd'] as String,
+      followers:
+          followersFromJson(json['edge_followed_by'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$InstagramProfileToJson(InstagramProfile instance) =>
@@ -22,4 +24,5 @@ Map<String, dynamic> _$InstagramProfileToJson(InstagramProfile instance) =>
       'full_name': instance.fullName,
       'is_private': instance.isPrivate,
       'profile_pic_url_hd': instance.profilePicUrl,
+      'edge_followed_by': instance.followers,
     };

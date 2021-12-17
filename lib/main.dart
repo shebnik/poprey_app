@@ -1,5 +1,6 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:poprey_app/main_controller.dart';
+import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/pages/home/home.dart';
 import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
@@ -19,12 +20,12 @@ void main() async {
   SharedPreferencesController.sharedPreferences =
       await SharedPreferences.getInstance();
 
-  // initRoutePath = AuthService.defineInitRoutePath();
+  initRoutePath = AuthService.defineInitRoutePath();
 
   runApp(const MyApp());
 }
 
-var initRoutePath = SelectedAccount.routeName;//'/';
+var initRoutePath = '/';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
