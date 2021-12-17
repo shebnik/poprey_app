@@ -52,47 +52,23 @@ class InstagramParser {
     );
   }
 
-  static Future<InstagramProfile?> getInstagramProfile(String username) async {
+  static Future<InstagramProfile?> fetchInstagramProfile(
+      String username) async {
     try {
       String url = getProfileUrl(username);
-      print(url);
       var response = await getRequest(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
 
       if (extractedData.isNotEmpty) {
         var user = extractedData['graphql']['user'] as Map<String, dynamic>;
         final instagramProfile = InstagramProfile.fromJson(user);
-        print(instagramProfile.toString());
-
         var media = user['edge_owner_to_timeline_media'];
 
         var pageInfo = PageInfo.fromJson(media['page_info']);
-        print(pageInfo.toString());
 
         final edges = media['edges'] as List<dynamic>;
         final posts =
             edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
-        for (var post in posts) {
-          print(post.toString());
-        }
-
-        while (pageInfo.hasNextPage) {
-          print('\n\n');
-          await Future.delayed(const Duration(seconds: 5));
-
-          media = await getPosts(instagramProfile.id, pageInfo.endCursor);
-          if (media == null) break;
-          
-          pageInfo = PageInfo.fromJson(media['page_info']);
-          print(pageInfo.toString());
-
-          final edges = media['edges'] as List<dynamic>;
-          final posts =
-              edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
-          for (var post in posts) {
-            print(post.toString());
-          }
-        }
 
         return instagramProfile;
       }
@@ -101,20 +77,27 @@ class InstagramParser {
     }
   }
 
-  static Future<Map<String, dynamic>?> getPosts(
-      String id, String endCursor) async {
+  static Future<List<InsagramPost>?> getPosts(
+      String id, PageInfo pageInfo) async {
+    if (pageInfo.hasNextPage == false) return null;
     try {
       final url = getPostsQueryUrl(
         id: id,
         count: 20,
-        after: endCursor,
+        after: pageInfo.endCursor,
       );
       var response = await getRequest(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData['status'] == 'ok') {
         var media = extractedData['data']['user']
             ['edge_owner_to_timeline_media'] as Map<String, dynamic>;
-        return media;
+
+        pageInfo = PageInfo.fromJson(media['page_info']);
+
+        final edges = media['edges'] as List<dynamic>;
+        final posts =
+            edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
+        return posts;
       }
     } catch (e) {
       Logger.e('[InstagramParser] getPosts error', e);

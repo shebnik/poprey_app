@@ -8,6 +8,6 @@ class SelectedAccountController extends GetxController {
   SelectedAccountController(this.selectedPlan);
 
   fetchUserProfile() async {
-    await InstagramParser.getInstagramProfile('shebalinik');
+    await InstagramParser.fetchInstagramProfile('shebalinik');
   }
 }
