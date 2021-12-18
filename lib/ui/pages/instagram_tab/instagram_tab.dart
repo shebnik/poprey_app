@@ -23,7 +23,6 @@ class _InstagramTabState extends State<InstagramTab> {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      isAlwaysShown: false,
       thickness: 5,
       child: SingleChildScrollView(
         child: Padding(

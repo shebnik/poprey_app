@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -29,7 +30,7 @@ class SharedPreferencesController extends GetxController {
     );
     Logger.i('set InstagramModel');
     update();
-  }  
+  }
 
   SMPlansModel? getSMPlansModel() {
     try {
@@ -50,6 +51,26 @@ class SharedPreferencesController extends GetxController {
     );
     Logger.i('set AdditionalPlansModel');
     update();
+  }
+
+  List<InstagramProfile>? getInstagramProfiles() {
+    try {
+      final json = readJson(AppConstants.INSTAGRAM_PROFILES) as List<dynamic>?;
+      if (json != null) {
+        return json.map((e) => InstagramProfile.fromJson(e)).toList();
+      }
+    } catch (e) {
+      Logger.e('getInstagramProfiles error: ', e);
+      return null;
+    }
+  } 
+
+  Future<void> setInstagramProfiles(List<InstagramProfile> instagramProfiles) async {
+    await saveJson(
+      AppConstants.INSTAGRAM_PROFILES,
+      instagramProfiles.map((e) => e.toJson()).toList(),
+    );
+    Logger.i('setInstagramProfiles');
   }
 
   String? readString(String key) {

@@ -13,9 +13,12 @@ class InstagramProfile {
   @JsonKey(name: 'profile_pic_url_hd')
   final String profilePicUrl;
 
+  final String? email;
+
   @JsonKey(
     name: 'edge_followed_by',
     fromJson: followersFromJson,
+    toJson: followersToJson,
   )
   final int followers;
 
@@ -26,6 +29,7 @@ class InstagramProfile {
     required this.isPrivate,
     required this.profilePicUrl,
     required this.followers,
+    this.email,
   });
 
   factory InstagramProfile.fromJson(Map<String, dynamic> json) =>
@@ -42,4 +46,13 @@ class InstagramProfile {
 @override
 int followersFromJson(Map<String, dynamic> json) {
   return json['count'];
+}
+
+@override
+Map<String, dynamic> followersToJson(int object) {
+  return {
+    'edge_followed_by': {
+      'count': object,
+    }
+  };
 }
