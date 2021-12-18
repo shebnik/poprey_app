@@ -64,7 +64,8 @@ class InstagramParser {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
 
       if (extractedData.isNotEmpty) {
-        return extractedData['graphql']['user'] as Map<String, dynamic>;
+        final data = extractedData['graphql']['user'] as Map<String, dynamic>;
+        return data;
       }
     } catch (e) {
       Logger.e('[InstagramParser] getInstagramProfile error', e);
@@ -77,7 +78,7 @@ class InstagramParser {
     try {
       final url = getPostsQueryUrl(
         id: id,
-        count: 20,
+        count: 12,
         after: pageInfo.endCursor,
       );
       var response = await getInsagramRequest(url);
@@ -89,5 +90,10 @@ class InstagramParser {
     } catch (e) {
       Logger.e('[InstagramParser] getPosts error', e);
     }
+  }
+
+  static bool isPrivateProfile(Map<String, dynamic> insagramUser) {
+    print(insagramUser['is_private']);
+    return insagramUser['is_private'] as bool;
   }
 }

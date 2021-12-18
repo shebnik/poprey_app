@@ -10,63 +10,40 @@ import 'package:poprey_app/utils/utils.dart';
 
 class SelectedAccountController extends GetxController {
   final SelectedPlan selectedPlan;
-
-  SelectedAccountController(this.selectedPlan);
+  final Map<String, dynamic> instagramUser;
 
   final mainController = Get.find<MainController>();
 
   late InstagramProfile profile;
   late PageInfo pageInfo;
 
-  late RxList<InsagramPost> posts = <InsagramPost>[].obs;
-  late RxList<InsagramPost> selectedPosts = <InsagramPost>[].obs;
+  RxList<InsagramPost> posts = <InsagramPost>[].obs;
+  RxList<InsagramPost> selectedPosts = <InsagramPost>[].obs;
 
-  // late ScrollController scrollController;
-
-  String get count => selectedPlan.planPrice.count.toString();
-
-  @override
-  void onReady() {
-    super.onReady();
-    // scrollController = ScrollController()..addListener(_scrollListener);
-  }
-
-  // void _scrollListener() async {
-  //   print(scrollController.position.maxScrollExtent);
-  //   print(scrollController.offset);
-  //   if (scrollController.position.maxScrollExtent == scrollController.offset) {
-  //     if (pageInfo.hasNextPage) await loadMore();
-  //   }
-  // }
-
-  Future<bool> init() async {
-    final insagramUser =
-        await InstagramParser.fetchInstagramProfile(selectedPlan.url!);
-
-    if (insagramUser == null) {
-      mainController.isLoading = false;
-      Get.back();
-      return false;
-    }
-    setProfile(insagramUser);
-    await loadMore();
-    mainController.isLoading = false;
-    return true;
-  }
-
-  void setProfile(Map<String, dynamic> insagramUser) {
-    profile = InstagramProfile.fromJson(insagramUser);
-    var data = insagramUser['edge_owner_to_timeline_media'];
+  SelectedAccountController(this.selectedPlan, this.instagramUser) {
+    profile = InstagramProfile.fromJson(instagramUser);
+    var data = instagramUser['edge_owner_to_timeline_media'];
     pageInfo = PageInfo.fromJson(data['page_info']);
 
     final edges = data['edges'] as List<dynamic>;
     posts.value = edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
   }
 
-  Future<void> loadMore() async {
-    if (pageInfo.hasNextPage == false) return;
+  String get count => selectedPosts.isEmpty
+      ? ''
+      : (selectedPlan.planPrice.count ~/ (selectedPosts.length)).toString();
+
+  @override
+  void onInit() async {
+    super.onInit();
+    await loadMore();
+    mainController.isLoading = false;
+  }
+
+  Future<bool> loadMore() async {
+    if (pageInfo.hasNextPage == false) return false;
     final data = await InstagramParser.fetchInsagramPosts(profile.id, pageInfo);
-    if (data == null) return;
+    if (data == null) return false;
     pageInfo = PageInfo.fromJson(data['page_info']);
 
     final edges = data['edges'] as List<dynamic>;
@@ -74,6 +51,7 @@ class SelectedAccountController extends GetxController {
       ...posts,
       ...edges.map((e) => InsagramPost.fromJson(e['node'])).toList(),
     ];
+    return true;
   }
 
   String getPostSrc(int index) {

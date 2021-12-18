@@ -13,7 +13,10 @@ class InstagramProfile {
   @JsonKey(name: 'profile_pic_url_hd')
   final String profilePicUrl;
 
-  @JsonKey(name: 'edge_followed_by', fromJson: followersFromJson)
+  @JsonKey(
+    name: 'edge_followed_by',
+    fromJson: followersFromJson,
+  )
   final int followers;
 
   InstagramProfile({

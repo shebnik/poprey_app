@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
-import 'package:poprey_app/ui/widgets/bottom_sheet/bottom_sheet_controller.dart';
+import 'package:poprey_app/ui/widgets/bottom_sheet/app_bottom_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -22,8 +22,6 @@ class AppBottomSheet extends StatefulWidget {
 class _AppBottomSheetState extends State<AppBottomSheet> {
   late BottomSheetController controller;
 
-  late AppLocalizations? localization;
-
   @override
   void initState() {
     super.initState();
@@ -32,7 +30,7 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    localization = AppLocalizations.of(context);
+    controller.localization = AppLocalizations.of(context);
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 300),
       child: Column(
@@ -47,15 +45,14 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
                       label: controller.getUrlTitle,
                       controller: controller.userNameController.value,
                       inputType: InputType.expandMore,
-                      onExpandMore: controller.expandMorePressed,
-                      errorText:
-                          localization?.wrongUserName ?? 'Username is wrong',
+                      onExpandMore: controller.expandAccountsPressed,
+                      errorText: controller.userNameErrorText.value,
                       showError: controller.isUserNameError.value,
                     )),
                 Obx(() => CustomTextField(
                       label: AppConstants.email,
                       controller: controller.emailController.value,
-                      errorText: localization?.wrongEmail ?? 'Email is wrong',
+                      errorText: controller.emailErrorText.value,
                       showError: controller.isEmailError.value,
                     )),
                 const SizedBox(height: 35),

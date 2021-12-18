@@ -12,6 +12,6 @@ InsagramPost _$InsagramPostFromJson(Map<String, dynamic> json) => InsagramPost(
     );
 
 PageInfo _$PageInfoFromJson(Map<String, dynamic> json) => PageInfo(
-      hasNextPage: json['has_next_page'] as bool,
-      endCursor: json['end_cursor'] as String,
+      hasNextPage: json['has_next_page'] as bool?,
+      endCursor: json['end_cursor'] as String?,
     );

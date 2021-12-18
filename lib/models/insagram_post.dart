@@ -25,10 +25,10 @@ class InsagramPost {
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class PageInfo {
   @JsonKey(name: 'has_next_page')
-  final bool hasNextPage;
+  final bool? hasNextPage;
 
   @JsonKey(name: 'end_cursor')
-  final String endCursor;
+  final String? endCursor;
 
   PageInfo({
     required this.hasNextPage,
