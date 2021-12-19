@@ -14,6 +14,7 @@ class InstagramProfile {
   final String profilePicUrl;
 
   final String? email;
+  final bool isSelected;
 
   @JsonKey(
     name: 'edge_followed_by',
@@ -30,6 +31,7 @@ class InstagramProfile {
     required this.profilePicUrl,
     required this.followers,
     this.email,
+    this.isSelected = false,
   });
 
   factory InstagramProfile.fromJson(Map<String, dynamic> json) =>
@@ -41,6 +43,28 @@ class InstagramProfile {
   String toString() {
     return 'InstagramProfile(id: $id, username: $username, fullName: $fullName, isPrivate: $isPrivate, profilePicUrl: $profilePicUrl)';
   }
+
+  InstagramProfile copyWith({
+    String? id,
+    String? username,
+    String? fullName,
+    bool? isPrivate,
+    String? profilePicUrl,
+    String? email,
+    bool? isSelected,
+    int? followers,
+  }) {
+    return InstagramProfile(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      fullName: fullName ?? this.fullName,
+      isPrivate: isPrivate ?? this.isPrivate,
+      profilePicUrl: profilePicUrl ?? this.profilePicUrl,
+      email: email ?? this.email,
+      isSelected: isSelected ?? this.isSelected,
+      followers: followers ?? this.followers,
+    );
+  }
 }
 
 @override
@@ -51,8 +75,6 @@ int followersFromJson(Map<String, dynamic> json) {
 @override
 Map<String, dynamic> followersToJson(int object) {
   return {
-    'edge_followed_by': {
-      'count': object,
-    }
+    'count': object,
   };
 }

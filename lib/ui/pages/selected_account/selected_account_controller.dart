@@ -6,7 +6,6 @@ import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/utils/app_constants.dart';
-import 'package:poprey_app/utils/utils.dart';
 
 class SelectedAccountController extends GetxController {
   final SelectedPlan selectedPlan;
@@ -22,6 +21,7 @@ class SelectedAccountController extends GetxController {
 
   SelectedAccountController(this.selectedPlan, this.instagramUser) {
     profile = InstagramProfile.fromJson(instagramUser);
+    
     var data = instagramUser['edge_owner_to_timeline_media'];
     pageInfo = PageInfo.fromJson(data['page_info']);
 
@@ -57,9 +57,6 @@ class SelectedAccountController extends GetxController {
   String getPostSrc(int index) {
     return AppConstants.instagramPostUrl + posts[index].shortcode;
   }
-
-  String get getFollowers =>
-      '${Utils.formatNumber(profile.followers)} followers';
 
   void postSelected(InsagramPost post) {
     if (selectedPosts.contains(post)) {

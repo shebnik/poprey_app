@@ -53,7 +53,7 @@ class SharedPreferencesController extends GetxController {
     update();
   }
 
-  List<InstagramProfile>? getInstagramProfiles() {
+  static List<InstagramProfile>? getInstagramProfiles() {
     try {
       final json = readJson(AppConstants.INSTAGRAM_PROFILES) as List<dynamic>?;
       if (json != null) {
@@ -63,9 +63,10 @@ class SharedPreferencesController extends GetxController {
       Logger.e('getInstagramProfiles error: ', e);
       return null;
     }
-  } 
+  }
 
-  Future<void> setInstagramProfiles(List<InstagramProfile> instagramProfiles) async {
+  static Future<void> setInstagramProfiles(
+      List<InstagramProfile> instagramProfiles) async {
     await saveJson(
       AppConstants.INSTAGRAM_PROFILES,
       instagramProfiles.map((e) => e.toJson()).toList(),
@@ -73,31 +74,31 @@ class SharedPreferencesController extends GetxController {
     Logger.i('setInstagramProfiles');
   }
 
-  String? readString(String key) {
+  static String? readString(String key) {
     return sharedPreferences.getString(key);
   }
 
-  Future<bool> saveString(String key, String value) {
+  static Future<bool> saveString(String key, String value) {
     return sharedPreferences.setString(key, value);
   }
 
-  int? readInt(String key) {
+  static int? readInt(String key) {
     return sharedPreferences.getInt(key);
   }
 
-  Future<bool> saveInt(String key, int value) {
+  static Future<bool> saveInt(String key, int value) {
     return sharedPreferences.setInt(key, value);
   }
 
-  bool? readBoolean(String key) {
+  static bool? readBoolean(String key) {
     return sharedPreferences.getBool(key);
   }
 
-  Future<bool> saveBoolean(String key, bool value) {
+  static Future<bool> saveBoolean(String key, bool value) {
     return sharedPreferences.setBool(key, value);
   }
 
-  dynamic readJson(String key) {
+  static dynamic readJson(String key) {
     try {
       return json.decode(
         sharedPreferences.getString(key) ?? '',
@@ -108,7 +109,7 @@ class SharedPreferencesController extends GetxController {
     }
   }
 
-  Future<bool> saveJson(String key, value) {
+  static Future<bool> saveJson(String key, value) {
     return sharedPreferences.setString(
       key,
       json.encode(
@@ -118,11 +119,11 @@ class SharedPreferencesController extends GetxController {
     );
   }
 
-  Future<bool> remove(String key) {
+  static Future<bool> remove(String key) {
     return sharedPreferences.remove(key);
   }
 
-  Future<bool> clear() {
+  static Future<bool> clear() {
     return sharedPreferences.clear();
   }
 }

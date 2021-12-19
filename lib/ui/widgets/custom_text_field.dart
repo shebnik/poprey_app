@@ -71,7 +71,7 @@ class CustomTextField extends StatelessWidget {
               hintText: hint,
               errorText: showError ? errorText : null,
               prefixIcon: prefixIcon,
-              alignLabelWithHint: true,
+              // alignLabelWithHint: true,
               suffixIcon: inputType == InputType.password
                   ? GestureDetector(
                       dragStartBehavior: DragStartBehavior.down,

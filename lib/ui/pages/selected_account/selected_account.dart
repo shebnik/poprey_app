@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loadmore/loadmore.dart';
 import 'package:poprey_app/ui/pages/selected_account/selected_account_controller.dart';
+import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
-import 'package:poprey_app/ui/widgets/future_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class SelectedAccount extends StatefulWidget {
@@ -43,31 +43,8 @@ class _SelectedAccountState extends State<SelectedAccount> {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(32 + 50),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 22),
-            leading: ClipOval(
-              child: Image.network(
-                controller.profile.profilePicUrl,
-                width: 32,
-                height: 32,
-                fit: BoxFit.cover,
-              ),
-            ),
-            title: Text(
-              controller.profile.username,
-              style: Theme.of(context).textTheme.headline3!.apply(
-                    color: AppTheme.primaryBlue,
-                  ),
-            ),
-            subtitle: Text(
-              controller.getFollowers,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            trailing: const Icon(
-              Icons.check_circle,
-              color: AppTheme.primaryBlue,
-              size: 20,
-            ),
+          child: AccountTile(
+            profile: controller.profile,
           ),
         ),
       ),

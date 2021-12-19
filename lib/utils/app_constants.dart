@@ -21,5 +21,4 @@ class AppConstants {
   static const email = 'Email';
 
   static const instagramPostUrl = 'https://www.instagram.com/p/';
-
 }

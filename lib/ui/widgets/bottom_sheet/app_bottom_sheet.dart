@@ -31,42 +31,38 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
   @override
   Widget build(BuildContext context) {
     controller.localization = AppLocalizations.of(context);
-    return SingleChildScrollView(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 300),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            topBar(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Obx(() => CustomTextField(
-                        label: controller.getUrlTitle,
-                        controller: controller.userNameController.value,
-                        inputType: InputType.expandMore,
-                        onExpandMore: controller.expandAccountsPressed,
-                        errorText: controller.userNameErrorText.value,
-                        showError: controller.isUserNameError.value,
-                      )),
-                  Obx(() => CustomTextField(
-                        label: AppConstants.email,
-                        controller: controller.emailController.value,
-                        errorText: controller.emailErrorText.value,
-                        showError: controller.isEmailError.value,
-                      )),
-                  const SizedBox(height: 35),
-                  BottomResetNavigation(
-                    resetPressed: controller.resetPressed,
-                    nextPressed: () => controller.nextPressed(context),
-                  ),
-                ],
+    return Wrap(
+      children: [
+        topBar(),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Obx(() => CustomTextField(
+                    label: controller.getUrlTitle,
+                    controller: controller.userNameController.value,
+                    inputType: controller.profileManager.profiles.isNotEmpty
+                        ? InputType.expandMore
+                        : null,
+                    onExpandMore: controller.expandAccountsPressed,
+                    errorText: controller.userNameErrorText.value,
+                    showError: controller.isUserNameError.value,
+                  )),
+              Obx(() => CustomTextField(
+                    label: AppConstants.email,
+                    controller: controller.emailController.value,
+                    errorText: controller.emailErrorText.value,
+                    showError: controller.isEmailError.value,
+                  )),
+              const SizedBox(height: 35),
+              BottomResetNavigation(
+                resetPressed: controller.resetPressed,
+                nextPressed: () => controller.nextPressed(context),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
