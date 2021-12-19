@@ -22,6 +22,8 @@ class AccountSelector extends StatelessWidget {
         children: [
           ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(vertical: 20),
             itemCount: profileManager.profiles.length,
             itemBuilder: (context, index) {
               var profile = profileManager.profiles[index];
@@ -51,7 +53,6 @@ class AccountSelector extends StatelessWidget {
                   Icon(
                     Icons.add,
                     color: AppTheme.primaryBlue,
-                    size: 14,
                   ),
                   SizedBox(width: 18),
                   Text(
