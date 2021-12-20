@@ -14,7 +14,7 @@ class InstagramProfile {
   final String profilePicUrl;
 
   final String? email;
-  final bool isSelected;
+  final bool? isSelected;
 
   @JsonKey(
     name: 'edge_followed_by',
@@ -31,7 +31,7 @@ class InstagramProfile {
     required this.profilePicUrl,
     required this.followers,
     this.email,
-    this.isSelected = false,
+    this.isSelected,
   });
 
   factory InstagramProfile.fromJson(Map<String, dynamic> json) =>

@@ -12,13 +12,7 @@ class OtherSmTab extends StatefulWidget {
 }
 
 class _OtherSmTabState extends State<OtherSmTab> {
-  late OtherSmTabController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = Get.put(OtherSmTabController());
-  }
+  final OtherSmTabController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {

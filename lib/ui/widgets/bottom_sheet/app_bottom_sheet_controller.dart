@@ -17,8 +17,6 @@ class BottomSheetController extends GetxController {
 
   RxBool isAccountSelector = false.obs;
 
-  BottomSheetController(this.selectedPlan);
-
   AppLocalizations? localization;
 
   RxString userNameErrorText = ''.obs;
@@ -38,6 +36,8 @@ class BottomSheetController extends GetxController {
 
   get getUrlTitle => selectedPlan.urlInfo;
 
+  BottomSheetController(this.selectedPlan);
+
   @override
   void onInit() {
     super.onInit();
@@ -46,12 +46,9 @@ class BottomSheetController extends GetxController {
   }
 
   void setLoginData() {
-    var profiles = profileManager.profiles;
-    if (profiles.isNotEmpty) {
-      var selectedProfile = profiles.first;
-      userNameController.value.text = selectedProfile.username;
-      emailController.value.text = selectedProfile.email ?? '';
-    }
+    final selectedProfile = profileManager.getSelectedProfile();
+    userNameController.value.text = selectedProfile?.username ?? '';
+    emailController.value.text = selectedProfile?.email ?? '';
   }
 
   void clearLoginData() {
@@ -86,9 +83,9 @@ class BottomSheetController extends GetxController {
       mainController.isLoading = false;
     } else {
       Get.back();
-      await InstagramProfilesManager().selectProfile(
-        InstagramProfile.fromJson(instagramUser).copyWith(email: email),
-      );
+      final profile =
+          InstagramProfile.fromJson(instagramUser).copyWith(email: email);
+      await InstagramProfilesManager().selectProfile(profile);
       Get.toNamed(
         SelectedAccount.routeName,
         arguments: [

@@ -11,14 +11,8 @@ class InstagramTab extends StatefulWidget {
 }
 
 class _InstagramTabState extends State<InstagramTab> {
-  late InstagramTabController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = Get.put(InstagramTabController());
-  }
-
+  final InstagramTabController controller = Get.find();
+  
   @override
   Widget build(BuildContext context) {
     return Scrollbar(

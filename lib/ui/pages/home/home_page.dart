@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/home/app_navigation_bar.dart';
 import 'package:poprey_app/ui/pages/home/home_page_controller.dart';
 import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab.dart';
+import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab_controller.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab.dart';
+import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
@@ -22,6 +24,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late HomePageController controller;
+  late InstagramTabController instagramTabController;
+  late OtherSmTabController otherSmTabController;
 
   @override
   void initState() {
@@ -35,6 +39,8 @@ class _HomePageState extends State<HomePage> {
       future: controller.fetchPlans(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data == true) {
+          instagramTabController = Get.put(InstagramTabController());
+          otherSmTabController = Get.put(OtherSmTabController());
           return homeTabs();
         }
         return Container();
@@ -49,7 +55,10 @@ class _HomePageState extends State<HomePage> {
         return CupertinoTabView(
           builder: (context) {
             if (index == 1) {
-              return tabPage(const OtherSmTab(), false);
+              return tabPage(
+                const OtherSmTab(),
+                false,
+              );
             }
             return tabPage(const InstagramTab());
           },

@@ -67,7 +67,7 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
                   )),
               const SizedBox(height: 35),
               BottomResetNavigation(
-                resetPressed: controller.clearLoginData,
+                resetPressed: () => Get.back(),
                 nextPressed: () => controller.nextPressed(context),
               ),
             ],

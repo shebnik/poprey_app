@@ -10,39 +10,60 @@ class AccountTile extends StatelessWidget {
   const AccountTile({
     Key? key,
     required this.profile,
-    this.radius = 32,
+    this.radius = 25,
   }) : super(key: key);
 
-  String get followers =>
-      '${Utils.formatNumber(profile.followers)} followers';
+  String get followers => '${Utils.formatNumber(profile.followers)} followers';
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 22),
-      leading: CircleAvatar(
-        radius: radius,
-        backgroundImage: NetworkImage(
-          profile.profilePicUrl,
-        ),
-      ),
-      title: Text(
-        profile.username,
-        style: Theme.of(context).textTheme.headline3!.apply(
-              color: profile.isSelected ? AppTheme.primaryBlue : Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: radius,
+            backgroundImage: NetworkImage(
+              profile.profilePicUrl,
             ),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                profile.username,
+                style: Theme.of(context).textTheme.headline3!.apply(
+                      color: profile.isSelected ?? false
+                          ? AppTheme.primaryBlue
+                          : Colors.black,
+                    ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                followers,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ],
+          ),
+          if (profile.isSelected ?? false) ...[
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  Icon(
+                    Icons.check_circle,
+                    color: AppTheme.primaryBlue,
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ],
       ),
-      subtitle: Text(
-        followers,
-        style: Theme.of(context).textTheme.subtitle1,
-      ),
-      trailing: profile.isSelected
-          ? const Icon(
-              Icons.check_circle,
-              color: AppTheme.primaryBlue,
-              size: 20,
-            )
-          : null,
     );
   }
 }

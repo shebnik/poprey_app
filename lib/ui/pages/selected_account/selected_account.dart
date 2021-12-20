@@ -23,8 +23,7 @@ class _SelectedAccountState extends State<SelectedAccount> {
   @override
   void initState() {
     super.initState();
-    final args = Get.arguments;
-    controller = Get.put(SelectedAccountController(args[0], args[1]));
+    controller = Get.put(SelectedAccountController());
   }
 
   @override
@@ -45,6 +44,7 @@ class _SelectedAccountState extends State<SelectedAccount> {
           preferredSize: const Size.fromHeight(32 + 50),
           child: AccountTile(
             profile: controller.profile,
+            radius: 16,
           ),
         ),
       ),

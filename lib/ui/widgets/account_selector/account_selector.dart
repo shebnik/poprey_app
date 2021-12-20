@@ -16,17 +16,17 @@ class AccountSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: [
-        ListView.builder(
+        ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 20),
           itemCount: controller.profileManager.profiles.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
             var profile = controller.profileManager.profiles[index];
             return GestureDetector(
               child: AccountTile(
                 profile: profile,
-                // key: UniqueKey(),
               ),
               onTap: () async {
                 await controller.profileManager.selectProfile(profile);

@@ -16,6 +16,7 @@ InstagramProfile _$InstagramProfileFromJson(Map<String, dynamic> json) =>
       followers:
           followersFromJson(json['edge_followed_by'] as Map<String, dynamic>),
       email: json['email'] as String?,
+      isSelected: json['isSelected'] as bool?,
     );
 
 Map<String, dynamic> _$InstagramProfileToJson(InstagramProfile instance) =>
@@ -26,5 +27,6 @@ Map<String, dynamic> _$InstagramProfileToJson(InstagramProfile instance) =>
       'is_private': instance.isPrivate,
       'profile_pic_url_hd': instance.profilePicUrl,
       'email': instance.email,
+      'isSelected': instance.isSelected,
       'edge_followed_by': followersToJson(instance.followers),
     };

@@ -93,17 +93,16 @@ class AppPreferences {
   }
 
   static dynamic readJson(String key) {
-    try {
-      var json = jsonDecode(
-        sharedPreferences.getString(key) ?? '',
+    final json = sharedPreferences.getString(key);
+    if (json != null) {
+      final decodedJson = jsonDecode(
+        json,
         // reviver: Utils.jsonReviver,
       );
       Logger.i('[SharedPreferences] [READ] $key - $json');
-      return json;
-    } catch (e) {
-      Logger.i('[SharedPreferences] [READ] $key - null');
-      return null;
+      return decodedJson;
     }
+    Logger.i('[SharedPreferences] [READ] $key - null');
   }
 
   static Future<bool> saveJson(String key, value) {
