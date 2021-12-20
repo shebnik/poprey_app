@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/models/instagram_model.dart';
@@ -8,10 +7,10 @@ import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesController extends GetxController {
+class AppPreferences {
   static late final SharedPreferences sharedPreferences;
 
-  InstagramModel? getInstagramModel() {
+  static InstagramModel? getInstagramModel() {
     try {
       final json = readJson(AppConstants.INSTAGRAM_MODEL);
       if (json != null) {
@@ -23,16 +22,14 @@ class SharedPreferencesController extends GetxController {
     }
   }
 
-  Future<void> setInstagramModel(InstagramModel instagramModel) async {
+  static Future<void> setInstagramModel(InstagramModel instagramModel) async {
     await saveJson(
       AppConstants.INSTAGRAM_MODEL,
       instagramModel.toJson(),
     );
-    Logger.i('set InstagramModel');
-    update();
   }
 
-  SMPlansModel? getSMPlansModel() {
+  static SMPlansModel? getSMPlansModel() {
     try {
       final json = readJson(AppConstants.ADDITIONAL_PLANS_MODEL);
       if (json != null) {
@@ -44,13 +41,11 @@ class SharedPreferencesController extends GetxController {
     }
   }
 
-  Future<void> setSMPlansModel(SMPlansModel additionalModel) async {
+  static Future<void> setSMPlansModel(SMPlansModel additionalModel) async {
     await saveJson(
       AppConstants.ADDITIONAL_PLANS_MODEL,
       additionalModel.toJson(),
     );
-    Logger.i('set AdditionalPlansModel');
-    update();
   }
 
   static List<InstagramProfile>? getInstagramProfiles() {
@@ -71,7 +66,6 @@ class SharedPreferencesController extends GetxController {
       AppConstants.INSTAGRAM_PROFILES,
       instagramProfiles.map((e) => e.toJson()).toList(),
     );
-    Logger.i('setInstagramProfiles');
   }
 
   static String? readString(String key) {

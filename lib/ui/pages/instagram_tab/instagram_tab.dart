@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab_controller.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
 
@@ -27,28 +26,21 @@ class _InstagramTabState extends State<InstagramTab> {
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
-          child: ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return GetBuilder<SharedPreferencesController>(
-                init: Get.find<SharedPreferencesController>(),
-                builder: (value) {
-                  var model = controller.getPlanModelByIndex(
-                      index, value.getInstagramModel());
-                  if (model != null) {
-                    return SelectionSlider(
-                      model: model,
-                      key: Key('${model.platform}-${model.countInfo}'),
-                    );
-                  }
-                  return Container();
-                },
-              );
-            },
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-          ),
+          child: Obx(() {
+            return ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: controller.slidersList.value.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final model = controller.slidersList.value[index];
+                return SelectionSlider(
+                  model: model,
+                  key: Key('${model.platform}-${model.countInfo}'),
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
+            );
+          }),
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/home/app_navigation_bar.dart';
-import 'package:poprey_app/ui/pages/home/home_controller.dart';
+import 'package:poprey_app/ui/pages/home/home_page_controller.dart';
 import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab.dart';
 import 'package:poprey_app/utils/app_assets.dart';
@@ -11,26 +11,38 @@ import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Home extends StatefulWidget {
+class HomePage extends StatefulWidget {
   static const routeName = '/';
 
-  const Home({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
-  late HomeController controller;
+class _HomePageState extends State<HomePage> {
+  late HomePageController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(HomeController());
+    controller = Get.put(HomePageController());
   }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: controller.fetchPlans(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data == true) {
+          return homeTabs();
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget homeTabs() {
     return CupertinoTabScaffold(
       controller: controller.cupertinoTabController,
       tabBuilder: (context, index) {

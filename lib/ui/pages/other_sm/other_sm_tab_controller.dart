@@ -1,15 +1,23 @@
 import 'package:get/state_manager.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/models/sm_plans_model.dart';
+import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class OtherSmTabController extends GetxController {
   late SMPlansModel smPLansModel;
 
-  Rx<List<SelectionSliderModel>> selectionSliderModel = Rx([]);
+  Rx<List<SelectionSliderModel>> slidersList = Rx([]);
 
   RxInt selectedIndex = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    smPLansModel = AppPreferences.getSMPlansModel()!;
+    updateList();
+  }
 
   void onSelected(int index) {
     if (index == selectedIndex.value) return;
@@ -17,46 +25,47 @@ class OtherSmTabController extends GetxController {
     updateList();
   }
 
-  void setModel(SMPlansModel model) {
-    smPLansModel = model;
-    updateList();
-  }
-
   void updateList() {
     switch (selectedIndex.value) {
       case 0:
         // All
-        selectionSliderModel.value = _all;
+        slidersList.value = _all;
         break;
       case 1:
         // YouTube
-        selectionSliderModel.value = _youTube;
+        slidersList.value = _youTube;
         break;
       case 2:
         // TikTok
-        selectionSliderModel.value = _tikTok;
+        slidersList.value = _tikTok;
         break;
       case 3:
         // Facebook
-        selectionSliderModel.value = _facebook;
+        slidersList.value = _facebook;
         break;
       case 4:
         // Spotify
-        selectionSliderModel.value = _spotify;
+        slidersList.value = _spotify;
         break;
       case 5:
         // Twitter
-        selectionSliderModel.value = _twitter;
+        slidersList.value = _twitter;
         break;
       case 6:
         // VK
-        selectionSliderModel.value = _vk;
+        slidersList.value = _vk;
         break;
     }
   }
 
-  List<SelectionSliderModel> get _all =>
-      [..._youTube, ..._tikTok, ..._facebook, ..._spotify, ..._twitter, ..._vk];
+  List<SelectionSliderModel> get _all => [
+        ..._youTube,
+        ..._tikTok,
+        ..._facebook,
+        ..._spotify,
+        ..._twitter,
+        ..._vk,
+      ];
 
   List<SelectionSliderModel> get _youTube => smPLansModel.youtube.entries
       .map((e) => SelectionSliderModel.fromMap(

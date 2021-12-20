@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
 import 'other_sm_selection_list.dart';
@@ -34,14 +33,7 @@ class _OtherSmTabState extends State<OtherSmTab> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                child: GetBuilder<SharedPreferencesController>(
-                  builder: (value) {
-                    final model = value.getSMPlansModel();
-                    if (model == null) return Container();
-                    controller.setModel(model);
-                    return listView();
-                  },
-                ),
+                child: listView(),
               ),
             ),
           ),
@@ -52,7 +44,7 @@ class _OtherSmTabState extends State<OtherSmTab> {
 
   Widget listView() {
     return Obx(() {
-      var model = controller.selectionSliderModel.value;
+      var model = controller.slidersList.value;
       return ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         itemCount: model.length,

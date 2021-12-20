@@ -1,11 +1,11 @@
 import 'package:poprey_app/models/instagram_profile.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
+import 'package:poprey_app/services/app_preferences.dart';
 
 class InstagramProfilesManager {
   late List<InstagramProfile> profiles;
 
   InstagramProfilesManager() {
-    profiles = SharedPreferencesController.getInstagramProfiles() ?? [];
+    profiles = AppPreferences.getInstagramProfiles() ?? [];
     profiles.sort((key1, key2) => key1.isSelected == true ? 1 : -1);
   }
 
@@ -24,6 +24,6 @@ class InstagramProfilesManager {
       profile.copyWith(isSelected: true),
     );
     
-    await SharedPreferencesController.setInstagramProfiles(profiles);
+    await AppPreferences.setInstagramProfiles(profiles);
   }
 }

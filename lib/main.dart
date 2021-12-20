@@ -1,8 +1,8 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
-import 'package:poprey_app/services/shared_preferences.dart';
-import 'package:poprey_app/ui/pages/home/home.dart';
+import 'package:poprey_app/services/app_preferences.dart';
+import 'package:poprey_app/ui/pages/home/home_page.dart';
 import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
 import 'package:poprey_app/ui/widgets/splash_loading.dart';
 import 'package:poprey_app/utils/app_theme.dart';
@@ -17,7 +17,7 @@ void main() async {
   Logger.i('[App] Starting app..');
   WidgetsFlutterBinding.ensureInitialized();
 
-  SharedPreferencesController.sharedPreferences =
+  AppPreferences.sharedPreferences =
       await SharedPreferences.getInstance();
 
   initRoutePath = AuthService.defineInitRoutePath();
@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MainController controller = Get.put(MainController());
-    Get.put(SharedPreferencesController());
     controller.prepare();
 
     return GetMaterialApp(
@@ -53,8 +52,8 @@ class MyApp extends StatelessWidget {
       initialRoute: initRoutePath,
       getPages: [
         GetPage(
-          name: Home.routeName,
-          page: () => const Home(),
+          name: HomePage.routeName,
+          page: () => const HomePage(),
         ),
         GetPage(
           name: SelectedAccount.routeName,

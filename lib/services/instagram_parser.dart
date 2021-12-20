@@ -93,7 +93,6 @@ class InstagramParser {
   }
 
   static bool isPrivateProfile(Map<String, dynamic> insagramUser) {
-    print(insagramUser['is_private']);
     return insagramUser['is_private'] as bool;
   }
 }

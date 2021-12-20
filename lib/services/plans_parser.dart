@@ -42,13 +42,13 @@ class PlansParser {
     }
   }
 
-  static Future<Map<String, dynamic>?> getAdditionalPlans() async {
+  static Future<Map<String, dynamic>?> getSMPlans() async {
     Map? plans = await parsePlanURL(additionalServicesUrl);
     if (plans != null) {
-      Logger.i('[PlansParser] getAdditionalPlans - Ok');
+      Logger.i('[PlansParser] getSMPlans - Ok');
       return plans['data'];
     } else {
-      Logger.e('[PlansParser] getAdditionalPlans - Error');
+      Logger.e('[PlansParser] getSMPlans - Error');
       return null;
     }
   }
