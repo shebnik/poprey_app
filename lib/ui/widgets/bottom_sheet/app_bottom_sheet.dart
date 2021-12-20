@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
+import 'package:poprey_app/ui/widgets/account_selector/account_selector.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/app_bottom_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
@@ -31,9 +32,19 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
   @override
   Widget build(BuildContext context) {
     controller.localization = AppLocalizations.of(context);
+    return Obx(
+      () => SafeArea(
+        child: controller.isAccountSelector.value
+            ? AccountSelector(controller: controller)
+            : urlEmail(),
+      ),
+    );
+  }
+
+  Widget urlEmail() {
     return Wrap(
       children: [
-        topBar(),
+        titleWidget(),
         Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -56,7 +67,7 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
                   )),
               const SizedBox(height: 35),
               BottomResetNavigation(
-                resetPressed: controller.resetPressed,
+                resetPressed: controller.clearLoginData,
                 nextPressed: () => controller.nextPressed(context),
               ),
             ],
@@ -66,7 +77,7 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
     );
   }
 
-  Widget topBar() {
+  Widget titleWidget() {
     return Container(
       height: 60,
       width: double.infinity,

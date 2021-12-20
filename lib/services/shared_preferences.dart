@@ -100,19 +100,23 @@ class SharedPreferencesController extends GetxController {
 
   static dynamic readJson(String key) {
     try {
-      return json.decode(
+      var json = jsonDecode(
         sharedPreferences.getString(key) ?? '',
         // reviver: Utils.jsonReviver,
       );
+      Logger.i('[SharedPreferences] [READ] $key - $json');
+      return json;
     } catch (e) {
+      Logger.i('[SharedPreferences] [READ] $key - null');
       return null;
     }
   }
 
   static Future<bool> saveJson(String key, value) {
+    Logger.i('[SharedPreferences] [SAVE] $key - $value');
     return sharedPreferences.setString(
       key,
-      json.encode(
+      jsonEncode(
         value,
         // toEncodable: Utils.dateSerializer,
       ),

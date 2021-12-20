@@ -8,14 +8,14 @@ import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
-import 'package:poprey_app/ui/widgets/account_selector/account_selector.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/utils.dart';
 
 class BottomSheetController extends GetxController {
   SelectedPlan selectedPlan;
 
   late InstagramProfilesManager profileManager;
+
+  RxBool isAccountSelector = false.obs;
 
   BottomSheetController(this.selectedPlan);
 
@@ -41,8 +41,11 @@ class BottomSheetController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print('BottomSheetController onInit');
     profileManager = InstagramProfilesManager();
+    setLoginData();
+  }
+
+  void setLoginData() {
     var profiles = profileManager.profiles;
     if (profiles.isNotEmpty) {
       var selectedProfile = profiles.first;
@@ -51,18 +54,13 @@ class BottomSheetController extends GetxController {
     }
   }
 
-  void expandAccountsPressed() {
-    Get.back();
-    Widgets.showBottomSheet(
-      AccountSelector(
-        selectedPlan: selectedPlan,
-      ),
-    );
-  }
-
-  void resetPressed() {
+  void clearLoginData() {
     userNameController.value.text = '';
     emailController.value.text = '';
+  }
+
+  void expandAccountsPressed() {
+    isAccountSelector.value = true;
   }
 
   Future<void> nextPressed(BuildContext context) async {
