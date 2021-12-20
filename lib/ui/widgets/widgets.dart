@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class Widgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());
-
+  
   static void showBottomSheet(Widget widget) {
     Get.bottomSheet(
       widget,

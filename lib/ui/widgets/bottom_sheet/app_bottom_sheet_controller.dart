@@ -67,7 +67,7 @@ class BottomSheetController extends GetxController {
     if (!validate(userName, email)) return;
     FocusScope.of(context).unfocus();
 
-    mainController.isLoading = true;
+    // mainController.isLoading = true;
 
     final instagramUser = await InstagramParser.fetchInstagramProfile(userName);
 
@@ -80,9 +80,9 @@ class BottomSheetController extends GetxController {
       userNameErrorText.value = localization?.privateProfile ??
           'Please, open your profile and try again';
       isUserNameError.value = true;
-      mainController.isLoading = false;
+      // mainController.isLoading = false;
     } else {
-      Get.back();
+      // Get.back();
       final profile =
           InstagramProfile.fromJson(instagramUser).copyWith(email: email);
       await InstagramProfilesManager().selectProfile(profile);

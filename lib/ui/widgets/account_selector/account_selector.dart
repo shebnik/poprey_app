@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
+import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/app_bottom_sheet_controller.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
@@ -36,36 +37,15 @@ class AccountSelector extends StatelessWidget {
             );
           },
         ),
-        Container(
-          color: const Color(0xFFC6C6C9),
-          width: double.infinity,
-          height: 0.4,
-        ),
+        const Divider(height: 0.5),
         Padding(
           padding: const EdgeInsets.all(32),
-          child: TextButton(
+          child: AddButton(
+            text: 'Add Account',
             onPressed: () {
               controller.clearLoginData();
               controller.isAccountSelector.value = false;
             },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.add,
-                  color: AppTheme.primaryBlue,
-                ),
-                SizedBox(width: 18),
-                Text(
-                  'Add Account',
-                  style: TextStyle(
-                    fontFamily: AppConstants.SFProText,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ],

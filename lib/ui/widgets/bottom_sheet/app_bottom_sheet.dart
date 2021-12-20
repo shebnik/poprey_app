@@ -6,6 +6,7 @@ import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/app_bottom_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class AppBottomSheet extends StatefulWidget {
@@ -85,16 +86,9 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          Positioned(
+          const Positioned(
             top: 8,
-            child: Container(
-              width: 35,
-              height: 4,
-              decoration: const BoxDecoration(
-                color: Color(0xFFE1E4E8),
-                borderRadius: BorderRadius.all(Radius.circular(100)),
-              ),
-            ),
+            child: HomeIndicator(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

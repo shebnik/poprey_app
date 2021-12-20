@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
+import 'package:poprey_app/utils/app_theme.dart';
 import 'other_sm_selection_list.dart';
 
 class OtherSmTab extends StatefulWidget {
@@ -20,9 +21,10 @@ class _OtherSmTabState extends State<OtherSmTab> {
       children: [
         OtherSMSelectionList(controller: controller),
         Expanded(
-          child: Scrollbar(
-            isAlwaysShown: false,
-            thickness: 5,
+          child: RawScrollbar(
+            crossAxisMargin: 2,
+            thumbColor: AppTheme.primary,
+            radius: const Radius.circular(30),
             child: SingleChildScrollView(
               child: Padding(
                 padding:

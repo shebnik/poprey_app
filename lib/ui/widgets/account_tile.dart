@@ -6,11 +6,13 @@ import 'package:poprey_app/utils/utils.dart';
 class AccountTile extends StatelessWidget {
   final InstagramProfile profile;
   final double radius;
+  final bool selectable;
 
   const AccountTile({
     Key? key,
     required this.profile,
     this.radius = 25,
+    this.selectable = false,
   }) : super(key: key);
 
   String get followers => '${Utils.formatNumber(profile.followers)} followers';
@@ -48,20 +50,27 @@ class AccountTile extends StatelessWidget {
               ),
             ],
           ),
-          if (profile.isSelected ?? false) ...[
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Icon(
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (profile.isSelected ?? false) ...[
+                  const Icon(
                     Icons.check_circle,
                     color: AppTheme.primaryBlue,
                     size: 20,
                   ),
                 ],
-              ),
+                if (profile.isSelected == false && selectable) ...[
+                  const Icon(
+                    Icons.circle_outlined,
+                    color: Color(0xFFC6C6C9),
+                    size: 20,
+                  ),
+                ],
+              ],
             ),
-          ],
+          ),
         ],
       ),
     );

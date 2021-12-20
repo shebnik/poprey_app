@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:loadmore/loadmore.dart';
 import 'package:poprey_app/ui/pages/selected_account/selected_account_controller.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
+import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
+import 'package:poprey_app/ui/widgets/home_indicator.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class SelectedAccount extends StatefulWidget {
@@ -40,13 +43,13 @@ class _SelectedAccountState extends State<SelectedAccount> {
                 color: AppTheme.primary,
               ),
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(32 + 50),
-          child: AccountTile(
-            profile: controller.profile,
-            radius: 16,
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: const Size.fromHeight(32),
+        //   child: AccountTile(
+        //     profile: controller.profile,
+        //     radius: 16,
+        //   ),
+        // ),
       ),
       body: SafeArea(
         child: pageBody(),
@@ -77,53 +80,133 @@ class _SelectedAccountState extends State<SelectedAccount> {
   Widget pageBody() {
     return Stack(
       children: [
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 26.0),
-                child: Text(
-                  'Choose Posts',
-                  style: Theme.of(context).textTheme.headline3!.apply(
-                        color: AppTheme.primary,
-                      ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 38),
-                child: Obx(() => postsGrid()),
-              ),
-            ],
-          ),
-          // IgnorePointer(
-          //   child: Align(
-          //     alignment: Alignment.bottomCenter,
-          //     child: Container(
-          //       height: MediaQuery.of(context).size.height / 3.6,
-          //       decoration: const BoxDecoration(
-          //         gradient: LinearGradient(
-          //           colors: [
-          //             Color.fromRGBO(196, 196, 196, 1),
-          //             Color.fromRGBO(196, 196, 196, 0),
-          //           ],
-          //           begin: Alignment.bottomCenter,
-          //           end: Alignment.topCenter,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            accountsWidget(),
+            const SizedBox(height: 26),
+            Text(
+              'Choose Posts',
+              style: Theme.of(context).textTheme.headline3!.apply(
+                    color: AppTheme.primary,
+                  ),
+            ),
+            const SizedBox(height: 22),
+            Expanded(
+              child: choosePosts(),
+            ),
+          ],
         ),
+
+        // IgnorePointer(
+        //   child: Align(
+        //     alignment: Alignment.bottomCenter,
+        //     child: Container(
+        //       height: MediaQuery.of(context).size.height / 3.6,
+        //       decoration: const BoxDecoration(
+        //         gradient: LinearGradient(
+        //           colors: [
+        //             Color.fromRGBO(247, 248, 251, 1),
+        //             Color.fromRGBO(247, 248, 251, 0),
+        //           ],
+        //           begin: Alignment.bottomCenter,
+        //           end: Alignment.topCenter,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
 
+  Widget accountsWidget() {
+    return Container(
+      color: const Color(0xFFF7F8FB),
+      child: Obx(() {
+        return GestureDetector(
+          onVerticalDragEnd: (details) => controller.toggleList(),
+          child: Column(
+            children: [
+              ListView.builder(
+                controller: ScrollController(),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.getAccountListCount(),
+                itemBuilder: (context, index) {
+                  var profile = controller.profilesManager.profiles[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: GestureDetector(
+                      onTap: () => controller.accountSelected(profile),
+                      child: AccountTile(
+                        profile: profile,
+                        radius: 16,
+                        selectable: true,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              if (controller.isAccountListShown.value) ...[
+                const Divider(height: 0.5),
+                Padding(
+                  padding: const EdgeInsets.only(top: 22),
+                  child: AddButton(
+                    text: 'Add Account',
+                    onPressed: controller.addAccount,
+                  ),
+                ),
+              ],
+              GestureDetector(
+                onTap: controller.toggleList,
+                onVerticalDragEnd: (details) => controller.toggleList(),
+                child: SizedBox(
+                  height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      HomeIndicator(),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget choosePosts() {
+    return RawScrollbar(
+      crossAxisMargin: 15,
+      thumbColor: AppTheme.primary,
+      radius: const Radius.circular(30),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 38),
+          child: Column(
+            children: [
+              postsGrid(),
+              const SizedBox(height: 16),
+              Obx(
+                () => controller.isPostsLoading.value
+                    ? Widgets.loading
+                    : const SizedBox.shrink(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget postsGrid() {
-    return LoadMore(
-      onLoadMore: controller.loadMore,
-      isFinish: controller.posts.length >= 48,
-      child: GridView.builder(
+    return Obx(() {
+      return GridView.builder(
         shrinkWrap: true,
+        controller: ScrollController(),
         physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.posts.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -175,7 +258,7 @@ class _SelectedAccountState extends State<SelectedAccount> {
             );
           });
         },
-      ),
-    );
+      );
+    });
   }
 }
