@@ -22,11 +22,29 @@ class SelectedAccount extends StatefulWidget {
 
 class _SelectedAccountState extends State<SelectedAccount> {
   late final SelectedAccountController controller;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     controller = Get.put(SelectedAccountController());
+    _scrollController = ScrollController()..addListener(handleScrolling);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(handleScrolling);
+    super.dispose();
+  }
+
+  void handleScrolling() {
+    if (_scrollController.offset >=
+        _scrollController.position.maxScrollExtent) {
+      print(controller.posts.length);
+      if (!controller.isPostsLoading.value && controller.posts.length < 48) {
+        controller.loadMore();
+      }
+    }
   }
 
   @override
@@ -184,6 +202,7 @@ class _SelectedAccountState extends State<SelectedAccount> {
       thumbColor: AppTheme.primary,
       radius: const Radius.circular(30),
       child: SingleChildScrollView(
+        controller: _scrollController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
           child: Column(
@@ -206,7 +225,6 @@ class _SelectedAccountState extends State<SelectedAccount> {
     return Obx(() {
       return GridView.builder(
         shrinkWrap: true,
-        controller: ScrollController(),
         physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.posts.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
