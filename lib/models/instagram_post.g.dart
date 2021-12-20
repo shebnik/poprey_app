@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'insagram_post.dart';
+part of 'instagram_post.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-InsagramPost _$InsagramPostFromJson(Map<String, dynamic> json) => InsagramPost(
+InstagramPost _$InstagramPostFromJson(Map<String, dynamic> json) =>
+    InstagramPost(
       shortcode: json['shortcode'] as String,
       thumbnailSrc: json['thumbnail_src'] as String,
     );

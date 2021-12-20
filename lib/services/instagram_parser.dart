@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:poprey_app/models/insagram_post.dart';
+import 'package:poprey_app/models/instagram_post.dart';
 import 'package:poprey_app/utils/logger.dart';
 import 'package:http/http.dart' as http;
 

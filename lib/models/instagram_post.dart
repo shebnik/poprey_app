@@ -1,21 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'insagram_post.g.dart';
+part 'instagram_post.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
-class InsagramPost {
+class InstagramPost {
   final String shortcode;
 
   @JsonKey(name: 'thumbnail_src')
   final String thumbnailSrc;
 
-  InsagramPost({
+  InstagramPost({
     required this.shortcode,
     required this.thumbnailSrc,
   });
 
-  factory InsagramPost.fromJson(Map<String, dynamic> json) =>
-      _$InsagramPostFromJson(json);
+  factory InstagramPost.fromJson(Map<String, dynamic> json) =>
+      _$InstagramPostFromJson(json);
 
   @override
   String toString() =>

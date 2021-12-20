@@ -225,6 +225,19 @@ class _SelectedAccountState extends State<SelectedAccount> {
                   children: [
                     Image.network(
                       post.thumbnailSrc,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
                     ),
                     if (controller.selectedPosts.contains(post)) ...[
                       Container(

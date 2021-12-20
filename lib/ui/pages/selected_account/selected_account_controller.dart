@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
-import 'package:poprey_app/models/insagram_post.dart';
+import 'package:poprey_app/models/instagram_post.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
@@ -20,8 +21,8 @@ class SelectedAccountController extends GetxController {
   RxBool isPostsLoading = true.obs;
   RxBool isAccountListShown = false.obs;
 
-  RxList<InsagramPost> posts = <InsagramPost>[].obs;
-  RxList<InsagramPost> selectedPosts = <InsagramPost>[].obs;
+  RxList<InstagramPost> posts = <InstagramPost>[].obs;
+  RxList<InstagramPost> selectedPosts = <InstagramPost>[].obs;
 
   String get count => selectedPosts.isEmpty
       ? ''
@@ -41,13 +42,20 @@ class SelectedAccountController extends GetxController {
     pageInfo = PageInfo.fromJson(data['page_info']);
 
     final edges = data['edges'] as List<dynamic>;
-    posts.value = edges.map((e) => InsagramPost.fromJson(e['node'])).toList();
 
-    await loadMore();
+    await loadMore(
+      initialData: edges.map((e) => InstagramPost.fromJson(e['node'])).toList(),
+    );
   }
 
-  Future<bool> loadMore() async {
-    if (pageInfo.hasNextPage == false) return false;
+  Future<bool> loadMore({List<InstagramPost>? initialData}) async {
+    if (pageInfo.hasNextPage == false) {
+      if (initialData != null) {
+        posts.value = initialData;
+      }
+      isPostsLoading.value = false;
+      return false;
+    }
 
     isPostsLoading.value = true;
     final data = await InstagramParser.fetchInsagramPosts(profile.id, pageInfo);
@@ -59,8 +67,8 @@ class SelectedAccountController extends GetxController {
 
     final edges = data['edges'] as List<dynamic>;
     posts.value = [
-      ...posts,
-      ...edges.map((e) => InsagramPost.fromJson(e['node'])).toList(),
+      ...initialData ?? posts,
+      ...edges.map((e) => InstagramPost.fromJson(e['node'])).toList(),
     ];
     isPostsLoading.value = false;
     return true;
@@ -70,7 +78,7 @@ class SelectedAccountController extends GetxController {
     return AppConstants.instagramPostUrl + posts[index].shortcode;
   }
 
-  void postSelected(InsagramPost post) {
+  void postSelected(InstagramPost post) {
     if (selectedPosts.contains(post)) {
       selectedPosts.remove(post);
     } else {
