@@ -3,11 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
-
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
-import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
+import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
 import 'package:poprey_app/utils/utils.dart';
 
 class BottomSheetController extends GetxController {
@@ -82,17 +81,20 @@ class BottomSheetController extends GetxController {
       isUserNameError.value = true;
       // mainController.isLoading = false;
     } else {
-      // Get.back();
       final profile =
           InstagramProfile.fromJson(instagramUser).copyWith(email: email);
       await InstagramProfilesManager().selectProfile(profile);
-      Get.toNamed(
-        SelectedAccount.routeName,
-        arguments: [
-          selectedPlan.copyWith(url: userName, email: email),
-          instagramUser,
-        ],
-      );
+
+      Get.back();
+      if (['Likes', 'Views', 'Comments'].contains(selectedPlan.countInfo)) {
+        Get.toNamed(
+          ChoosePosts.routeName,
+          arguments: [
+            selectedPlan.copyWith(url: userName, email: email),
+            instagramUser,
+          ],
+        );
+      }
     }
   }
 

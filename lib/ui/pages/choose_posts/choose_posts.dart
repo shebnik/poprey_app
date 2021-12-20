@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:loadmore/loadmore.dart';
-import 'package:poprey_app/ui/pages/selected_account/selected_account_controller.dart';
+import 'package:poprey_app/ui/pages/choose_posts/choose_posts_controller.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
+import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
-class SelectedAccount extends StatefulWidget {
+class ChoosePosts extends StatefulWidget {
   static const routeName = '/selectedAccount';
 
-  const SelectedAccount({
+  const ChoosePosts({
     Key? key,
   }) : super(key: key);
 
   @override
-  _SelectedAccountState createState() => _SelectedAccountState();
+  _ChoosePostsState createState() => _ChoosePostsState();
 }
 
-class _SelectedAccountState extends State<SelectedAccount> {
-  late final SelectedAccountController controller;
+class _ChoosePostsState extends State<ChoosePosts> {
+  late final ChoosePostsController controller;
   late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(SelectedAccountController());
+    controller = Get.put(ChoosePostsController());
     _scrollController = ScrollController()..addListener(handleScrolling);
   }
 
@@ -40,7 +41,6 @@ class _SelectedAccountState extends State<SelectedAccount> {
   void handleScrolling() {
     if (_scrollController.offset >=
         _scrollController.position.maxScrollExtent) {
-      print(controller.posts.length);
       if (!controller.isPostsLoading.value && controller.posts.length < 48) {
         controller.loadMore();
       }
@@ -85,7 +85,7 @@ class _SelectedAccountState extends State<SelectedAccount> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.only(right: 12, top: 20),
+          padding: const EdgeInsets.all(16),
           child: BottomResetNavigation(
             resetPressed: controller.resetPressed,
             nextPressed: () => controller.nextPressed(context),
@@ -269,10 +269,7 @@ class _SelectedAccountState extends State<SelectedAccount> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
-                                Icons.favorite,
-                                color: Colors.white,
-                              ),
+                              selectIcon(),
                               const SizedBox(height: 6),
                               Text(
                                 controller.count,
@@ -291,5 +288,17 @@ class _SelectedAccountState extends State<SelectedAccount> {
         },
       );
     });
+  }
+
+  Widget selectIcon() {
+    switch (controller.selectedPlan.countInfo) {
+      case 'Likes':
+        return const Icon(Icons.favorite, color: Colors.white);
+      case 'Views':
+        return const Icon(Icons.visibility, color: Colors.white);
+      case 'Comments':
+        return SvgPicture.asset(AppAssets.commentIcon);
+    }
+    return const SizedBox();
   }
 }

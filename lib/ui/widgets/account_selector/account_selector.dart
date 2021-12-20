@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_sheet/app_bottom_sheet_controller.dart';
-import 'package:poprey_app/utils/app_constants.dart';
-import 'package:poprey_app/utils/app_theme.dart';
 
 class AccountSelector extends StatelessWidget {
   final BottomSheetController controller;

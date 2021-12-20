@@ -20,4 +20,6 @@ class AppAssets {
   static const spotify = '$imagesPath/spotify.svg';
   static const twitter = '$imagesPath/twitter.svg';
   static const vk = '$imagesPath/vk.svg';
+
+  static const commentIcon = '$imagesPath/ic-comment.svg';
 }

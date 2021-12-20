@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/instagram_post.dart';
@@ -9,7 +8,7 @@ import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
-class SelectedAccountController extends GetxController {
+class ChoosePostsController extends GetxController {
   final mainController = Get.find<MainController>();
 
   late final InstagramProfilesManager profilesManager;
@@ -28,7 +27,7 @@ class SelectedAccountController extends GetxController {
       ? ''
       : (selectedPlan.planPrice.count ~/ (selectedPosts.length)).toString();
 
-  SelectedAccountController() {
+  ChoosePostsController() {
     profilesManager = InstagramProfilesManager();
     final args = Get.arguments as List<dynamic>;
     selectedPlan = args[0];

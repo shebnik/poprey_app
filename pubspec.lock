@@ -392,13 +392,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  loadmore:
-    dependency: "direct main"
-    description:
-      name: loadmore
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   logging:
     dependency: transitive
     description:
@@ -427,13 +420,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   package_config:
     dependency: transitive
     description:
@@ -518,13 +504,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
-  provider:
-    dependency: "direct main"
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.1"
   pub_semver:
     dependency: transitive
     description:
@@ -614,13 +593,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  snapping_sheet:
-    dependency: "direct main"
-    description:
-      name: snapping_sheet
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   source_gen:
     dependency: transitive
     description:
