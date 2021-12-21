@@ -37,14 +37,13 @@ class Widgets {
       snackStyle: SnackStyle.GROUNDED,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppTheme.primary,
-      colorText: Colors.black,
+      colorText: Colors.white,
       duration: duration ?? const Duration(seconds: 5),
       mainButton: TextButton(
         onPressed: onPressed ?? () => Get.back(),
         child: Text(
           buttonText ?? 'OK',
           style: const TextStyle(
-            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),

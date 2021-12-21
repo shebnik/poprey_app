@@ -17,7 +17,7 @@ class LoginSheetController extends GetxController {
   final VoidCallback chooseAccount;
   final void Function(
     InstagramProfile profile,
-    Map<String, dynamic> instagramUser,
+    Map<String, dynamic>? instagramUser,
   ) profileSelected;
 
   LoginSheetController({
@@ -45,17 +45,20 @@ class LoginSheetController extends GetxController {
       '${selectedPlan.platform} ${Utils.formatNumber(selectedPlan.planPrice.count)} ${selectedPlan.countInfo}';
 
   get getUrlTitle => selectedPlan.urlInfo;
+
   Future<void> nextPressed(BuildContext context) async {
     String userName = userNameController.value.text.trim();
     String email = emailController.value.text.trim().toLowerCase();
 
     if (!validate(userName, email)) return;
     FocusScope.of(context).unfocus();
-    if(profilesManager.isProfileExists(userName)) {
-      // TODO
-    }
-
     if (Utils.isOnline() == false) return;
+
+    final profile = profilesManager.getProfile(userName);
+    if (profile != null) {
+      profileSelected(profile, null);
+      return;
+    }
 
     toggleLoading(true);
     final instagramUser = await InstagramParser.fetchInstagramProfile(userName);
@@ -64,21 +67,16 @@ class LoginSheetController extends GetxController {
       userNameErrorText.value = appLocalizations?.userNameError ??
           'Please, enter the correct username and try again';
       isUserNameError.value = true;
-
-      toggleLoading(false);
     } else if (InstagramParser.isPrivateProfile(instagramUser)) {
       userNameErrorText.value = appLocalizations?.privateProfile ??
           'Please, open your profile and try again';
       isUserNameError.value = true;
-
-      toggleLoading(false);
     } else {
       final profile =
           InstagramProfile.fromJson(instagramUser).copyWith(email: email);
-      await profilesManager.selectProfile(profile);
-      toggleLoading(false);
       profileSelected(profile, instagramUser);
     }
+    toggleLoading(false);
   }
 
   bool validate(String userName, String email) {

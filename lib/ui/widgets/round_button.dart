@@ -1,22 +1,23 @@
-
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+  final int fontWeightDelta;
+  final bool? disabled;
+
   const RoundButton({
     Key? key,
     required this.title,
     required this.onPressed,
     this.fontWeightDelta = 0,
+    this.disabled,
   }) : super(key: key);
-
-  final String title;
-  final VoidCallback onPressed;
-  final int fontWeightDelta;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: disabled ?? false ? null : onPressed,
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(

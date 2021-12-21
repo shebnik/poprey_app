@@ -6,12 +6,14 @@ import 'package:poprey_app/ui/widgets/add_button.dart';
 class ChooseAccount extends StatelessWidget {
   final List<InstagramProfile> profiles;
   final void Function(InstagramProfile profile) profileSelected;
+  final void Function(InstagramProfile profile) profileRemoved;
   final VoidCallback addAccount;
 
-  const ChooseAccount({
+  ChooseAccount({
     Key? key,
     required this.profiles,
     required this.profileSelected,
+    required this.profileRemoved,
     required this.addAccount,
   }) : super(key: key);
 
@@ -20,6 +22,7 @@ class ChooseAccount extends StatelessWidget {
     // TODO: MaxHeight = screen / 2
     return SafeArea(
       child: Wrap(
+        alignment: WrapAlignment.center,
         children: [
           ListView.separated(
             shrinkWrap: true,
@@ -34,6 +37,8 @@ class ChooseAccount extends StatelessWidget {
                   profile: profile,
                 ),
                 onTap: () => profileSelected(profile),
+                onTapDown: _storePosition,
+                onLongPress: () => showPopUpMenu(context, profile),
               );
             },
           ),
@@ -48,5 +53,47 @@ class ChooseAccount extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  late Offset globalPosition;
+
+  void _storePosition(TapDownDetails details) {
+    globalPosition = details.globalPosition;
+  }
+
+  Future<void> showPopUpMenu(context, profile) async {
+    double dx = globalPosition.dx;
+    double dy = globalPosition.dy;
+    await showMenu(
+      color: Colors.white,
+      context: context,
+      position: RelativeRect.fromLTRB(dx, dy, dx, dy),
+      items: [
+        PopupMenuItem(
+          value: 1,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 0, right: 40),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.remove_circle_outline,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Remove',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ).then((value) {
+      if (value == 1) {
+        profileRemoved(profile);
+      }
+    });
   }
 }

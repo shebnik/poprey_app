@@ -4,8 +4,8 @@ import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poprey_app/utils/app_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginSheet extends StatelessWidget {
   final LoginSheetController controller;
@@ -42,12 +42,11 @@ class LoginSheet extends StatelessWidget {
                     )),
                 const SizedBox(height: 35),
                 Obx(() {
-                  var loading = controller.isLoading.value;
-
+                  var isLoading = controller.isLoading.value;
                   return BottomResetNavigation(
                     resetPressed: () => Get.back(),
-                    nextPressed: () =>
-                        loading ? null : controller.nextPressed(context),
+                    nextPressed: () => controller.nextPressed(context),
+                    disabled: isLoading,
                   );
                 }),
               ],

@@ -60,9 +60,9 @@ class AppPreferences {
     }
   }
 
-  static Future<void> setInstagramProfiles(
-      List<InstagramProfile> instagramProfiles) async {
-    await saveJson(
+  static Future<bool> setInstagramProfiles(
+      List<InstagramProfile> instagramProfiles) {
+    return saveJson(
       AppConstants.INSTAGRAM_PROFILES,
       instagramProfiles.map((e) => e.toJson()).toList(),
     );

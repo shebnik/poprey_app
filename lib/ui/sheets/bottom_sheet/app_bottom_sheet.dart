@@ -35,11 +35,16 @@ class _AppBottomSheetState extends State<AppBottomSheet> {
             controller: controller.loginSheetController,
           );
         case BottomSheetView.chooseAccount:
-          return ChooseAccount(
-            profiles: controller.getProfiles,
-            profileSelected: controller.profileSelected,
-            addAccount: controller.addAccount,
-          );
+          return Obx(() {
+            // ignore: invalid_use_of_protected_member
+            var profiles = controller.profilesManager.profiles.value;
+            return ChooseAccount(
+              profiles: profiles,
+              profileSelected: controller.profileSelected,
+              addAccount: controller.addAccount,
+              profileRemoved: controller.profileRemoved,
+            );
+          });
         case BottomSheetView.autoLikes:
           // TODO: Handle this case.
           return Container();

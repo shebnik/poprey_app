@@ -1,11 +1,12 @@
+import 'package:get/state_manager.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 
-class InstagramProfilesManager {
-  List<InstagramProfile> profiles = [];
+class InstagramProfilesManager extends GetxController {
+  RxList<InstagramProfile> profiles = <InstagramProfile>[].obs;
 
   InstagramProfilesManager() {
-    profiles = AppPreferences.getInstagramProfiles() ?? [];
+    profiles.value = AppPreferences.getInstagramProfiles() ?? [];
     profiles.sort((key1, key2) => key1.isSelected == true ? -1 : 1);
   }
 
@@ -18,12 +19,11 @@ class InstagramProfilesManager {
       profiles.remove(foundProfiles.first);
     }
 
-    profiles = profiles.map((e) => e.copyWith(isSelected: false)).toList();
+    profiles.value = profiles.map((e) => e.copyWith(isSelected: false)).toList();
     profiles.insert(
       0,
       profile.copyWith(isSelected: true),
     );
-
     await AppPreferences.setInstagramProfiles(profiles);
   }
 
@@ -32,7 +32,13 @@ class InstagramProfilesManager {
     if (foundProfiles.isNotEmpty) return foundProfiles.first;
   }
 
-  bool isProfileExists(String userName) {
-    return profiles.where((e) => e.username == userName).isNotEmpty;
+  InstagramProfile? getProfile(String userName) {
+    final foundProfiles = profiles.where((e) => e.username == userName);
+    if (foundProfiles.isNotEmpty) return foundProfiles.first;
+  }
+
+  Future<void> removeProfile(InstagramProfile profile) async {
+    profiles.remove(profile);
+    await AppPreferences.setInstagramProfiles(profiles);
   }
 }

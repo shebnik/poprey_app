@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -23,25 +24,25 @@ class ChoosePosts extends StatefulWidget {
 
 class _ChoosePostsState extends State<ChoosePosts> {
   late final ChoosePostsController controller;
-  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     controller = Get.put(ChoosePostsController());
-    _scrollController = ScrollController()..addListener(handleScrolling);
+    controller.scrollController = ScrollController(initialScrollOffset: 0.1)
+      ..addListener(handleScrolling);
   }
 
   @override
   void dispose() {
-    controller.removeListener(handleScrolling);
+    controller.scrollController.removeListener(handleScrolling);
     super.dispose();
   }
 
   void handleScrolling() {
-    if (_scrollController.offset >=
-        _scrollController.position.maxScrollExtent) {
-      if (!controller.isPostsLoading.value && controller.posts.length < 48) {
+    if (controller.scrollController.offset >=
+        controller.scrollController.position.maxScrollExtent) {
+      if (controller.canLoadMore()) {
         controller.loadMore();
       }
     }
@@ -204,7 +205,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
       thumbColor: AppTheme.primary,
       radius: const Radius.circular(30),
       child: SingleChildScrollView(
-        controller: _scrollController,
+        controller: controller.scrollController,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38),
           child: Column(
@@ -243,21 +244,12 @@ class _ChoosePostsState extends State<ChoosePosts> {
                 onTap: () => controller.postSelected(post),
                 child: Stack(
                   children: [
-                    Image.network(
-                      post.thumbnailSrc,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        );
-                      },
+                    CachedNetworkImage(
+                      imageUrl: post.thumbnailSrc,
+                      // progressIndicatorBuilder: (context, url,
+                      //         downloadProgress) =>
+                      //     CircularProgressIndicator(
+                      //         value: downloadProgress.progress),
                     ),
                     if (controller.selectedPosts.contains(post)) ...[
                       Container(

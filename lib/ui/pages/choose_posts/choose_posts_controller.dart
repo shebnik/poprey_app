@@ -6,8 +6,10 @@ import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
+import 'package:poprey_app/ui/sheets/login_sheet/login_sheet.dart';
+import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
-import 'package:poprey_app/utils/utils.dart';
 
 class ChoosePostsController extends GetxController {
   final mainController = Get.find<MainController>();
@@ -24,9 +26,18 @@ class ChoosePostsController extends GetxController {
   RxList<InstagramPost> posts = <InstagramPost>[].obs;
   RxList<InstagramPost> selectedPosts = <InstagramPost>[].obs;
 
+  late ScrollController scrollController;
+
   String get count => selectedPosts.isEmpty
       ? ''
       : (selectedPlan.planPrice.count ~/ (selectedPosts.length)).toString();
+
+  bool canLoadMore() =>
+      MainController.isOnline &&
+      !isPostsLoading.value &&
+      pageInfo.hasNextPage != null &&
+      pageInfo.hasNextPage! &&
+      posts.length < 48;
 
   ChoosePostsController() {
     profilesManager = InstagramProfilesManager();
@@ -40,8 +51,9 @@ class ChoosePostsController extends GetxController {
 
     instagramUser ??=
         await InstagramParser.fetchInstagramProfile(profile.username);
+    if (instagramUser == null) return;
 
-    var data = instagramUser?['edge_owner_to_timeline_media'] ?? [];
+    var data = instagramUser['edge_owner_to_timeline_media'];
     pageInfo = PageInfo.fromJson(data['page_info']);
 
     final edges = data['edges'] as List<dynamic>;
@@ -49,6 +61,16 @@ class ChoosePostsController extends GetxController {
     await loadMore(
       initialData: edges.map((e) => InstagramPost.fromJson(e['node'])).toList(),
     );
+
+    while (true) {
+      if (scrollController.offset == 0 &&
+          scrollController.position.maxScrollExtent == 0 &&
+          canLoadMore()) {
+        await loadMore();
+      } else {
+        break;
+      }
+    }
   }
 
   Future<bool> loadMore({List<InstagramPost>? initialData}) async {
@@ -105,7 +127,20 @@ class ChoosePostsController extends GetxController {
     return isAccountListShown.value ? profilesManager.profiles.length : 1;
   }
 
-  void addAccount() {}
+  void addAccount() {
+    // Widgets.showBottomSheet(
+    //   LoginSheet(
+    //     controller: Get.put(
+    //       LoginSheetController(
+    //         selectedPlan: selectedPlan,
+    //         profilesManager: profilesManager,
+    //         chooseAccount: chooseAccount,
+    //         profileSelected: profileSelected,
+    //       ),
+    //     ),
+    //   ),
+    // );
+  }
 
   Future<void> accountSelected(InstagramProfile profile) async {
     if (this.profile == profile) {

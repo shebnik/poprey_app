@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/utils.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AccountTile extends StatelessWidget {
   final InstagramProfile profile;
@@ -26,8 +27,10 @@ class AccountTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: radius,
-            backgroundImage: NetworkImage(
-              profile.profilePicUrl,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: profile.profilePicUrl,
+              ),
             ),
           ),
           const SizedBox(width: 16),
