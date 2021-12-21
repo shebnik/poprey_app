@@ -20,7 +20,7 @@ class InstagramParser {
   // static const INSTAGRAM_PASSWORD = '5xL3Ek[d6gU,M2`K';
 
   static const QUERY_ID = '17888483320059182';
-  static const POSTS_BASE_URL = 'https://instagram.com/graphql/query/';
+  static const POSTS_BASE_URL = 'https://www.instagram.com/graphql/query/';
   static const USERS_BASE_URL =
       'https://www.instagram.com/web/search/topsearch/?context=blended';
 

@@ -7,7 +7,7 @@ import 'package:poprey_app/utils/utils.dart';
 enum InputType {
   password,
   number,
-  expandMore,
+  account,
 }
 
 class CustomTextField extends StatelessWidget {
@@ -21,7 +21,7 @@ class CustomTextField extends StatelessWidget {
     this.errorText,
     this.focusNode,
     this.prefixIcon,
-    this.onExpandMore,
+    this.accountToggle,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
   final String? errorText;
   final FocusNode? focusNode;
   final Icon? prefixIcon;
-  final VoidCallback? onExpandMore;
+  final VoidCallback? accountToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class CustomTextField extends StatelessWidget {
                 inputType == InputType.number ? TextInputType.number : null,
             style: TextStyle(
               fontFamily: AppConstants.SFProText,
-              fontWeight: inputType == InputType.expandMore
+              fontWeight: inputType == InputType.account
                   ? FontWeight.w600
                   : FontWeight.w400,
             ),
@@ -82,11 +82,11 @@ class CustomTextField extends StatelessWidget {
                             : Icons.visibility,
                       ),
                     )
-                  : inputType == InputType.expandMore
+                  : inputType == InputType.account
                       ? Padding(
                           padding: const EdgeInsets.all(0),
                           child: InkWell(
-                            onTap: onExpandMore,
+                            onTap: accountToggle,
                             child: const Icon(
                               Icons.expand_more,
                               color: AppTheme.primaryBlue,

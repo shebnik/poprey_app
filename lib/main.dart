@@ -17,8 +17,7 @@ void main() async {
   Logger.i('[App] Starting app..');
   WidgetsFlutterBinding.ensureInitialized();
 
-  AppPreferences.sharedPreferences =
-      await SharedPreferences.getInstance();
+  AppPreferences.sharedPreferences = await SharedPreferences.getInstance();
 
   initRoutePath = AuthService.defineInitRoutePath();
 
@@ -68,6 +67,15 @@ class MyApp extends StatelessWidget {
               if (child != null) child,
               Obx(
                 () => Visibility(
+                  visible: controller.preventTap,
+                  child: GestureDetector(
+                    onTap: () {},
+                  ),
+                ),
+              ),
+              Obx(
+                () => Visibility(
+                  visible: controller.isLoading,
                   child: GestureDetector(
                     onTap: () {},
                     child: Material(
@@ -79,12 +87,11 @@ class MyApp extends StatelessWidget {
                       ),
                     ),
                   ),
-                  visible: controller.isLoading,
                 ),
               ),
               // Obx(() => Visibility(
+              //       visible: !controller.isOnlineRx.value,
               //       child: NoInternet(key: UniqueKey()),
-              //       visible: !controller.isOnline,
               //     ),),
             ],
           ),

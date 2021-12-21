@@ -7,6 +7,7 @@ import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/utils/app_constants.dart';
+import 'package:poprey_app/utils/utils.dart';
 
 class ChoosePostsController extends GetxController {
   final mainController = Get.find<MainController>();
@@ -34,10 +35,13 @@ class ChoosePostsController extends GetxController {
     initialize(args[1]);
   }
 
-  Future<void> initialize(Map instagramUser) async {
+  Future<void> initialize(Map? instagramUser) async {
     profile = profilesManager.getSelectedProfile()!;
 
-    var data = instagramUser['edge_owner_to_timeline_media'];
+    instagramUser ??=
+        await InstagramParser.fetchInstagramProfile(profile.username);
+
+    var data = instagramUser?['edge_owner_to_timeline_media'] ?? [];
     pageInfo = PageInfo.fromJson(data['page_info']);
 
     final edges = data['edges'] as List<dynamic>;
@@ -104,7 +108,10 @@ class ChoosePostsController extends GetxController {
   void addAccount() {}
 
   Future<void> accountSelected(InstagramProfile profile) async {
-    if (this.profile == profile) return;
+    if (this.profile == profile) {
+      toggleList();
+      return;
+    }
     await profilesManager.selectProfile(profile);
     isAccountListShown.value = false;
     posts.clear();

@@ -1,17 +1,22 @@
 import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/utils/logger.dart';
 
 class MainController extends GetxController {
   RxBool isLoadingObs = true.obs;
+
   bool get isLoading => isLoadingObs.value;
   set isLoading(bool value) => isLoadingObs.value = value;
 
-  RxBool isOnlineObs = true.obs;
-  bool get isOnline => isOnlineObs.value;
-  set isOnline(bool value) => isOnlineObs.value = value;
+  static bool isOnline = true;
+  RxBool isOnlineRx = true.obs;
+
+  RxBool preventTapObx = false.obs;
+  bool get preventTap => preventTapObx.value;
+  set preventTap(bool value) => preventTapObx.value = value;
 
   late StreamSubscription connectivityStream;
-  List<StreamSubscription> streamSubscriptions = [];
 
   bool showingSubscribeDialog = false;
 
@@ -20,24 +25,20 @@ class MainController extends GetxController {
   }
 
   void initStreams() {
-    // AuthService.listenAuthState();
-    // SharedPreferencesService.initStreams();
-    // connectivityStream = Connectivity().onConnectivityChanged.listen((event) {
-    //   isOnline = event != ConnectivityResult.none;
-    //   Logger.i("Connectivity: ${isOnline ? "Online" : "Offline"}");
-    // });
-    // Connectivity().checkConnectivity().then((value) {
-    //   isOnline = value != ConnectivityResult.none;
-    // });
+    connectivityStream = Connectivity().onConnectivityChanged.listen((event) {
+      isOnline = event != ConnectivityResult.none;
+      isOnlineRx.value = isOnline;
+      Logger.i("[Connectivity]: ${isOnline ? "Online" : "Offline"}");
+    });
+    Connectivity().checkConnectivity().then((value) {
+      isOnline = value != ConnectivityResult.none;
+      isOnlineRx.value = isOnline;
+    });
   }
 
   @override
   void onClose() {
-    streamSubscriptions.map((e) => e.cancel());
-    // SharedPreferencesController.closeStreams();
-    // firestoreDataChangeStreamController.close();
     connectivityStream.cancel();
-    // PaymentService.instance.dispose();
     super.onClose();
   }
 }

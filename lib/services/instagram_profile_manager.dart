@@ -2,7 +2,7 @@ import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 
 class InstagramProfilesManager {
-  late List<InstagramProfile> profiles;
+  List<InstagramProfile> profiles = [];
 
   InstagramProfilesManager() {
     profiles = AppPreferences.getInstagramProfiles() ?? [];
@@ -30,5 +30,9 @@ class InstagramProfilesManager {
   InstagramProfile? getSelectedProfile() {
     final foundProfiles = profiles.where((e) => e.isSelected == true);
     if (foundProfiles.isNotEmpty) return foundProfiles.first;
+  }
+
+  bool isProfileExists(String userName) {
+    return profiles.where((e) => e.username == userName).isNotEmpty;
   }
 }

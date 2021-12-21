@@ -11,7 +11,7 @@ import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class ChoosePosts extends StatefulWidget {
-  static const routeName = '/selectedAccount';
+  static const routeName = '/choosePosts';
 
   const ChoosePosts({
     Key? key,
@@ -143,7 +143,9 @@ class _ChoosePostsState extends State<ChoosePosts> {
       color: const Color(0xFFF7F8FB),
       child: Obx(() {
         return GestureDetector(
-          onVerticalDragEnd: (details) => controller.toggleList(),
+          onVerticalDragEnd: (details) => controller.isAccountListShown.value
+              ? null
+              : controller.toggleList(),
           child: Column(
             children: [
               ListView.builder(
@@ -155,7 +157,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
                   var profile = controller.profilesManager.profiles[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () => controller.accountSelected(profile),
                       child: AccountTile(
                         profile: profile,

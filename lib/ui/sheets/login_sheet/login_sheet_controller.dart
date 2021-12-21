@@ -1,105 +1,90 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
-import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
+import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:poprey_app/utils/utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class BottomSheetController extends GetxController {
-  SelectedPlan selectedPlan;
-
-  late InstagramProfilesManager profileManager;
-
-  RxBool isAccountSelector = false.obs;
-
-  AppLocalizations? localization;
-
-  RxString userNameErrorText = ''.obs;
-  RxString emailErrorText = ''.obs;
-
+class LoginSheetController extends GetxController {
   final mainController = Get.find<MainController>();
 
+  final SelectedPlan selectedPlan;
+  final InstagramProfilesManager profilesManager;
+  final VoidCallback chooseAccount;
+  final void Function(
+    InstagramProfile profile,
+    Map<String, dynamic> instagramUser,
+  ) profileSelected;
+
+  LoginSheetController({
+    required this.selectedPlan,
+    required this.profilesManager,
+    required this.chooseAccount,
+    required this.profileSelected,
+  });
+
+  late AppLocalizations? appLocalizations;
   final Rx<TextEditingController> userNameController =
       TextEditingController().obs;
   final Rx<TextEditingController> emailController = TextEditingController().obs;
 
+  RxBool isLoading = false.obs;
+  RxString userNameErrorText = ''.obs;
+  RxString emailErrorText = ''.obs;
   RxBool isUserNameError = false.obs;
   RxBool isEmailError = false.obs;
+
+  get inputType =>
+      profilesManager.profiles.isNotEmpty ? InputType.account : null;
 
   String get getTitle =>
       '${selectedPlan.platform} ${Utils.formatNumber(selectedPlan.planPrice.count)} ${selectedPlan.countInfo}';
 
   get getUrlTitle => selectedPlan.urlInfo;
-
-  BottomSheetController(this.selectedPlan);
-
-  @override
-  void onInit() {
-    super.onInit();
-    profileManager = InstagramProfilesManager();
-    setLoginData();
-  }
-
-  void setLoginData() {
-    final selectedProfile = profileManager.getSelectedProfile();
-    userNameController.value.text = selectedProfile?.username ?? '';
-    emailController.value.text = selectedProfile?.email ?? '';
-  }
-
-  void clearLoginData() {
-    userNameController.value.text = '';
-    emailController.value.text = '';
-  }
-
-  void expandAccountsPressed() {
-    isAccountSelector.value = true;
-  }
-
   Future<void> nextPressed(BuildContext context) async {
     String userName = userNameController.value.text.trim();
     String email = emailController.value.text.trim().toLowerCase();
 
     if (!validate(userName, email)) return;
     FocusScope.of(context).unfocus();
+    if(profilesManager.isProfileExists(userName)) {
+      // TODO
+    }
 
-    // mainController.isLoading = true;
+    if (Utils.isOnline() == false) return;
 
+    toggleLoading(true);
     final instagramUser = await InstagramParser.fetchInstagramProfile(userName);
 
     if (instagramUser == null) {
-      userNameErrorText.value = localization?.userNameError ??
+      userNameErrorText.value = appLocalizations?.userNameError ??
           'Please, enter the correct username and try again';
       isUserNameError.value = true;
-      mainController.isLoading = false;
+
+      toggleLoading(false);
     } else if (InstagramParser.isPrivateProfile(instagramUser)) {
-      userNameErrorText.value = localization?.privateProfile ??
+      userNameErrorText.value = appLocalizations?.privateProfile ??
           'Please, open your profile and try again';
       isUserNameError.value = true;
-      // mainController.isLoading = false;
+
+      toggleLoading(false);
     } else {
       final profile =
           InstagramProfile.fromJson(instagramUser).copyWith(email: email);
-      await InstagramProfilesManager().selectProfile(profile);
-
-      Get.back();
-      if (['Likes', 'Views', 'Comments'].contains(selectedPlan.countInfo)) {
-        Get.toNamed(
-          ChoosePosts.routeName,
-          arguments: [
-            selectedPlan.copyWith(url: userName, email: email),
-            instagramUser,
-          ],
-        );
-      }
+      await profilesManager.selectProfile(profile);
+      toggleLoading(false);
+      profileSelected(profile, instagramUser);
     }
   }
 
   bool validate(String userName, String email) {
-    setErrorTexts();
+    userNameErrorText.value =
+        appLocalizations?.userNameWrong ?? 'Username is wrong';
+    emailErrorText.value = appLocalizations?.emailWrong ?? 'Email is wrong';
     if (!GetUtils.isUsername(userName)) {
       isUserNameError.value = true;
       return false;
@@ -115,9 +100,8 @@ class BottomSheetController extends GetxController {
     return true;
   }
 
-  void setErrorTexts() {
-    userNameErrorText.value =
-        localization?.userNameWrong ?? 'Username is wrong';
-    emailErrorText.value = localization?.emailWrong ?? 'Username is wrong';
+  void toggleLoading(bool value) {
+    isLoading.value = value;
+    mainController.preventTap = value;
   }
 }

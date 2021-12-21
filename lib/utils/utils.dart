@@ -1,5 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
+
+import '../main_controller.dart';
 
 class Utils {
   static String formatAmount(dynamic amount) {
@@ -23,6 +26,15 @@ class Utils {
       if (isNumberType)
         FilteringTextInputFormatter.allow(RegExp(r'([0-9]+[.,]?[0-9]*)')),
     ];
+  }
+
+  static bool isOnline() {
+    if (!MainController.isOnline) {
+      Widgets.openSnackbar(message: 'Please check internet connection.');
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // static void openUrl(String url) async {
