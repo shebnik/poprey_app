@@ -128,32 +128,41 @@ class ChoosePostsController extends GetxController {
   }
 
   void addAccount() {
-    // Widgets.showBottomSheet(
-    //   LoginSheet(
-    //     controller: Get.put(
-    //       LoginSheetController(
-    //         selectedPlan: selectedPlan,
-    //         profilesManager: profilesManager,
-    //         chooseAccount: chooseAccount,
-    //         profileSelected: profileSelected,
-    //       ),
-    //     ),
-    //   ),
-    // );
+    Widgets.showBottomSheet(
+      LoginSheet(
+        controller: LoginSheetController(
+          selectedPlan: selectedPlan,
+          profilesManager: profilesManager,
+          profileSelected: profileSelected,
+        ),
+      ),
+    );
   }
 
-  Future<void> accountSelected(InstagramProfile profile) async {
+  void clearView(InstagramProfile profile) async {
     if (this.profile == profile) {
       toggleList();
       return;
     }
-    await profilesManager.selectProfile(profile);
     isAccountListShown.value = false;
     posts.clear();
     selectedPosts.clear();
     isPostsLoading.value = true;
-    profile = profilesManager.getSelectedProfile()!;
+  }
+
+  Future<void> accountSelected(InstagramProfile profile) async {
+    clearView(profile);
+    await profilesManager.selectProfile(profile);
     await initialize(
+        (await InstagramParser.fetchInstagramProfile(profile.username))!);
+  }
+
+  Future<void> profileSelected(
+      InstagramProfile profile, Map<String, dynamic>? instagramUser) async {
+    clearView(profile);
+    Get.back();
+    await profilesManager.selectProfile(profile);
+    await initialize(instagramUser ??
         (await InstagramParser.fetchInstagramProfile(profile.username))!);
   }
 }

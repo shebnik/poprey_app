@@ -10,21 +10,24 @@ class InstagramProfilesManager extends GetxController {
     profiles.sort((key1, key2) => key1.isSelected == true ? -1 : 1);
   }
 
-  Future<void> selectProfile(InstagramProfile profile) async {
+  Future<InstagramProfile?> selectProfile(InstagramProfile profile) async {
     final foundProfiles = profiles.where((element) => element.id == profile.id);
     if (foundProfiles.isNotEmpty) {
       if (foundProfiles.first.isSelected ?? false) {
-        return;
+        return null;
       }
       profiles.remove(foundProfiles.first);
     }
 
-    profiles.value = profiles.map((e) => e.copyWith(isSelected: false)).toList();
+    profiles.value =
+        profiles.map((e) => e.copyWith(isSelected: false)).toList();
+    final newProfile = profile.copyWith(isSelected: true);
     profiles.insert(
       0,
-      profile.copyWith(isSelected: true),
+      newProfile,
     );
     await AppPreferences.setInstagramProfiles(profiles);
+    return newProfile;
   }
 
   InstagramProfile? getSelectedProfile() {
@@ -39,6 +42,11 @@ class InstagramProfilesManager extends GetxController {
 
   Future<void> removeProfile(InstagramProfile profile) async {
     profiles.remove(profile);
+    if (profile.isSelected != null &&
+        profile.isSelected == true &&
+        profiles.isNotEmpty) {
+      profiles[0] = profiles.first.copyWith(isSelected: true);
+    }
     await AppPreferences.setInstagramProfiles(profiles);
   }
 }

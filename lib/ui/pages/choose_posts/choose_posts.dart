@@ -246,10 +246,6 @@ class _ChoosePostsState extends State<ChoosePosts> {
                   children: [
                     CachedNetworkImage(
                       imageUrl: post.thumbnailSrc,
-                      // progressIndicatorBuilder: (context, url,
-                      //         downloadProgress) =>
-                      //     CircularProgressIndicator(
-                      //         value: downloadProgress.progress),
                     ),
                     if (controller.selectedPosts.contains(post)) ...[
                       Container(

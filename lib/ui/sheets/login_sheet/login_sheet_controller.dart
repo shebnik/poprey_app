@@ -14,7 +14,7 @@ class LoginSheetController extends GetxController {
 
   final SelectedPlan selectedPlan;
   final InstagramProfilesManager profilesManager;
-  final VoidCallback chooseAccount;
+  final VoidCallback? chooseAccount;
   final void Function(
     InstagramProfile profile,
     Map<String, dynamic>? instagramUser,
@@ -23,8 +23,8 @@ class LoginSheetController extends GetxController {
   LoginSheetController({
     required this.selectedPlan,
     required this.profilesManager,
-    required this.chooseAccount,
     required this.profileSelected,
+    this.chooseAccount,
   });
 
   late AppLocalizations? appLocalizations;
@@ -38,8 +38,9 @@ class LoginSheetController extends GetxController {
   RxBool isUserNameError = false.obs;
   RxBool isEmailError = false.obs;
 
-  get inputType =>
-      profilesManager.profiles.isNotEmpty ? InputType.account : null;
+  get inputType => profilesManager.profiles.isNotEmpty && chooseAccount != null
+      ? InputType.account
+      : null;
 
   String get getTitle =>
       '${selectedPlan.platform} ${Utils.formatNumber(selectedPlan.planPrice.count)} ${selectedPlan.countInfo}';
