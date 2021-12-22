@@ -39,7 +39,7 @@ class ChooseAccountSheet extends StatelessWidget {
                   profile: profile,
                 ),
                 onTap: () => profileSelected(profile),
-                onLongPressDown: (details) =>
+                onLongPressEnd: (details) =>
                     showPopUpMenu(context, profile, details),
               );
             },
@@ -60,7 +60,7 @@ class ChooseAccountSheet extends StatelessWidget {
   Future<void> showPopUpMenu(
     BuildContext context,
     InstagramProfile profile,
-    LongPressDownDetails details,
+    LongPressEndDetails details,
   ) async {
     double dx = details.globalPosition.dx;
     double dy = details.globalPosition.dy;

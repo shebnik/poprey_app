@@ -64,8 +64,11 @@ class AppBottomSheetController extends GetxController {
     }
   }
 
-  void profileRemoved(InstagramProfile profile) {
-    profilesManager.removeProfile(profile);
+  Future<void> profileRemoved(InstagramProfile profile) async {
+    await profilesManager.removeProfile(profile);
+    if (profilesManager.profiles.isEmpty) {
+      bottomSheetView.value = BottomSheetView.login;
+    }
   }
 
   void addAccount() {

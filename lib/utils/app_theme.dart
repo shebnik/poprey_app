@@ -122,8 +122,8 @@ class AppTheme {
     ),
   );
 
-  static const primary = Color.fromRGBO(32, 53, 76, 1);
-  static const primaryBlue = Color.fromRGBO(0, 171, 223, 1);
+  static const primary = Color(0xFF20354C);
+  static const primaryBlue = Color(0xFF00ABDF);
 
   static isLightTheme(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
