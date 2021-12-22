@@ -5,10 +5,13 @@ import 'package:poprey_app/utils/app_theme.dart';
 class Widgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());
 
-  static void showBottomSheet(Widget widget) {
-    Get.bottomSheet(
-      widget,
-      backgroundColor: Colors.white,
+  static void showBottomSheet(BuildContext context, Widget widget) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: widget,
+      ),
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(

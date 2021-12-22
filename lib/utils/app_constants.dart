@@ -7,6 +7,9 @@ class AppConstants {
   static const SFProText = 'SFProText';
 
   static const Instagram = 'Instagram';
+  static const OtherSM = 'Other SM';
+
+  static const All = 'All';
   static const YouTube = 'YouTube';
   static const TikTok = 'TikTok';
   static const Facebook = 'Facebook';
@@ -21,4 +24,5 @@ class AppConstants {
   static const email = 'Email';
 
   static const instagramPostUrl = 'https://www.instagram.com/p/';
+
 }

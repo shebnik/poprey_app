@@ -53,7 +53,9 @@ class _ChoosePostsState extends State<ChoosePosts> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: AppTheme.primaryBlue),
-        backgroundColor: const Color(0xFFF7F8FB),
+        backgroundColor: AppTheme.isLightTheme(context)
+            ? const Color(0xFFF7F8FB)
+            : const Color(0xFF080704),
         elevation: 0,
         centerTitle: true,
         title: Text(
@@ -141,7 +143,9 @@ class _ChoosePostsState extends State<ChoosePosts> {
 
   Widget accountsWidget() {
     return Container(
-      color: const Color(0xFFF7F8FB),
+      color: AppTheme.isLightTheme(context)
+          ? const Color(0xFFF7F8FB)
+          : const Color(0xFF080704),
       child: Obx(() {
         return GestureDetector(
           onVerticalDragEnd: (details) => controller.isAccountListShown.value
@@ -175,7 +179,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
                   padding: const EdgeInsets.only(top: 22),
                   child: AddButton(
                     text: 'Add Account',
-                    onPressed: controller.addAccount,
+                    onPressed: () => controller.addAccount(context),
                   ),
                 ),
               ],

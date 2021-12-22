@@ -4,8 +4,8 @@
     "all": "All",
     "reset": "Reset",
     "next": "Next",
-    "userNameWrong": "Please, enter the correct username",
-    "emailWrong": "Please, enter the correct email",
-    "userNameError": "Please, enter the correct username and try again",
-    "privateProfile": "Please, open your profile and try again"
+    "userNameWrong": "Enter the correct username",
+    "emailWrong": "Enter the correct email",
+    "privateProfile": "Please, open your profile and try again",
+    "addAccount": "Add Account"
 }

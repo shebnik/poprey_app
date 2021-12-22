@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
@@ -57,8 +58,9 @@ class SelectionSliderController extends GetxController {
     }
   }
 
-  void buyPressed() {
+  void buyPressed(BuildContext context) {
     Widgets.showBottomSheet(
+      context,
       AppBottomSheet(
         selectedPlan: SelectedPlan.fromSelectionSliderModel(
           model: model,

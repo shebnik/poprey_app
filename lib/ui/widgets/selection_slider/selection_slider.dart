@@ -39,9 +39,11 @@ class _SelectionSliderState extends State<SelectionSlider> {
     return Container(
       height: 90,
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFFF7F8FB),
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        color: AppTheme.isLightTheme(context)
+            ? const Color(0xFFF7F8FB)
+            : const Color(0xFF080704),
+        borderRadius: const BorderRadius.all(
           Radius.circular(7),
         ),
       ),
@@ -49,7 +51,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
         padding: EdgeInsets.only(
           top: 10,
           bottom: 10,
-          left: model.imageAsset != null ? 0.0 : 14.0,
+          left: model.imageAsset != null ? 10.0 : 14.0,
           right: 0,
         ),
         child: LayoutBuilder(
@@ -169,7 +171,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
             right: 10,
             child: RoundButton(
               title: AppLocalizations.of(context)!.buy,
-              onPressed: controller.buyPressed,
+              onPressed: () => controller.buyPressed(context),
               fontWeightDelta: 2,
             ),
           ),

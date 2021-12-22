@@ -65,8 +65,6 @@ class LoginSheetController extends GetxController {
     final instagramUser = await InstagramParser.fetchInstagramProfile(userName);
 
     if (instagramUser == null) {
-      userNameErrorText.value = appLocalizations?.userNameError ??
-          'Please, enter the correct username and try again';
       isUserNameError.value = true;
     } else if (InstagramParser.isPrivateProfile(instagramUser)) {
       userNameErrorText.value = appLocalizations?.privateProfile ??
@@ -82,8 +80,8 @@ class LoginSheetController extends GetxController {
 
   bool validate(String userName, String email) {
     userNameErrorText.value =
-        appLocalizations?.userNameWrong ?? 'Username is wrong';
-    emailErrorText.value = appLocalizations?.emailWrong ?? 'Email is wrong';
+        appLocalizations?.userNameWrong ?? 'Enter the correct username';
+    emailErrorText.value = appLocalizations?.emailWrong ?? 'Enter the correct email';
     if (!GetUtils.isUsername(userName)) {
       isUserNameError.value = true;
       return false;

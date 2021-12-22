@@ -3,18 +3,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
-class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
-  final bool applyElevation;
+class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
 
-  const HomeNavigationBar({
+  const HomeAppBar({
     Key? key,
-    this.applyElevation = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: applyElevation ? 0.04 : 0.0,
+      elevation: 0.0,
       leading: IconButton(
         icon: SvgPicture.asset(
           AppAssets.menuIcon,

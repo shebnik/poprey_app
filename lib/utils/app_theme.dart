@@ -6,6 +6,7 @@ class AppTheme {
     primaryColor: primary,
     fontFamily: AppConstants.SFProDisplay,
     // canvasColor: Colors.transparent,
+    dividerColor: const Color(0xFFC6C6C9),
     sliderTheme: SliderThemeData(
       trackShape: CustomTrackShape(),
     ),
@@ -13,16 +14,40 @@ class AppTheme {
 
   static ThemeData themeLight = _defaultTheme.copyWith(
     brightness: Brightness.light,
+    scaffoldBackgroundColor: const Color(0xFFFCFCFC),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
       titleTextStyle: _appBarTitleStyle.copyWith(
         color: Colors.black,
       ),
     ),
-    textTheme: _textTheme.copyWith(),
+    textTheme: _textTheme.copyWith(
+      headline3: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+        fontSize: 16,
+        fontFamily: AppConstants.SFProText,
+      ),
+      headline4: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        fontFamily: AppConstants.SFProDisplay,
+      ),
+      headline5: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+        fontSize: 10,
+        fontFamily: AppConstants.SFProDisplay,
+      ),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.white,
+    ),
   );
   static ThemeData themeDark = _defaultTheme.copyWith(
     brightness: Brightness.dark,
+    scaffoldBackgroundColor: const Color(0xFF030303),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.black,
       titleTextStyle: _appBarTitleStyle.copyWith(
@@ -30,6 +55,16 @@ class AppTheme {
       ),
     ),
     textTheme: _textTheme.copyWith(),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.black,
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(
+        fontFamily: AppConstants.SFProText,
+        fontWeight: FontWeight.w400,
+        color: Color(0xFFCECFD0),
+      ),
+    ),
   );
 
   static const TextStyle _appBarTitleStyle = TextStyle(
@@ -44,52 +79,60 @@ class AppTheme {
       fontWeight: FontWeight.w500,
       fontSize: 14,
     ),
-    // caption: TextStyle(
-    //   fontFamily: AppConstants.SFProText,
-    //   color: Color(0xFFCECFD0),
-    //   fontWeight: FontWeight.w400,
-    //   fontSize: 14,
-    // ),
-    // subtitle1: TextStyle(
-    //   fontFamily: AppConstants.SFProText,
-    //   color: primary,
-    //   fontWeight: FontWeight.w400,
-    //   fontSize: 12,
-    // ),
-    // subtitle2: TextStyle(
-    //   fontFamily: AppConstants.SFProText,
-    //   color: Colors.white,
-    //   fontWeight: FontWeight.w400,
-    //   fontSize: 12,
-    // ),
-    // headline3: TextStyle(
-    //   color: Colors.black,
-    //   fontWeight: FontWeight.w600,
-    //   fontSize: 16,
-    //   fontFamily: AppConstants.SFProText,
-    // ),
-    // headline4: TextStyle(
-    //   color: Colors.black,
-    //   fontWeight: FontWeight.w700,
-    //   fontSize: 14,
-    //   fontFamily: AppConstants.SFProDisplay,
-    // ),
-    // headline5: TextStyle(
-    //   color: Colors.black,
-    //   fontWeight: FontWeight.w600,
-    //   fontSize: 10,
-    //   fontFamily: AppConstants.SFProDisplay,
-    // ),
-    // headline6: TextStyle(
-    //   color: Color.fromRGBO(169, 175, 182, 1),
-    //   fontWeight: FontWeight.w400,
-    //   fontSize: 10,
-    //   fontFamily: AppConstants.SFProDisplay,
-    // ),
+    caption: TextStyle(
+      fontFamily: AppConstants.SFProText,
+      color: Color(0xFFCECFD0),
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+    ),
+    subtitle1: TextStyle(
+      fontFamily: AppConstants.SFProText,
+      color: primary,
+      fontWeight: FontWeight.w400,
+      fontSize: 12,
+    ),
+    subtitle2: TextStyle(
+      fontFamily: AppConstants.SFProText,
+      fontWeight: FontWeight.w400,
+      fontSize: 12,
+    ),
+    headline3: TextStyle(
+      // color: Colors.black,
+      fontWeight: FontWeight.w600,
+      fontSize: 16,
+      fontFamily: AppConstants.SFProText,
+    ),
+    headline4: TextStyle(
+      // color: Colors.black,
+      fontWeight: FontWeight.w700,
+      fontSize: 14,
+      fontFamily: AppConstants.SFProDisplay,
+    ),
+    headline5: TextStyle(
+      // color: Colors.black,
+      fontWeight: FontWeight.w600,
+      fontSize: 10,
+      fontFamily: AppConstants.SFProDisplay,
+    ),
+    headline6: TextStyle(
+      color: Color.fromRGBO(169, 175, 182, 1),
+      fontWeight: FontWeight.w400,
+      fontSize: 10,
+      fontFamily: AppConstants.SFProDisplay,
+    ),
   );
 
   static const primary = Color.fromRGBO(32, 53, 76, 1);
   static const primaryBlue = Color.fromRGBO(0, 171, 223, 1);
+
+  static isLightTheme(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    return brightness == Brightness.light;
+  }
+
+  static Color getBrightnessColor(BuildContext context) {
+    return isLightTheme(context) ? Colors.white : Colors.black;
+  }
 
   // static const cupertinoThemeData = CupertinoThemeData(
   //   textTheme: CupertinoTextThemeData(

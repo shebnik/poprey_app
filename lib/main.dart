@@ -3,7 +3,7 @@ import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
-import 'package:poprey_app/ui/pages/home/home_page.dart';
+import 'package:poprey_app/ui/pages/home/home_loader.dart';
 import 'package:poprey_app/ui/widgets/splash_loading.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
       initialRoute: initRoutePath,
       getPages: [
         GetPage(
-          name: HomePage.routeName,
-          page: () => const HomePage(),
+          name: HomeLoader.routeName,
+          page: () => const HomeLoader(),
         ),
         GetPage(
           name: ChoosePosts.routeName,

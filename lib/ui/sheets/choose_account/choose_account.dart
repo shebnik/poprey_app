@@ -1,15 +1,17 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ChooseAccount extends StatelessWidget {
+class ChooseAccountSheet extends StatelessWidget {
   final List<InstagramProfile> profiles;
   final void Function(InstagramProfile profile) profileSelected;
   final void Function(InstagramProfile profile) profileRemoved;
   final VoidCallback addAccount;
 
-  ChooseAccount({
+  const ChooseAccountSheet({
     Key? key,
     required this.profiles,
     required this.profileSelected,
@@ -37,8 +39,8 @@ class ChooseAccount extends StatelessWidget {
                   profile: profile,
                 ),
                 onTap: () => profileSelected(profile),
-                onTapDown: _storePosition,
-                onLongPress: () => showPopUpMenu(context, profile),
+                onLongPressDown: (details) =>
+                    showPopUpMenu(context, profile, details),
               );
             },
           ),
@@ -46,7 +48,7 @@ class ChooseAccount extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(32),
             child: AddButton(
-              text: 'Add Account',
+              text: AppLocalizations.of(context)?.addAccount ?? 'Add Account',
               onPressed: addAccount,
             ),
           ),
@@ -55,15 +57,13 @@ class ChooseAccount extends StatelessWidget {
     );
   }
 
-  late Offset globalPosition;
-
-  void _storePosition(TapDownDetails details) {
-    globalPosition = details.globalPosition;
-  }
-
-  Future<void> showPopUpMenu(context, profile) async {
-    double dx = globalPosition.dx;
-    double dy = globalPosition.dy;
+  Future<void> showPopUpMenu(
+    BuildContext context,
+    InstagramProfile profile,
+    LongPressDownDetails details,
+  ) async {
+    double dx = details.globalPosition.dx;
+    double dy = details.globalPosition.dy;
     await showMenu(
       color: Colors.white,
       context: context,

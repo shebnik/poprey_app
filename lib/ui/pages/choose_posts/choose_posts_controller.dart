@@ -127,8 +127,9 @@ class ChoosePostsController extends GetxController {
     return isAccountListShown.value ? profilesManager.profiles.length : 1;
   }
 
-  void addAccount() {
+  void addAccount(BuildContext context) {
     Widgets.showBottomSheet(
+      context,
       LoginSheet(
         controller: LoginSheetController(
           selectedPlan: selectedPlan,

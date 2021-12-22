@@ -6,6 +6,7 @@ import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:poprey_app/utils/app_theme.dart';
 
 class LoginSheet extends StatelessWidget {
   final LoginSheetController controller;
@@ -61,7 +62,9 @@ class LoginSheet extends StatelessWidget {
     return Container(
       height: 60,
       width: double.infinity,
-      color: const Color(0xFFF7F8FB),
+      color: AppTheme.isLightTheme(context)
+          ? const Color(0xFFF7F8FB)
+          : const Color(0xFF080704),
       child: Stack(
         alignment: Alignment.topCenter,
         children: [

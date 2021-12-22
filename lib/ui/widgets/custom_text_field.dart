@@ -60,13 +60,7 @@ class CustomTextField extends StatelessWidget {
                   : FontWeight.w400,
             ),
             decoration: InputDecoration(
-              label: Text(
-                label,
-                style: const TextStyle(
-                  fontFamily: AppConstants.SFProText,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+              labelText: label,
               isDense: true,
               hintText: hint,
               errorText: showError ? errorText : null,

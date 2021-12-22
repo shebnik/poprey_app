@@ -43,7 +43,7 @@ class AccountTile extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline3!.apply(
                       color: profile.isSelected ?? false
                           ? AppTheme.primaryBlue
-                          : Colors.black,
+                          : null,
                     ),
               ),
               const SizedBox(height: 5),

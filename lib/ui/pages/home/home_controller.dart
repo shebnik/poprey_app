@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/sm_plans_model.dart';
@@ -7,12 +6,9 @@ import 'package:poprey_app/services/plans_parser.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/logger.dart';
 
-class HomePageController extends GetxController {
+class HomeController extends GetxController {
   final MainController mainController = Get.find();
-
-  late CupertinoTabController cupertinoTabController = CupertinoTabController();
-  var selectedTab = RxInt(0);
-
+  
   Future<bool> fetchPlans() async {
     Logger.i('[HomePage] Fetching plans..');
     if (await fetchInstaPlans() && await fetchSMPlans()) {
@@ -47,9 +43,5 @@ class HomePageController extends GetxController {
       return true;
     }
     return false;
-  }
-
-  void onTabBarTap(int value) {
-    selectedTab.value = value;
   }
 }

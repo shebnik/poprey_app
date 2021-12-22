@@ -20,11 +20,6 @@ class AppBottomSheetController extends GetxController {
 
   AppBottomSheetController(this.selectedPlan) {
     isInstagram = selectedPlan.platform == 'Instagram';
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
     profilesManager = InstagramProfilesManager();
     loginSheetController = LoginSheetController(
       selectedPlan: selectedPlan,
