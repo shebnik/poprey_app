@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/home/home_app_bar.dart';
 import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab.dart';
@@ -36,16 +37,14 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
-  int currentTabIndex = 0;
+  RxInt currentTabIndex = RxInt(0);
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: tabBar.length, vsync: this);
     tabController.addListener(() {
-      setState(() {
-        currentTabIndex = tabController.index;
-      });
+      currentTabIndex.value = tabController.index;
     });
   }
 
@@ -55,6 +54,7 @@ class _HomePageState extends State<HomePage>
       appBar: const HomeAppBar(),
       body: SafeArea(
         child: TabBarView(
+          key: UniqueKey(),
           controller: tabController,
           children: const [
             InstagramTab(),
@@ -62,22 +62,22 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          onTap: (index) {
             tabController.index = index;
-            currentTabIndex = index;
-          });
-        },
-        currentIndex: currentTabIndex,
-        backgroundColor: AppTheme.primary,
-        iconSize: 20,
-        selectedFontSize: 10,
-        selectedItemColor: AppTheme.primaryBlue,
-        unselectedFontSize: 10,
-        unselectedItemColor: const Color(0xFF586F88),
-        type: BottomNavigationBarType.fixed,
-        items: [for (final item in tabBar) tabItem(item)],
+            currentTabIndex.value = index;
+          },
+          currentIndex: currentTabIndex.value,
+          backgroundColor: AppTheme.primary,
+          iconSize: 20,
+          selectedFontSize: 10,
+          selectedItemColor: AppTheme.primaryBlue,
+          unselectedFontSize: 10,
+          unselectedItemColor: const Color(0xFF586F88),
+          type: BottomNavigationBarType.fixed,
+          items: [for (final item in tabBar) tabItem(item)],
+        ),
       ),
     );
   }
@@ -101,4 +101,7 @@ class _HomePageState extends State<HomePage>
       tooltip: item.title,
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

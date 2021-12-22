@@ -11,11 +11,16 @@ class InstagramTab extends StatefulWidget {
   _InstagramTabState createState() => _InstagramTabState();
 }
 
-class _InstagramTabState extends State<InstagramTab> {
+class _InstagramTabState extends State<InstagramTab>
+    with AutomaticKeepAliveClientMixin {
   final InstagramTabController controller = Get.find();
-  
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RawScrollbar(
       crossAxisMargin: 2,
       thumbColor: AppTheme.primary,

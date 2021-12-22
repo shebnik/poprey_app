@@ -9,35 +9,9 @@ import 'package:poprey_app/utils/utils.dart';
 
 class SelectionSliderController extends GetxController {
   final SelectionSliderModel model;
+  PlanPrice planPrice = PlanPrice.zero();
 
   SelectionSliderController(this.model);
-
-  RxDouble currentValue = 0.0.obs;
-  RxString countValue = RxString('');
-  RxString priceValue = RxString('');
-  String minValue = '', maxValue = '';
-
-  int index = 0;
-  int get currentCount => model.plans[index].count;
-  double get currentPrice => model.plans[index].price;
-
-  String get getPriceAmmount => '\$${priceValue.value}';
-
-  void initValues() {
-    minValue = Utils.formatNumber(model.plans.first.count);
-    maxValue = Utils.formatNumber(model.plans.last.count);
-
-    countValue.value = Utils.formatNumber(model.plans.first.count);
-    priceValue.value = model.plans.first.price.toStringAsFixed(2);
-  }
-
-  void onSliderChanged(double value) {
-    currentValue.value = value;
-    index = value.toInt();
-
-    countValue.value = Utils.formatNumber(currentCount);
-    priceValue.value = currentPrice.toStringAsFixed(2);
-  }
 
   String? getImageAsset() {
     switch (model.countInfo.toLowerCase()) {
@@ -64,12 +38,11 @@ class SelectionSliderController extends GetxController {
       AppBottomSheet(
         selectedPlan: SelectedPlan.fromSelectionSliderModel(
           model: model,
-          planPrice: PlanPrice(
-            count: currentCount,
-            price: currentPrice,
-          ),
+          planPrice: planPrice,
         ),
       ),
     );
   }
+
+  void setPlanPrice(PlanPrice value) => planPrice = value;
 }

@@ -75,4 +75,8 @@ class PlanPrice {
     required this.count,
     required this.price,
   });
+
+  factory PlanPrice.zero() {
+    return PlanPrice(count: 0, price: 0);
+  }
 }

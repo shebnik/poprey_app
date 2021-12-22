@@ -12,11 +12,16 @@ class OtherSmTab extends StatefulWidget {
   _OtherSmTabState createState() => _OtherSmTabState();
 }
 
-class _OtherSmTabState extends State<OtherSmTab> {
+class _OtherSmTabState extends State<OtherSmTab>
+    with AutomaticKeepAliveClientMixin {
   final OtherSmTabController controller = Get.find();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         OtherSMSelectionList(controller: controller),
@@ -26,6 +31,7 @@ class _OtherSmTabState extends State<OtherSmTab> {
             thumbColor: AppTheme.primary,
             radius: const Radius.circular(30),
             child: SingleChildScrollView(
+        controller: ScrollController(),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -42,6 +48,7 @@ class _OtherSmTabState extends State<OtherSmTab> {
     return Obx(() {
       var model = controller.slidersList.value;
       return ListView.separated(
+        controller: ScrollController(),
         physics: const NeverScrollableScrollPhysics(),
         itemCount: model.length,
         shrinkWrap: true,

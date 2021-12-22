@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/widgets/round_button.dart';
+import 'package:poprey_app/ui/widgets/selection_slider/app_slider.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/selection_slider_controller.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
@@ -31,7 +32,6 @@ class _SelectionSliderState extends State<SelectionSlider> {
     model = widget.model;
 
     controller = SelectionSliderController(model);
-    controller.initValues();
   }
 
   @override
@@ -93,58 +93,9 @@ class _SelectionSliderState extends State<SelectionSlider> {
           const SizedBox(width: 10),
         ],
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                model.countInfo,
-                style: Theme.of(context).textTheme.headline5!.apply(
-                      color: AppTheme.primaryBlue,
-                    ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Obx(
-                    () => Text(
-                      controller.countValue.value,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                  ),
-                  Obx(
-                    () => Text(
-                      controller.getPriceAmmount,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                  ),
-                ],
-              ),
-              Obx(
-                () => SizedBox(
-                  height: 27,
-                  child: Slider(
-                    value: controller.currentValue.value,
-                    min: 0.0,
-                    max: model.divisions.toDouble(),
-                    divisions: model.divisions,
-                    onChanged: controller.onSliderChanged,
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    controller.minValue,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Text(
-                    controller.maxValue,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ],
-              )
-            ],
+          child: AppSlider(
+            model: model,
+            setPlanPrice: controller.setPlanPrice,
           ),
         ),
       ],
