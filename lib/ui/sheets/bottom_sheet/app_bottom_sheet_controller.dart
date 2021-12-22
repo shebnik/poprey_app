@@ -9,6 +9,7 @@ enum BottomSheetView { login, chooseAccount, autoLikes }
 
 class AppBottomSheetController extends GetxController {
   final SelectedPlan selectedPlan;
+  late bool isInstagram;
 
   late final InstagramProfilesManager profilesManager;
   late final LoginSheetController loginSheetController;
@@ -17,24 +18,25 @@ class AppBottomSheetController extends GetxController {
 
   get getProfiles => profilesManager.profiles;
 
-  AppBottomSheetController(this.selectedPlan);
+  AppBottomSheetController(this.selectedPlan) {
+    isInstagram = selectedPlan.platform == 'Instagram';
+  }
 
   @override
   void onInit() {
     super.onInit();
     profilesManager = InstagramProfilesManager();
-    loginSheetController = Get.put(
-      LoginSheetController(
-        selectedPlan: selectedPlan,
-        profilesManager: profilesManager,
-        chooseAccount: chooseAccount,
-        profileSelected: profileSelected,
-      ),
+    loginSheetController = LoginSheetController(
+      selectedPlan: selectedPlan,
+      profilesManager: profilesManager,
+      chooseAccount: isInstagram ? chooseAccount : null,
+      profileSelected: profileSelected,
     );
     setLoginData();
   }
 
   void setLoginData() {
+    if (!isInstagram) return;
     final selectedProfile = profilesManager.getSelectedProfile();
     if (selectedProfile != null) {
       loginSheetController.userNameController.value.text =

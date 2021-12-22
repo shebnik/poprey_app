@@ -15,7 +15,6 @@ class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: applyElevation ? 0.04 : 0.0,
-      backgroundColor: const Color(0xFFFFFFFF),
       leading: IconButton(
         icon: SvgPicture.asset(
           AppAssets.menuIcon,
@@ -23,14 +22,7 @@ class HomeNavigationBar extends StatelessWidget with PreferredSizeWidget {
         onPressed: () {},
       ),
       centerTitle: true,
-      title: const Text(
-        AppConstants.appName,
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
-          fontSize: 18,
-        ),
-      ),
+      title: const Text(AppConstants.appName),
       actions: [
         IconButton(
           icon: SvgPicture.asset(

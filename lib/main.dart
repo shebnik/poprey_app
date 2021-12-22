@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppConstants.appName,
-      theme: AppTheme.materialThemeData(),
+      theme: AppTheme.themeLight,
+      darkTheme: AppTheme.themeDark,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

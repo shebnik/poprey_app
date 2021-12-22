@@ -38,7 +38,7 @@ class LoginSheetController extends GetxController {
   RxBool isUserNameError = false.obs;
   RxBool isEmailError = false.obs;
 
-  get inputType => profilesManager.profiles.isNotEmpty && chooseAccount != null
+  get inputType => chooseAccount != null && profilesManager.profiles.isNotEmpty
       ? InputType.account
       : null;
 
