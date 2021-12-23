@@ -8,7 +8,7 @@ class Widgets {
   static void showBottomSheet(BuildContext context, Widget widget) {
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) => Padding(
+      builder: (context) => Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: widget,
       ),

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
-import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/utils.dart';
 
 class AppSlider extends StatefulWidget {
   final SelectionSliderModel model;
-  final void Function(PlanPrice planPrice) setPlanPrice;
+  final int initialIndex;
+  final void Function(Plan planPrice, [int? index]) setPlanPrice;
 
   const AppSlider({
     Key? key,
     required this.model,
+    this.initialIndex = 0,
     required this.setPlanPrice,
   }) : super(key: key);
 
@@ -29,13 +30,15 @@ class _AppSliderState extends State<AppSlider> {
     super.initState();
     model = widget.model;
 
-    widget.setPlanPrice(PlanPrice(
-      count: model.plans[0].count,
-      price: model.plans[0].price,
-    ));
+    final Plan planPrice = Plan(
+      count: model.plans[widget.initialIndex].count,
+      price: model.plans[widget.initialIndex].price,
+    );
+    widget.setPlanPrice(planPrice, widget.initialIndex);
 
-    countValue = Utils.formatNumber(model.plans.first.count).obs;
-    priceValue = model.plans.first.price.toStringAsFixed(2).obs;
+    currentValue = widget.initialIndex.toDouble().obs;
+    countValue = Utils.formatNumber(planPrice.count).obs;
+    priceValue = planPrice.price.toStringAsFixed(2).obs;
   }
 
   void onSliderChanged(double value) {
@@ -44,7 +47,7 @@ class _AppSliderState extends State<AppSlider> {
 
     var count = model.plans[index].count;
     var price = model.plans[index].price;
-    widget.setPlanPrice(PlanPrice(count: count, price: price));
+    widget.setPlanPrice(Plan(count: count, price: price), index);
 
     countValue.value = Utils.formatNumber(count);
     priceValue.value = price.toStringAsFixed(2);
@@ -55,12 +58,6 @@ class _AppSliderState extends State<AppSlider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          model.countInfo,
-          style: Theme.of(context).textTheme.headline5!.apply(
-                color: AppTheme.primaryBlue,
-              ),
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

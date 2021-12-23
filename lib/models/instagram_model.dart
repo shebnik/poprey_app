@@ -6,23 +6,47 @@ part 'instagram_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class InstagramModel {
-  @JsonKey(name: 'Likes')
-  final InstagramPlan likes;
+  @JsonKey(
+    name: 'Likes',
+    fromJson: instagramPlanFromJson,
+    toJson: instagramPlanToJson,
+  )
+  final List<InstagramPlan> likes;
 
-  @JsonKey(name: 'Followers')
-  final InstagramPlan followers;
+  @JsonKey(
+    name: 'Followers',
+    fromJson: instagramPlanFromJson,
+    toJson: instagramPlanToJson,
+  )
+  final List<InstagramPlan> followers;
 
-  @JsonKey(name: 'Auto-Likes')
-  final InstagramPlan autoLikesPost;
+  @JsonKey(
+    name: 'Auto-Likes',
+    fromJson: instagramPlanFromJson,
+    toJson: instagramPlanToJson,
+  )
+  final List<InstagramPlan> autoLikesPost;
 
-  @JsonKey(name: 'Auto-Likes Subs')
-  final InstagramPlan autoLikesSubs;
+  @JsonKey(
+    name: 'Auto-Likes Subs',
+    fromJson: instagramPlanFromJson,
+    toJson: instagramPlanToJson,
+  )
+  final List<InstagramPlan> autoLikesSubs;
 
-  @JsonKey(name: 'Views')
-  final InstagramPlan views;
+  @JsonKey(
+    name: 'Views',
+    fromJson: instagramPlanFromJson,
+    toJson: instagramPlanToJson,
+  )
+  final List<InstagramPlan> views;
 
-  @JsonKey(name: 'Comments')
-  final InstagramPlan comments;
+  @JsonKey(
+    name: 'Comments',
+    fromJson: instagramPlanFromJson,
+    toJson: instagramPlanToJson,
+  )
+  final List<InstagramPlan> comments;
 
   InstagramModel({
     required this.likes,
@@ -41,22 +65,8 @@ class InstagramModel {
 
 @JsonSerializable(explicitToJson: true)
 class InstagramPlan {
-  List<Plan> plans;
-  List<String?> info;
-
-  InstagramPlan({
-    required this.plans,
-    required this.info,
-  });
-
-  factory InstagramPlan.fromJson(Map<String, dynamic> json) =>
-      _$InstagramPlanFromJson(json);
-
-  Map<String, dynamic> toJson() => _$InstagramPlanToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Plan {
+  // List<String?> info;
+  
   @NumConverter()
   @JsonKey(name: 'count')
   final num count;
@@ -79,48 +89,18 @@ class Plan {
   )
   final List<Extra>? extras;
 
-  Plan({
+  InstagramPlan({
+    // required this.info,
     required this.count,
     required this.price,
     required this.types,
     required this.extras,
   });
 
-  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
+  factory InstagramPlan.fromJson(Map<String, dynamic> json) =>
+      _$InstagramPlanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlanToJson(this);
-}
-
-@override
-List<Type> typesFromJson(Map<String, dynamic> json) {
-  return json.entries.map((e) => Type.fromJson(e.value)).toList();
-}
-
-@override
-Map<String, dynamic> typesToJson(List<Type> object) {
-  Map<String, dynamic> json = {};
-  var i = 1;
-  for (var e in object) {
-    json['t$i'] = e.toJson();
-  }
-  return json;
-}
-
-@override
-List<Extra>? extraFromJson(Map<String, dynamic>? json) {
-  if (json == null) return null;
-  return json.entries.map((e) => Extra.fromJson(e.value)).toList();
-}
-
-@override
-Map<String, dynamic>? extraToJson(List<Extra>? object) {
-  if (object == null) return null;
-  Map<String, dynamic> json = {};
-  var i = 1;
-  for (var e in object) {
-    json['e$i'] = e.toJson();
-  }
-  return json;
+  Map<String, dynamic> toJson() => _$InstagramPlanToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

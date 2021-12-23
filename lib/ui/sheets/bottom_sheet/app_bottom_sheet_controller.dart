@@ -76,4 +76,6 @@ class AppBottomSheetController extends GetxController {
     loginSheetController.userNameController.value.text = '';
     loginSheetController.emailController.value.text = '';
   }
+
+  void showLogin() => bottomSheetView.value = BottomSheetView.login;
 }

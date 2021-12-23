@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';

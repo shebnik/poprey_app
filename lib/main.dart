@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(AppTheme.mySystemTheme);
     final MainController controller = Get.put(MainController());
     controller.prepare();
 

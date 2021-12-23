@@ -8,7 +8,7 @@ class SelectionSliderModel {
   /// Instagram username, URL to the YouTube Video, etc
   final String urlInfo;
 
-  final List<PlanPrice> plans;
+  final List<Plan> plans;
   final String? imageAsset;
 
   late final double minValue;
@@ -41,7 +41,7 @@ class SelectionSliderModel {
       countInfo: countInfo,
       urlInfo: urlInfo,
       plans: plans.entries
-          .map((e) => PlanPrice(
+          .map((e) => Plan(
                 count: int.parse(e.key.replaceAll(' ', '')),
                 price: double.parse(e.value),
               ))
@@ -54,7 +54,7 @@ class SelectionSliderModel {
     String? platform,
     String? countInfo,
     String? urlInfo,
-    List<PlanPrice>? plans,
+    List<Plan>? plans,
     String? imageAsset,
   }) {
     return SelectionSliderModel(
@@ -67,16 +67,16 @@ class SelectionSliderModel {
   }
 }
 
-class PlanPrice {
+class Plan {
   final int count;
   final double price;
 
-  PlanPrice({
+  Plan({
     required this.count,
     required this.price,
   });
 
-  factory PlanPrice.zero() {
-    return PlanPrice(count: 0, price: 0);
+  factory Plan.zero() {
+    return Plan(count: 0, price: 0);
   }
 }

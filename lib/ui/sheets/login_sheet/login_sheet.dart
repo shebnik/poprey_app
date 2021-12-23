@@ -41,7 +41,7 @@ class LoginSheet extends StatelessWidget {
                       errorText: controller.emailErrorText.value,
                       showError: controller.isEmailError.value,
                     )),
-                const SizedBox(height: 35),
+                const SizedBox(height: 34),
                 Obx(() {
                   var isLoading = controller.isLoading.value;
                   return BottomResetNavigation(

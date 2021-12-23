@@ -5,11 +5,10 @@ import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/sheets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_assets.dart';
-import 'package:poprey_app/utils/utils.dart';
 
 class SelectionSliderController extends GetxController {
   final SelectionSliderModel model;
-  PlanPrice planPrice = PlanPrice.zero();
+  Plan planPrice = Plan.zero();
 
   SelectionSliderController(this.model);
 
@@ -44,5 +43,5 @@ class SelectionSliderController extends GetxController {
     );
   }
 
-  void setPlanPrice(PlanPrice value) => planPrice = value;
+  void setPlanPrice(Plan value, [int? index]) => planPrice = value;
 }

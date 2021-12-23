@@ -35,7 +35,11 @@ class AppBottomSheet extends StatelessWidget {
             );
           });
         case BottomSheetView.autoLikes:
-          return const AutoLikesSheet();
+          return AutoLikesSheet(
+            selectedPlan: selectedPlan,
+            resetPressed: controller.showLogin,
+            nextPressed: () => {},
+          );
       }
     });
   }

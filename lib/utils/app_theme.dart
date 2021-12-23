@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class AppTheme {
@@ -11,6 +12,8 @@ class AppTheme {
       trackShape: CustomTrackShape(),
     ),
   );
+  static get mySystemTheme =>
+      SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: primary);
 
   static ThemeData themeLight = _defaultTheme.copyWith(
     brightness: Brightness.light,
@@ -54,7 +57,14 @@ class AppTheme {
         color: Colors.white,
       ),
     ),
-    textTheme: _textTheme.copyWith(),
+    textTheme: _textTheme.copyWith(
+      headline2: const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        fontFamily: AppConstants.SFProDisplay,
+      ),
+    ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.black,
     ),
@@ -96,6 +106,11 @@ class AppTheme {
       fontWeight: FontWeight.w400,
       fontSize: 12,
     ),
+    headline2: TextStyle(
+        color: primary,
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        fontFamily: AppConstants.SFProDisplay),
     headline3: TextStyle(
       // color: Colors.black,
       fontWeight: FontWeight.w600,
@@ -132,6 +147,15 @@ class AppTheme {
 
   static Color getBrightnessColor(BuildContext context) {
     return isLightTheme(context) ? Colors.white : Colors.black;
+  }
+
+  static LinearGradient getAppGradient([double? opacity]) {
+    return LinearGradient(
+      colors: [
+        const Color(0xFFFE616C).withOpacity(opacity ?? 1),
+        const Color(0xFFFFC071).withOpacity(opacity ?? 1),
+      ],
+    );
   }
 
   // static const cupertinoThemeData = CupertinoThemeData(

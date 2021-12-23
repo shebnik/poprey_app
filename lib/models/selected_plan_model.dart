@@ -10,7 +10,7 @@ class SelectedPlan {
   /// Instagram username, URL to the YouTube Video, etc
   final String urlInfo;
 
-  final PlanPrice planPrice;
+  final Plan planPrice;
   
   /// Instagram username (Login) or link
   final String? url;
@@ -31,7 +31,7 @@ class SelectedPlan {
     String? platform,
     String? countInfo,
     String? urlInfo,
-    PlanPrice? planPrice,
+    Plan? planPrice,
     String? url,
     String? email,
   }) {
@@ -47,7 +47,7 @@ class SelectedPlan {
 
   factory SelectedPlan.fromSelectionSliderModel({
     required SelectionSliderModel model,
-    required PlanPrice planPrice,
+    required Plan planPrice,
   }) {
     return SelectedPlan(
       platform: model.platform,

@@ -1,6 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 class AppConstants {
+  
+  static const InstagramPlansAPI = 'https://core.poprey.com/api/get_plans.php';
+  static const AdditionalServicesAPI =
+      'https://core.poprey.com/api/additional_services.php';
+
   static const appName = 'Poprey';
 
   static const SFProDisplay = 'SFProDisplay';

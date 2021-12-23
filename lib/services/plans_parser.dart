@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 
 import 'package:poprey_app/utils/logger.dart';
 import 'package:connectivity/connectivity.dart';
 
 class PlansParser {
-  static String instaPlansUrl = 'https://core.poprey.com/api/get_plans.php';
-  static String additionalServicesUrl =
-      'https://core.poprey.com/api/additional_services.php';
 
   static Future<Map?> parsePlanURL(String url) async {
     Client _client = Client();
@@ -32,7 +30,7 @@ class PlansParser {
   }
 
   static Future<Map<String, dynamic>?> getInstaPlans() async {
-    Map? plans = await parsePlanURL(instaPlansUrl);
+    Map? plans = await parsePlanURL(AppConstants.InstagramPlansAPI);
     if (plans != null) {
       Logger.i('[PlansParser] getInstaPlans - Ok');
       return plans['data']['Instagram'];
@@ -43,7 +41,7 @@ class PlansParser {
   }
 
   static Future<Map<String, dynamic>?> getSMPlans() async {
-    Map? plans = await parsePlanURL(additionalServicesUrl);
+    Map? plans = await parsePlanURL(AppConstants.AdditionalServicesAPI);
     if (plans != null) {
       Logger.i('[PlansParser] getSMPlans - Ok');
       return plans['data'];

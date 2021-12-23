@@ -27,8 +27,8 @@ class InstagramTabController extends GetxController {
       ...[
         emptyModel.copyWith(
           countInfo: 'Likes',
-          plans: instagramModel.likes.plans
-              .map((e) => PlanPrice(
+          plans: instagramModel.likes
+              .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
                   ))
@@ -38,8 +38,8 @@ class InstagramTabController extends GetxController {
       ...[
         emptyModel.copyWith(
           countInfo: 'Followers',
-          plans: instagramModel.followers.plans
-              .map((e) => PlanPrice(
+          plans: instagramModel.followers
+              .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
                   ))
@@ -49,8 +49,8 @@ class InstagramTabController extends GetxController {
       ...[
         emptyModel.copyWith(
           countInfo: 'Auto-Likes',
-          plans: instagramModel.autoLikesPost.plans
-              .map((e) => PlanPrice(
+          plans: instagramModel.autoLikesPost
+              .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
                   ))
@@ -60,8 +60,8 @@ class InstagramTabController extends GetxController {
       ...[
         emptyModel.copyWith(
           countInfo: 'Views',
-          plans: instagramModel.views.plans
-              .map((e) => PlanPrice(
+          plans: instagramModel.views
+              .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
                   ))
@@ -71,8 +71,8 @@ class InstagramTabController extends GetxController {
       ...[
         emptyModel.copyWith(
           countInfo: 'Comments',
-          plans: instagramModel.comments.plans
-              .map((e) => PlanPrice(
+          plans: instagramModel.comments
+              .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
                   ))

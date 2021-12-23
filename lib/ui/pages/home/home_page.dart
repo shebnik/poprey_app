@@ -101,7 +101,4 @@ class _HomePageState extends State<HomePage>
       tooltip: item.title,
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

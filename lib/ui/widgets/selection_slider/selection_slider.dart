@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:poprey_app/models/selection_slider_model.dart';
 import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/ui/widgets/selection_slider/app_slider.dart';
@@ -81,21 +80,32 @@ class _SelectionSliderState extends State<SelectionSlider> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (model.imageAsset != null) ...[
-          SizedBox(
-            width: 30,
-            height: 30,
-            child: ClipOval(
-              child: SvgPicture.asset(
-                model.imageAsset!,
-              ),
+          ClipOval(
+            child: SvgPicture.asset(
+              model.imageAsset!,
+              height: 29,
+              width: 29,
+              fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 9),
         ],
         Expanded(
-          child: AppSlider(
-            model: model,
-            setPlanPrice: controller.setPlanPrice,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                model.countInfo,
+                style: Theme.of(context).textTheme.headline5!.apply(
+                      color: AppTheme.primaryBlue,
+                    ),
+              ),
+              const SizedBox(height: 0.5),
+              AppSlider(
+                model: model,
+                setPlanPrice: controller.setPlanPrice,
+              ),
+            ],
           ),
         ),
       ],
