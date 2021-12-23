@@ -5,6 +5,7 @@ import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
 import 'package:poprey_app/ui/pages/home/home_loader.dart';
+import 'package:poprey_app/ui/pages/order/order_page.dart';
 import 'package:poprey_app/ui/widgets/splash_loading.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   Logger.i('[App] Starting app..');
+  AppTheme.setOverlayStyle(AppTheme.primary);
   WidgetsFlutterBinding.ensureInitialized();
 
   AppPreferences.sharedPreferences = await SharedPreferences.getInstance();
@@ -32,7 +34,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(AppTheme.mySystemTheme);
     final MainController controller = Get.put(MainController());
     controller.prepare();
 
@@ -60,6 +61,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: ChoosePosts.routeName,
           page: () => const ChoosePosts(),
+        ),
+        GetPage(
+          name: OrderPage.routeName,
+          page: () => const OrderPage(),
         ),
       ],
       builder: (context, child) {

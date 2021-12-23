@@ -58,11 +58,17 @@ class AutoLikesSheetController {
   }
 
   int getCurrentPostIndexByCount() {
-    final plan = autoLikesPost.firstWhereOrNull((e) => e.count == planPrice.count);
+    final plan =
+        autoLikesPost.firstWhereOrNull((e) => e.count == planPrice.count);
     if (plan == null) return 0;
     final index = autoLikesPost.indexOf(plan);
     if (index == -1) return 0;
     return index;
+  }
+
+  SelectedPlan getSelectedPlan() {
+    return SelectedPlan.fromSelectionSliderModel(
+        model: getSelectedModel(), planPrice: planPrice);
   }
 
   // int getInititalIndex(SelectedPlan selectedPlan) {

@@ -7,6 +7,8 @@ import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
+import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
+import 'package:poprey_app/ui/widgets/order_app_bar.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
@@ -51,27 +53,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: AppTheme.primaryBlue),
-        backgroundColor: AppTheme.isLightTheme(context)
-            ? const Color(0xFFF7F8FB)
-            : const Color(0xFF080704),
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Selected Account',
-          style: Theme.of(context).textTheme.headline3!.apply(
-                color: AppTheme.primary,
-              ),
-        ),
-        // bottom: PreferredSize(
-        //   preferredSize: const Size.fromHeight(32),
-        //   child: AccountTile(
-        //     profile: controller.profile,
-        //     radius: 16,
-        //   ),
-        // ),
-      ),
+      appBar: const OrderAppBar(title: 'Selected Account'),
       body: SafeArea(
         child: pageBody(),
       ),
@@ -242,57 +224,16 @@ class _ChoosePostsState extends State<ChoosePosts> {
         itemBuilder: (BuildContext context, int index) {
           return Obx(() {
             var post = controller.posts[index];
-            return ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              child: GestureDetector(
-                onTap: () => controller.postSelected(post),
-                child: Stack(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: post.thumbnailSrc,
-                    ),
-                    if (controller.selectedPosts.contains(post)) ...[
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(4, 4, 4, 0.6),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              selectIcon(),
-                              const SizedBox(height: 6),
-                              Text(
-                                controller.count,
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ],
-                ),
-              ),
+            return InstagramPostWidget(
+              post: post,
+              onTap: () => controller.postSelected(post),
+              countInfo: controller.selectedPlan.countInfo,
+              isSelected: controller.selectedPosts.contains(post),
+              count: controller.count,
             );
           });
         },
       );
     });
-  }
-
-  Widget selectIcon() {
-    switch (controller.selectedPlan.countInfo) {
-      case 'Likes':
-        return const Icon(Icons.favorite, color: Colors.white);
-      case 'Views':
-        return const Icon(Icons.visibility, color: Colors.white);
-      case 'Comments':
-        return SvgPicture.asset(AppAssets.commentIcon);
-    }
-    return const SizedBox();
   }
 }

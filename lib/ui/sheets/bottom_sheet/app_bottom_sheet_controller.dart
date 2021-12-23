@@ -1,8 +1,12 @@
+import 'dart:ffi';
+import 'dart:ui';
+
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
+import 'package:poprey_app/ui/pages/order/order_page.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 
 enum BottomSheetView { login, chooseAccount, autoLikes }
@@ -78,4 +82,9 @@ class AppBottomSheetController extends GetxController {
   }
 
   void showLogin() => bottomSheetView.value = BottomSheetView.login;
+
+  void showOrderPage(SelectedPlan plan) {
+    Get.back();
+    Get.toNamed(OrderPage.routeName, arguments: [plan]);
+  }
 }

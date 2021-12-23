@@ -6,6 +6,7 @@ import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
+import 'package:poprey_app/ui/pages/order/order_page.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
@@ -116,7 +117,10 @@ class ChoosePostsController extends GetxController {
   }
 
   void nextPressed(BuildContext context) {
-    // TODO
+    Get.toNamed(
+      OrderPage.routeName,
+      arguments: [selectedPlan, selectedPosts],
+    );
   }
 
   void toggleList() {

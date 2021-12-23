@@ -12,8 +12,6 @@ class AppTheme {
       trackShape: CustomTrackShape(),
     ),
   );
-  static get mySystemTheme =>
-      SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: primary);
 
   static ThemeData themeLight = _defaultTheme.copyWith(
     brightness: Brightness.light,
@@ -158,13 +156,22 @@ class AppTheme {
     );
   }
 
-  // static const cupertinoThemeData = CupertinoThemeData(
-  //   textTheme: CupertinoTextThemeData(
-  //     textStyle: TextStyle(
-  //       fontFamily: AppConstants.SFProDisplay,
-  //     ),
-  //   ),
-  // );
+  static void setOverlayStyle([Color? color, BuildContext? context]) {
+    final overlay = getSystemOverlayStyle(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      color != null
+          ? overlay.copyWith(systemNavigationBarColor: color)
+          : overlay,
+    );
+  }
+
+  static SystemUiOverlayStyle getSystemOverlayStyle(BuildContext? context) {
+    return context != null
+        ? isLightTheme(context)
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.light;
+  }
 }
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {

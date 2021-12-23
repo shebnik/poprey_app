@@ -31,7 +31,7 @@ class _OtherSmTabState extends State<OtherSmTab>
             thumbColor: AppTheme.primary,
             radius: const Radius.circular(30),
             child: SingleChildScrollView(
-        controller: ScrollController(),
+              controller: ScrollController(),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 10),

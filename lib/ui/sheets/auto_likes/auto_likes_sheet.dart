@@ -13,7 +13,7 @@ import 'package:poprey_app/utils/app_theme.dart';
 class AutoLikesSheet extends StatefulWidget {
   final SelectedPlan selectedPlan;
   final VoidCallback resetPressed;
-  final VoidCallback nextPressed;
+  final void Function(SelectedPlan) nextPressed;
 
   const AutoLikesSheet({
     Key? key,
@@ -128,7 +128,7 @@ class _AutoLikesSheetState extends State<AutoLikesSheet> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: BottomResetNavigation(
                 resetPressed: widget.resetPressed,
-                nextPressed: widget.nextPressed,
+                nextPressed: () => widget.nextPressed(controller.getSelectedPlan()),
               ),
             )
           ],

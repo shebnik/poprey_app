@@ -38,7 +38,7 @@ class AppBottomSheet extends StatelessWidget {
           return AutoLikesSheet(
             selectedPlan: selectedPlan,
             resetPressed: controller.showLogin,
-            nextPressed: () => {},
+            nextPressed: controller.showOrderPage,
           );
       }
     });
