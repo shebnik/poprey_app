@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poprey_app/models/instagram_post.dart';
 import 'package:poprey_app/utils/app_assets.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 
 class InstagramPostWidget extends StatelessWidget {
   final InstagramPost post;
@@ -22,42 +23,48 @@ class InstagramPostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(5)),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Stack(
-          children: [
-            CachedNetworkImage(
-              imageUrl: post.thumbnailSrc,
-            ),
-            if (isSelected) ...[
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(4, 4, 4, 0.6),
-                ),
+    return LayoutBuilder(builder: (context, constraints) {
+      return ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        child: GestureDetector(
+          onTap: onTap,
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              CachedNetworkImage(
+                imageUrl: post.thumbnailSrc,
+                fit: BoxFit.cover,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      selectIcon(),
-                      const SizedBox(height: 6),
-                      Text(
-                        count,
-                        style: Theme.of(context).textTheme.subtitle2,
-                      ),
-                    ],
+              if (isSelected) ...[
+                Container(
+                  height: constraints.minHeight,
+                  width: constraints.minHeight,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(4, 4, 4, 0.6),
                   ),
-                ],
-              ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        selectIcon(),
+                        const SizedBox(height: 6),
+                        Text(
+                          count,
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget selectIcon() {
