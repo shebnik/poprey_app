@@ -34,7 +34,8 @@ class _OrderPageState extends State<OrderPage> {
               const SizedBox(height: 24),
               Row(
                 children: [
-                  SelectionContainer(title: title, isSelected: isSelected)
+                  SelectionContainer(title: controller.plan., isSelected: isSelected),
+                  SelectionContainer(title: title, isSelected: isSelected),
                 ],
               ),
             ],
@@ -67,7 +68,7 @@ class _OrderPageState extends State<OrderPage> {
               return Center(
                 child: Text(
                   '+${controller.selectedPosts!.length - 5}',
-                  style: Theme.of(context).textTheme.headline1!.apply(
+                  style: Theme.of(context).textTheme.headline1?.apply(
                         color: AppTheme.primaryBlue,
                       ),
                 ),

@@ -96,7 +96,7 @@ class _SelectionSliderState extends State<SelectionSlider> {
             children: [
               Text(
                 model.countInfo,
-                style: Theme.of(context).textTheme.headline5!.apply(
+                style: Theme.of(context).textTheme.headline5?.apply(
                       color: AppTheme.primaryBlue,
                     ),
               ),

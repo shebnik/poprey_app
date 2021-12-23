@@ -90,7 +90,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
             const SizedBox(height: 26),
             Text(
               'Choose Posts',
-              style: Theme.of(context).textTheme.headline3!.apply(
+              style: Theme.of(context).textTheme.headline3?.apply(
                     color: AppTheme.primary,
                   ),
             ),

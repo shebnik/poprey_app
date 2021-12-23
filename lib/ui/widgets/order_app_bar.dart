@@ -23,7 +23,7 @@ class OrderAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: true,
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headline3!.apply(
+        style: Theme.of(context).textTheme.headline3?.apply(
               color: AppTheme.primary,
             ),
       ),
