@@ -28,11 +28,13 @@ class OrderPageController extends GetxController {
   }
 
   String get getTitle =>
-      '${selectedPlan.platform} ${selectedPlan.plan.count} ${selectedPlan.countInfo}';
+      '${selectedPlan.platform} ${selectedPlan.plan.count} ${selectedPlan.countInfo.split(' ')[0]}';
 
-  List<String> get getSubtitle1 => AppConstants.TypesDescription[plan.types.first.name]!;
+  List<String> get getSubtitle1 =>
+      AppConstants.TypesDescription[plan.types.first.name]!;
 
-  List<String> get getSubtitle2 => AppConstants.TypesDescription[plan.types.last.name]!;
+  List<String> get getSubtitle2 =>
+      AppConstants.TypesDescription[plan.types.last.name]!;
 
   String getCount() {
     if (selectedPosts == null) return '';

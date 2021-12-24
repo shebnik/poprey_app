@@ -35,14 +35,18 @@ class _OrderPageState extends State<OrderPage> {
                   ? orderTitle()
                   : const SizedBox(height: 24),
               if (controller.plan.types.first.disabled == false)
-                SelectionContainersRow(
-                  selectedIndex: controller.selectedIndex,
-                  updateIndex: (index) =>
-                      controller.selectedIndex.value = index,
-                  title1: controller.plan.types.first.name.toUpperCase(),
-                  title2: controller.plan.types.last.name.toUpperCase(),
-                  subtitles1: controller.getSubtitle1,
-                  subtitles2: controller.getSubtitle2,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: SelectionContainersRow(
+                    selectedIndex: controller.selectedIndex,
+                    updateIndex: (index) =>
+                        controller.selectedIndex.value = index,
+                    title1: controller.plan.types.first.name.toUpperCase(),
+                    title2: controller.plan.types.last.name.toUpperCase(),
+                    shouldApplyBorder: true,
+                    subtitles1: controller.getSubtitle1,
+                    subtitles2: controller.getSubtitle2,
+                  ),
                 ),
             ],
           ),

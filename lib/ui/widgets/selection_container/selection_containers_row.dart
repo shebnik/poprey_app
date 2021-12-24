@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:poprey_app/ui/widgets/gradient_text.dart';
+import 'package:poprey_app/ui/widgets/gradient/gradient_text.dart';
 import 'package:poprey_app/ui/widgets/selection_container/selection_container.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
@@ -15,6 +14,7 @@ class SelectionContainersRow extends StatelessWidget {
   final List<String>? subtitles2;
 
   final bool subtitle30daysShown;
+  final bool shouldApplyBorder;
 
   const SelectionContainersRow({
     Key? key,
@@ -25,6 +25,7 @@ class SelectionContainersRow extends StatelessWidget {
     required this.title2,
     this.subtitles2,
     this.subtitle30daysShown = false,
+    this.shouldApplyBorder = false,
   }) : super(key: key);
 
   @override
@@ -33,31 +34,29 @@ class SelectionContainersRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: InkWell(
-            onTap: () => updateIndex(0),
-            child: Obx(() {
-              return SelectionContainer(
-                title: title1,
-                isSelected: selectedIndex.value == 0,
-                subtitles: subtitles1,
-              );
-            }),
-          ),
+          child: Obx(() {
+            return SelectionContainer(
+              title: title1,
+              isSelected: selectedIndex.value == 0,
+              hasBorder: shouldApplyBorder,
+              subtitles: subtitles1,
+              onTap: () => updateIndex(0),
+            );
+          }),
         ),
         const SizedBox(width: 16),
         Expanded(
           child: Column(
             children: [
-              InkWell(
-                onTap: () => updateIndex(1),
-                child: Obx(() {
-                  return SelectionContainer(
-                    title: title2,
-                    isSelected: selectedIndex.value == 1,
-                    subtitles: subtitles2,
-                  );
-                }),
-              ),
+              Obx(() {
+                return SelectionContainer(
+                  title: title2,
+                  isSelected: selectedIndex.value == 1,
+                  hasBorder: shouldApplyBorder,
+                  subtitles: subtitles2,
+                  onTap: () => updateIndex(1),
+                );
+              }),
               if (subtitle30daysShown) ...[
                 const SizedBox(height: 1),
                 Obx(
