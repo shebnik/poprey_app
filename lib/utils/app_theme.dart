@@ -41,6 +41,12 @@ class AppTheme {
         fontSize: 10,
         fontFamily: AppConstants.SFProDisplay,
       ),
+      subtitle2: const TextStyle(
+        color: Colors.black,
+        fontFamily: AppConstants.SFProText,
+        fontWeight: FontWeight.w400,
+        fontSize: 12,
+      ),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: Colors.white,
@@ -104,16 +110,10 @@ class AppTheme {
       fontWeight: FontWeight.w400,
       fontSize: 12,
     ),
-    headline1: TextStyle(
+    headline2: TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 18,
       fontFamily: AppConstants.SFProText,
-    ),
-    headline2: TextStyle(
-      color: primary,
-      fontWeight: FontWeight.w700,
-      fontSize: 14,
-      fontFamily: AppConstants.SFProDisplay,
     ),
     headline3: TextStyle(
       // color: Colors.black,

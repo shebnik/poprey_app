@@ -61,12 +61,17 @@ class InstagramModel {
       _$InstagramModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$InstagramModelToJson(this);
+
+  @override
+  String toString() {
+    return 'InstagramModel(likes: $likes, followers: $followers, autoLikesPost: $autoLikesPost, autoLikesSubs: $autoLikesSubs, views: $views, comments: $comments)';
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class InstagramPlan {
   // List<String?> info;
-  
+
   @NumConverter()
   @JsonKey(name: 'count')
   final num count;
@@ -101,6 +106,11 @@ class InstagramPlan {
       _$InstagramPlanFromJson(json);
 
   Map<String, dynamic> toJson() => _$InstagramPlanToJson(this);
+
+  @override
+  String toString() {
+    return 'InstagramPlan(count: $count, price: $price, types: $types, extras: $extras)';
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -126,6 +136,11 @@ class Type {
   factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TypeToJson(this);
+
+  @override
+  String toString() {
+    return 'Type(name: $name, price: $price, disabled: $disabled, discount: $discount)';
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -151,4 +166,9 @@ class Extra {
   factory Extra.fromJson(Map<String, dynamic> json) => _$ExtraFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExtraToJson(this);
+
+  @override
+  String toString() {
+    return 'Extra(name: $name, count: $count, price: $price, disabled: $disabled)';
+  }
 }

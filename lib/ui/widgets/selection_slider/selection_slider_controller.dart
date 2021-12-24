@@ -37,7 +37,7 @@ class SelectionSliderController extends GetxController {
       AppBottomSheet(
         selectedPlan: SelectedPlan.fromSelectionSliderModel(
           model: model,
-          planPrice: planPrice,
+          plan: planPrice,
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';

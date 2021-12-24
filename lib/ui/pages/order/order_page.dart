@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/order/order_page_controller.dart';
-import 'package:poprey_app/ui/sheets/auto_likes/selection_container.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
+import 'package:poprey_app/ui/widgets/selection_container/selection_containers_row.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class OrderPage extends StatefulWidget {
@@ -31,13 +31,19 @@ class _OrderPageState extends State<OrderPage> {
           child: Column(
             children: [
               selectedPosts(),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  SelectionContainer(title: controller.plan., isSelected: isSelected),
-                  SelectionContainer(title: title, isSelected: isSelected),
-                ],
-              ),
+              controller.selectedPosts == null
+                  ? orderTitle()
+                  : const SizedBox(height: 24),
+              if (controller.plan.types.first.disabled == false)
+                SelectionContainersRow(
+                  selectedIndex: controller.selectedIndex,
+                  updateIndex: (index) =>
+                      controller.selectedIndex.value = index,
+                  title1: controller.plan.types.first.name.toUpperCase(),
+                  title2: controller.plan.types.last.name.toUpperCase(),
+                  subtitles1: controller.getSubtitle1,
+                  subtitles2: controller.getSubtitle2,
+                ),
             ],
           ),
         ),
@@ -68,7 +74,7 @@ class _OrderPageState extends State<OrderPage> {
               return Center(
                 child: Text(
                   '+${controller.selectedPosts!.length - 5}',
-                  style: Theme.of(context).textTheme.headline1?.apply(
+                  style: Theme.of(context).textTheme.headline2?.apply(
                         color: AppTheme.primaryBlue,
                       ),
                 ),
@@ -83,6 +89,19 @@ class _OrderPageState extends State<OrderPage> {
           },
         ),
       ),
+    );
+  }
+
+  Widget orderTitle() {
+    return Column(
+      children: [
+        const SizedBox(height: 30),
+        Text(
+          controller.getTitle,
+          style: Theme.of(context).textTheme.headline3,
+        ),
+        const SizedBox(height: 18),
+      ],
     );
   }
 }

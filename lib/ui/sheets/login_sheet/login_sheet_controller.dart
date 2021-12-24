@@ -43,7 +43,7 @@ class LoginSheetController extends GetxController {
       : null;
 
   String get getTitle =>
-      '${selectedPlan.platform} ${Utils.formatNumber(selectedPlan.planPrice.count)} ${selectedPlan.countInfo}';
+      '${selectedPlan.platform} ${Utils.formatNumber(selectedPlan.plan.count)} ${selectedPlan.countInfo}';
 
   get getUrlTitle => selectedPlan.urlInfo;
 

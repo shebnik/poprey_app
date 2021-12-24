@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poprey_app/models/instagram_post.dart';
 import 'package:poprey_app/utils/app_assets.dart';
-import 'package:poprey_app/utils/app_constants.dart';
 
 class InstagramPostWidget extends StatelessWidget {
   final InstagramPost post;

@@ -31,7 +31,7 @@ class ChoosePostsController extends GetxController {
 
   String get count => selectedPosts.isEmpty
       ? ''
-      : (selectedPlan.planPrice.count ~/ (selectedPosts.length)).toString();
+      : (selectedPlan.plan.count ~/ (selectedPosts.length)).toString();
 
   bool canLoadMore() =>
       MainController.isOnline &&

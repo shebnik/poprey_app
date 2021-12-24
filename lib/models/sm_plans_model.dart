@@ -35,6 +35,11 @@ class SMPlansModel {
       _$SMPlansModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SMPlansModelToJson(this);
+
+  @override
+  String toString() {
+    return 'SMPlansModel(youtube: $youtube, tiktok: $tiktok, facebook: $facebook, twitter: $twitter, spotify: $spotify, vk: $vk)';
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -61,4 +66,9 @@ class SMPlan {
   factory SMPlan.fromJson(Map<String, dynamic> json) => _$SMPlanFromJson(json);
 
   Map<String, dynamic> toJson() => _$SMPlanToJson(this);
+
+  @override
+  String toString() {
+    return 'SMPlan(logo: $logo, countInfo: $countInfo, urlInfo: $urlInfo, plans: $plans, info: $info)';
+  }
 }

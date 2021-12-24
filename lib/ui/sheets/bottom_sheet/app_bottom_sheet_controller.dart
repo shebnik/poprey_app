@@ -1,6 +1,3 @@
-import 'dart:ffi';
-import 'dart:ui';
-
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
@@ -65,6 +62,8 @@ class AppBottomSheetController extends GetxController {
           instagramUser,
         ],
       );
+    } else {
+      showOrderPage(selectedPlan);
     }
   }
 

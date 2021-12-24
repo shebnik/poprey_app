@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts_controller.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
@@ -10,7 +8,6 @@ import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
-import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class ChoosePosts extends StatefulWidget {

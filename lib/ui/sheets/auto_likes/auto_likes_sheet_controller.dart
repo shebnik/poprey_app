@@ -14,7 +14,7 @@ class AutoLikesSheetController {
   int currentPostIndex = 0, currentSubIndex = 0;
 
   AutoLikesSheetController(SelectedPlan selectedPlan) {
-    planPrice = selectedPlan.planPrice;
+    planPrice = selectedPlan.plan;
     instagramModel = AppPreferences.getInstagramModel()!;
     autoLikesPost = instagramModel.autoLikesPost;
     autoLikesSubs = instagramModel.autoLikesSubs;
@@ -36,6 +36,7 @@ class AutoLikesSheetController {
 
     return selectedIndex.value == 1
         ? model.copyWith(
+          countInfo: 'Auto-Likes Subs',
             plans: autoLikesSubs
                 .map((e) => Plan(
                       count: e.count.toInt(),
@@ -44,6 +45,7 @@ class AutoLikesSheetController {
                 .toList(),
           )
         : model.copyWith(
+          countInfo: 'Auto-Likes Post',
             plans: autoLikesPost
                 .map((e) => Plan(
                       count: e.count.toInt(),
@@ -68,7 +70,7 @@ class AutoLikesSheetController {
 
   SelectedPlan getSelectedPlan() {
     return SelectedPlan.fromSelectionSliderModel(
-        model: getSelectedModel(), planPrice: planPrice);
+        model: getSelectedModel(), plan: planPrice);
   }
 
   // int getInititalIndex(SelectedPlan selectedPlan) {

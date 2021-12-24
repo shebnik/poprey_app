@@ -54,11 +54,11 @@ class SelectionContainer extends StatelessWidget {
                       ? GradientText(
                           title,
                           gradient: AppTheme.getAppGradient(),
-                          style: Theme.of(context).textTheme.headline2,
+                          style: Theme.of(context).textTheme.headline4,
                         )
                       : Text(
                           title,
-                          style: Theme.of(context).textTheme.headline2,
+                          style: Theme.of(context).textTheme.headline4,
                         ),
                 ],
               ),
@@ -75,20 +75,31 @@ class SelectionContainer extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 20),
-        ListView.builder(
+        ListView.separated(
+          shrinkWrap: true,
+          itemCount: 4,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {
             return Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                GradientIcon(
-                  Icons.verified_user_outlined,
-                  gradient: AppTheme.getAppGradient(),
-                ),
-                Text(
-                  subtitles![index],
-                  style: Theme.of(context).textTheme.subtitle2?.apply(
-                        fontFamily: AppConstants.SFProDisplay,
+                isSelected
+                    ? GradientIcon(
+                        Icons.verified_user_outlined,
+                        gradient: AppTheme.getAppGradient(),
+                        size: 12,
+                      )
+                    : const Icon(
+                        Icons.verified_user_outlined,
+                        color: Color(0xFFC9CFD6),
+                        size: 12,
                       ),
-                ),
+                // Text(
+                //   subtitles![index],
+                //   style: Theme.of(context).textTheme.subtitle2?.apply(
+                //         fontFamily: AppConstants.SFProDisplay,
+                //       ),
+                // ),
               ],
             );
           },

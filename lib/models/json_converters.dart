@@ -55,6 +55,7 @@ Map<String, dynamic> typesToJson(List<Type> object) {
   var i = 1;
   for (var e in object) {
     json['t$i'] = e.toJson();
+    i++;
   }
   return json;
 }
@@ -72,6 +73,7 @@ Map<String, dynamic>? extraToJson(List<Extra>? object) {
   var i = 1;
   for (var e in object) {
     json['e$i'] = e.toJson();
+    i++;
   }
   return json;
 }
