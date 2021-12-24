@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
-import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
+import 'package:poprey_app/ui/widgets/selector_widget/selector_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'other_sm_selection_list.dart';
 
@@ -54,7 +54,7 @@ class _OtherSmTabState extends State<OtherSmTab>
         shrinkWrap: true,
         itemBuilder: (context, index) {
           String key = '${model[index].platform}-${model[index].countInfo}';
-          return SelectionSlider(
+          return SelectorWidget(
             model: model[index],
             key: Key(key),
           );

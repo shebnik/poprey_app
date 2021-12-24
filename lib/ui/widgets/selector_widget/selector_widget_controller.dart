@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
-import 'package:poprey_app/models/selection_slider_model.dart';
+import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/ui/sheets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 
-class SelectionSliderController extends GetxController {
-  final SelectionSliderModel model;
-  Plan planPrice = Plan.zero();
+class SelectorWidgetController extends GetxController {
+  final SelectorWidgetModel model;
+  late Plan plan;
 
-  SelectionSliderController(this.model);
+  RxBool isBuyDisabled;
+
+  SelectorWidgetController(this.model)
+      : isBuyDisabled = model.plans[0].disabled.obs;
 
   String? getImageAsset() {
     switch (model.countInfo.toLowerCase()) {
@@ -37,11 +40,18 @@ class SelectionSliderController extends GetxController {
       AppBottomSheet(
         selectedPlan: SelectedPlan.fromSelectionSliderModel(
           model: model,
-          plan: planPrice,
+          plan: plan,
         ),
       ),
     );
   }
 
-  void setPlanPrice(Plan value, [int? index]) => planPrice = value;
+  void setPlan(Plan value, [int? index]) {
+    plan = value;
+  }
+
+  void updatePlan(Plan value, [int? index]) {
+    plan = value;
+    isBuyDisabled.value = value.disabled;
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab_controller.dart';
-import 'package:poprey_app/ui/widgets/selection_slider/selection_slider.dart';
+import 'package:poprey_app/ui/widgets/selector_widget/selector_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class InstagramTab extends StatefulWidget {
@@ -35,7 +35,7 @@ class _InstagramTabState extends State<InstagramTab>
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final model = controller.slidersList.value[index];
-                return SelectionSlider(
+                return SelectorWidget(
                   model: model,
                   key: Key('${model.platform}-${model.countInfo}'),
                 );

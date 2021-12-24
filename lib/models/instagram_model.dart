@@ -85,7 +85,7 @@ class InstagramPlan {
     fromJson: typesFromJson,
     toJson: typesToJson,
   )
-  final List<Type> types;
+  final List<PlanType> types;
 
   @JsonKey(
     name: 'extra',
@@ -114,7 +114,7 @@ class InstagramPlan {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Type {
+class PlanType {
   final String name;
 
   @NumConverter()
@@ -126,16 +126,16 @@ class Type {
   @BoolConverter()
   final bool discount;
 
-  Type({
+  PlanType({
     required this.name,
     required this.price,
     required this.disabled,
     required this.discount,
   });
 
-  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+  factory PlanType.fromJson(Map<String, dynamic> json) => _$PlanTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TypeToJson(this);
+  Map<String, dynamic> toJson() => _$PlanTypeToJson(this);
 
   @override
   String toString() {

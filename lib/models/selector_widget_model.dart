@@ -1,4 +1,6 @@
-class SelectionSliderModel {
+import 'package:poprey_app/models/instagram_model.dart';
+
+class SelectorWidgetModel {
   /// Instagram, YouTube, etc
   final String platform;
 
@@ -15,7 +17,7 @@ class SelectionSliderModel {
   late final double maxValue;
   late final int divisions;
 
-  SelectionSliderModel({
+  SelectorWidgetModel({
     required this.platform,
     required this.countInfo,
     required this.urlInfo,
@@ -29,14 +31,14 @@ class SelectionSliderModel {
     }
   }
 
-  factory SelectionSliderModel.fromMap({
+  factory SelectorWidgetModel.fromSMMap({
     required String platform,
     required String countInfo,
     required String urlInfo,
     required Map<String, String> plans,
     String? imageAsset,
   }) {
-    return SelectionSliderModel(
+    return SelectorWidgetModel(
       platform: platform,
       countInfo: countInfo,
       urlInfo: urlInfo,
@@ -44,20 +46,21 @@ class SelectionSliderModel {
           .map((e) => Plan(
                 count: int.parse(e.key.replaceAll(' ', '')),
                 price: double.parse(e.value),
+                disabled: false,
               ))
           .toList(),
       imageAsset: imageAsset,
     );
   }
 
-  SelectionSliderModel copyWith({
+  SelectorWidgetModel copyWith({
     String? platform,
     String? countInfo,
     String? urlInfo,
     List<Plan>? plans,
     String? imageAsset,
   }) {
-    return SelectionSliderModel(
+    return SelectorWidgetModel(
       platform: platform ?? this.platform,
       countInfo: countInfo ?? this.countInfo,
       urlInfo: urlInfo ?? this.urlInfo,
@@ -70,13 +73,22 @@ class SelectionSliderModel {
 class Plan {
   final int count;
   final double price;
+  final bool disabled;
 
   Plan({
     required this.count,
     required this.price,
+    required this.disabled,
   });
 
   factory Plan.zero() {
-    return Plan(count: 0, price: 0);
+    return Plan(count: 0, price: 0, disabled: false);
+  }
+
+  static bool checkIfDisabled(List<PlanType> types) {
+    for (var item in types) {
+      print(item);
+    }
+    return types[0].disabled && types[1].disabled;
   }
 }

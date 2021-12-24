@@ -1,5 +1,5 @@
 import 'package:get/state_manager.dart';
-import 'package:poprey_app/models/selection_slider_model.dart';
+import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/app_assets.dart';
@@ -8,7 +8,7 @@ import 'package:poprey_app/utils/app_constants.dart';
 class OtherSmTabController extends GetxController {
   late SMPlansModel smPLansModel;
 
-  Rx<List<SelectionSliderModel>> slidersList = Rx([]);
+  Rx<List<SelectorWidgetModel>> slidersList = Rx([]);
 
   RxInt selectedIndex = 0.obs;
 
@@ -58,7 +58,7 @@ class OtherSmTabController extends GetxController {
     }
   }
 
-  List<SelectionSliderModel> get _all => [
+  List<SelectorWidgetModel> get _all => [
         ..._youTube,
         ..._tikTok,
         ..._facebook,
@@ -67,8 +67,8 @@ class OtherSmTabController extends GetxController {
         ..._vk,
       ];
 
-  List<SelectionSliderModel> get _youTube => smPLansModel.youtube.entries
-      .map((e) => SelectionSliderModel.fromMap(
+  List<SelectorWidgetModel> get _youTube => smPLansModel.youtube.entries
+      .map((e) => SelectorWidgetModel.fromSMMap(
             platform: AppConstants.YouTube,
             countInfo: e.value.countInfo,
             urlInfo: e.value.urlInfo,
@@ -77,8 +77,8 @@ class OtherSmTabController extends GetxController {
           ))
       .toList();
 
-  List<SelectionSliderModel> get _tikTok => smPLansModel.tiktok.entries
-      .map((e) => SelectionSliderModel.fromMap(
+  List<SelectorWidgetModel> get _tikTok => smPLansModel.tiktok.entries
+      .map((e) => SelectorWidgetModel.fromSMMap(
             platform: AppConstants.TikTok,
             countInfo: e.value.countInfo,
             urlInfo: e.value.urlInfo,
@@ -87,8 +87,8 @@ class OtherSmTabController extends GetxController {
           ))
       .toList();
 
-  List<SelectionSliderModel> get _facebook => smPLansModel.facebook.entries
-      .map((e) => SelectionSliderModel.fromMap(
+  List<SelectorWidgetModel> get _facebook => smPLansModel.facebook.entries
+      .map((e) => SelectorWidgetModel.fromSMMap(
             platform: AppConstants.Facebook,
             countInfo: e.value.countInfo,
             urlInfo: e.value.urlInfo,
@@ -97,8 +97,8 @@ class OtherSmTabController extends GetxController {
           ))
       .toList();
 
-  List<SelectionSliderModel> get _spotify => smPLansModel.spotify.entries
-      .map((e) => SelectionSliderModel.fromMap(
+  List<SelectorWidgetModel> get _spotify => smPLansModel.spotify.entries
+      .map((e) => SelectorWidgetModel.fromSMMap(
             platform: AppConstants.Spotify,
             countInfo: e.value.countInfo,
             urlInfo: e.value.urlInfo,
@@ -107,8 +107,8 @@ class OtherSmTabController extends GetxController {
           ))
       .toList();
 
-  List<SelectionSliderModel> get _twitter => smPLansModel.twitter.entries
-      .map((e) => SelectionSliderModel.fromMap(
+  List<SelectorWidgetModel> get _twitter => smPLansModel.twitter.entries
+      .map((e) => SelectorWidgetModel.fromSMMap(
             platform: AppConstants.Twitter,
             countInfo: e.value.countInfo,
             urlInfo: e.value.urlInfo,
@@ -117,8 +117,8 @@ class OtherSmTabController extends GetxController {
           ))
       .toList();
 
-  List<SelectionSliderModel> get _vk => smPLansModel.vk.entries
-      .map((e) => SelectionSliderModel.fromMap(
+  List<SelectorWidgetModel> get _vk => smPLansModel.vk.entries
+      .map((e) => SelectorWidgetModel.fromSMMap(
             platform: AppConstants.VK,
             countInfo: e.value.countInfo,
             urlInfo: e.value.urlInfo,

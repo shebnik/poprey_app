@@ -20,10 +20,6 @@ class OrderPageController extends GetxController {
     }
     if (selectedPlan.platform == 'Instagram') {
       plan = SelectedPlan.toInstagramPlan(selectedPlan)!;
-      print(plan.toString());
-      for (var item in plan.types) {
-        print(item.toString());
-      }
     }
   }
 

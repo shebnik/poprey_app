@@ -34,7 +34,7 @@ class _OrderPageState extends State<OrderPage> {
               controller.selectedPosts == null
                   ? orderTitle()
                   : const SizedBox(height: 24),
-              if (controller.plan.types.first.disabled == false)
+              if (controller.plan.types.first.disabled == false || controller.plan.types.last.disabled == false)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   child: SelectionContainersRow(

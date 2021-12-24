@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/ui/sheets/auto_likes/auto_likes_sheet_controller.dart';
+import 'package:poprey_app/ui/widgets/app_slider.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/selection_container/selection_containers_row.dart';
-import 'package:poprey_app/ui/widgets/selection_slider/app_slider.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
@@ -73,17 +73,21 @@ class _AutoLikesSheetState extends State<AutoLikesSheet> {
                       'Auto-Likes-Slider-${controller.selectedIndex.value}'),
                   model: controller.getSelectedModel(),
                   initialIndex: controller.getInititalIndex(),
-                  setPlanPrice: controller.setPlanPrice,
+                  setPlan: controller.setPlan,
+                  updatePlan: controller.updatePlan,
                 ),
               ),
             ),
             const SizedBox(height: 35, width: 35),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              child: BottomResetNavigation(
-                resetPressed: widget.resetPressed,
-                nextPressed: () =>
-                    widget.nextPressed(controller.getSelectedPlan()),
+              child: Obx(
+                () => BottomResetNavigation(
+                  resetPressed: widget.resetPressed,
+                  nextPressed: controller.isBuyDisabled.value
+                      ? null
+                      : () => widget.nextPressed(controller.getSelectedPlan()),
+                ),
               ),
             )
           ],

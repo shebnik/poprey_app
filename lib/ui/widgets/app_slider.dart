@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:poprey_app/models/selection_slider_model.dart';
+
+import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/utils/utils.dart';
 
 class AppSlider extends StatefulWidget {
-  final SelectionSliderModel model;
+  final SelectorWidgetModel model;
   final int initialIndex;
-  final void Function(Plan planPrice, [int? index]) setPlanPrice;
+  final void Function(Plan plan, [int? index]) setPlan;
+  final void Function(Plan plan, [int? index]) updatePlan;
 
   const AppSlider({
     Key? key,
     required this.model,
     this.initialIndex = 0,
-    required this.setPlanPrice,
+    required this.setPlan,
+    required this.updatePlan,
   }) : super(key: key);
 
   @override
@@ -20,7 +23,7 @@ class AppSlider extends StatefulWidget {
 }
 
 class _AppSliderState extends State<AppSlider> {
-  late SelectionSliderModel model;
+  late SelectorWidgetModel model;
 
   RxString countValue = ''.obs, priceValue = ''.obs;
   RxDouble currentValue = 0.0.obs;
@@ -30,27 +33,23 @@ class _AppSliderState extends State<AppSlider> {
     super.initState();
     model = widget.model;
 
-    final Plan planPrice = Plan(
-      count: model.plans[widget.initialIndex].count,
-      price: model.plans[widget.initialIndex].price,
-    );
-    widget.setPlanPrice(planPrice, widget.initialIndex);
+    final Plan plan = model.plans[widget.initialIndex];
+    widget.setPlan(plan, widget.initialIndex);
 
     currentValue = widget.initialIndex.toDouble().obs;
-    countValue = Utils.formatNumber(planPrice.count).obs;
-    priceValue = planPrice.price.toStringAsFixed(2).obs;
+    countValue = Utils.formatNumber(plan.count).obs;
+    priceValue = plan.price.toStringAsFixed(2).obs;
   }
 
   void onSliderChanged(double value) {
     currentValue.value = value;
     var index = value.toInt();
 
-    var count = model.plans[index].count;
-    var price = model.plans[index].price;
-    widget.setPlanPrice(Plan(count: count, price: price), index);
+    final plan = model.plans[index];
+    widget.updatePlan(plan, index);
 
-    countValue.value = Utils.formatNumber(count);
-    priceValue.value = price.toStringAsFixed(2);
+    countValue.value = Utils.formatNumber(plan.count);
+    priceValue.value = plan.price.toStringAsFixed(2);
   }
 
   @override

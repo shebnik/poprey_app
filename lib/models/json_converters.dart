@@ -45,12 +45,12 @@ Map<String, dynamic> instagramPlanToJson(List<InstagramPlan> object) {
 }
 
 @override
-List<Type> typesFromJson(Map<String, dynamic> json) {
-  return json.entries.map((e) => Type.fromJson(e.value)).toList();
+List<PlanType> typesFromJson(Map<String, dynamic> json) {
+  return json.entries.map((e) => PlanType.fromJson(e.value)).toList();
 }
 
 @override
-Map<String, dynamic> typesToJson(List<Type> object) {
+Map<String, dynamic> typesToJson(List<PlanType> object) {
   Map<String, dynamic> json = {};
   var i = 1;
   for (var e in object) {

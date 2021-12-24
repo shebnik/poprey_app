@@ -45,9 +45,10 @@ class LoginSheet extends StatelessWidget {
                 Obx(() {
                   var isLoading = controller.isLoading.value;
                   return BottomResetNavigation(
-                    resetPressed: () => Get.back(),
-                    nextPressed: () => controller.nextPressed(context),
-                    disabled: isLoading,
+                    resetPressed: isLoading ? null : () => Get.back(),
+                    nextPressed: isLoading
+                        ? null
+                        : () => controller.nextPressed(context),
                   );
                 }),
               ],

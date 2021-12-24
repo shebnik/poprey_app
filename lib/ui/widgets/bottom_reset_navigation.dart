@@ -3,15 +3,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/round_button.dart';
 
 class BottomResetNavigation extends StatelessWidget {
-  final VoidCallback resetPressed;
-  final VoidCallback nextPressed;
-  final bool? disabled;
+  final void Function()? resetPressed;
+  final void Function()? nextPressed;
 
   const BottomResetNavigation({
     Key? key,
     required this.resetPressed,
     required this.nextPressed,
-    this.disabled,
   }) : super(key: key);
 
   @override
@@ -32,7 +30,6 @@ class BottomResetNavigation extends StatelessWidget {
           child: RoundButton(
             onPressed: nextPressed,
             title: localization?.next ?? 'Next',
-            disabled: disabled,
           ),
         ),
       ],

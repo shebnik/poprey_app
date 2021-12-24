@@ -1,5 +1,5 @@
 import 'package:poprey_app/models/instagram_model.dart';
-import 'package:poprey_app/models/selection_slider_model.dart';
+import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/logger.dart';
 
@@ -49,7 +49,7 @@ class SelectedPlan {
   }
 
   factory SelectedPlan.fromSelectionSliderModel({
-    required SelectionSliderModel model,
+    required SelectorWidgetModel model,
     required Plan plan,
   }) {
     return SelectedPlan(

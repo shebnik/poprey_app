@@ -45,14 +45,14 @@ Map<String, dynamic> _$InstagramPlanToJson(InstagramPlan instance) =>
       'extra': extraToJson(instance.extras),
     };
 
-Type _$TypeFromJson(Map<String, dynamic> json) => Type(
+PlanType _$PlanTypeFromJson(Map<String, dynamic> json) => PlanType(
       name: json['name'] as String,
       price: const NumConverter().fromJson(json['price'] as String),
       disabled: const BoolConverter().fromJson(json['disabled']),
       discount: const BoolConverter().fromJson(json['discount']),
     );
 
-Map<String, dynamic> _$TypeToJson(Type instance) => <String, dynamic>{
+Map<String, dynamic> _$PlanTypeToJson(PlanType instance) => <String, dynamic>{
       'name': instance.name,
       'price': const NumConverter().toJson(instance.price),
       'disabled': const BoolConverter().toJson(instance.disabled),

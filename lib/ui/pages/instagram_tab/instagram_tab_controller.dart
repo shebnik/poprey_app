@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_model.dart';
-import 'package:poprey_app/models/selection_slider_model.dart';
+import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class InstagramTabController extends GetxController {
   late InstagramModel instagramModel;
-  Rx<List<SelectionSliderModel>> slidersList = Rx([]);
+  Rx<List<SelectorWidgetModel>> slidersList = Rx([]);
 
-  final emptyModel = SelectionSliderModel(
+  final emptyModel = SelectorWidgetModel(
     platform: AppConstants.Instagram,
     urlInfo: 'Instagram Username (Login)',
     countInfo: '',
@@ -31,6 +31,7 @@ class InstagramTabController extends GetxController {
               .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
+                    disabled: Plan.checkIfDisabled(e.types),
                   ))
               .toList(),
         ),
@@ -42,6 +43,7 @@ class InstagramTabController extends GetxController {
               .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
+                    disabled: Plan.checkIfDisabled(e.types),
                   ))
               .toList(),
         ),
@@ -53,6 +55,7 @@ class InstagramTabController extends GetxController {
               .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
+                    disabled: Plan.checkIfDisabled(e.types),
                   ))
               .toList(),
         ),
@@ -64,6 +67,7 @@ class InstagramTabController extends GetxController {
               .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
+                    disabled: Plan.checkIfDisabled(e.types),
                   ))
               .toList(),
         ),
@@ -75,6 +79,7 @@ class InstagramTabController extends GetxController {
               .map((e) => Plan(
                     count: e.count.toInt(),
                     price: e.price.toDouble(),
+                    disabled: Plan.checkIfDisabled(e.types),
                   ))
               .toList(),
         ),
