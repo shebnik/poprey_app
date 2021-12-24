@@ -88,7 +88,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
             Text(
               'Choose Posts',
               style: Theme.of(context).textTheme.headline3?.apply(
-                    color: AppTheme.primary,
+                    color: AppTheme.primary(context),
                   ),
             ),
             const SizedBox(height: 22),
@@ -185,7 +185,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
   Widget choosePosts() {
     return RawScrollbar(
       crossAxisMargin: 15,
-      thumbColor: AppTheme.primary,
+      thumbColor: AppTheme.primaryColor,
       radius: const Radius.circular(30),
       child: SingleChildScrollView(
         controller: controller.scrollController,

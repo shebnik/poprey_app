@@ -117,6 +117,10 @@ class ChoosePostsController extends GetxController {
   }
 
   void nextPressed(BuildContext context) {
+    if (selectedPosts.isEmpty) {
+      Widgets.openSnackbar(message: 'Please choose at least 1 post');
+      return;
+    }
     Get.toNamed(
       OrderPage.routeName,
       arguments: [selectedPlan, selectedPosts],

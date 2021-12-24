@@ -46,7 +46,13 @@ Map<String, dynamic> instagramPlanToJson(List<InstagramPlan> object) {
 
 @override
 List<PlanType> typesFromJson(Map<String, dynamic> json) {
-  return json.entries.map((e) => PlanType.fromJson(e.value)).toList();
+  var list = json.entries.map((e) => PlanType.fromJson(e.value)).toList();
+  if (list[0].name == 'Gradual') {
+    var a = list[1];
+    list[1] = list[0];
+    list[0] = a;
+  }
+  return list;
 }
 
 @override

@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:poprey_app/ui/pages/order/order_page_controller.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
+import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/ui/widgets/selection_container/selection_containers_row.dart';
 import 'package:poprey_app/utils/app_theme.dart';
+
+import 'extra_plans_column.dart';
 
 class OrderPage extends StatefulWidget {
   static const routeName = '/order';
@@ -34,22 +37,56 @@ class _OrderPageState extends State<OrderPage> {
               controller.selectedPosts == null
                   ? orderTitle()
                   : const SizedBox(height: 24),
-              if (controller.plan.types.first.disabled == false || controller.plan.types.last.disabled == false)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: SelectionContainersRow(
-                    selectedIndex: controller.selectedIndex,
-                    updateIndex: (index) =>
-                        controller.selectedIndex.value = index,
-                    title1: controller.plan.types.first.name.toUpperCase(),
-                    title2: controller.plan.types.last.name.toUpperCase(),
-                    shouldApplyBorder: true,
-                    subtitles1: controller.getSubtitle1,
-                    subtitles2: controller.getSubtitle2,
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: SelectionContainersRow(
+                  selectedIndex: controller.typeSelectedIndex,
+                  updateIndex: controller.updateTypeIndex,
+                  title1: controller.plan.types.first.name.toUpperCase(),
+                  title2: controller.plan.types.last.name.toUpperCase(),
+                  shouldApplyBorder: true,
+                  subtitles1: controller.getSubtitle1,
+                  subtitles2: controller.getSubtitle2,
+                  title1Disabled: controller.plan.types.first.disabled,
+                  title2Disabled: controller.plan.types.last.disabled,
                 ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: ExtraPlansColumn(
+                  extras: controller.plan.extras,
+                  setSelectedExtras: controller.setSelectedExtras,
+                ),
+              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(right: 12, bottom: 40),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Obx(() {
+              return Text(
+                controller.totalPrice.value,
+                style: Theme.of(context).textTheme.headline4?.apply(
+                      fontWeightDelta: -1,
+                      color: AppTheme.primary(context),
+                    ),
+              );
+            }),
+            const SizedBox(width: 20),
+            SizedBox(
+              width: 200,
+              height: 40,
+              child: RoundButton(
+                title: 'Buy with',
+                onPressed: controller.buy,
+              ),
+            ),
+          ],
         ),
       ),
     );

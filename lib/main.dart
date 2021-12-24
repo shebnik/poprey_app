@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   Logger.i('[App] Starting app..');
-  AppTheme.setOverlayStyle(AppTheme.primary);
+  AppTheme.setOverlayStyle(AppTheme.primaryColor);
   WidgetsFlutterBinding.ensureInitialized();
 
   AppPreferences.sharedPreferences = await SharedPreferences.getInstance();
@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
                         width: double.infinity,
                         height: double.infinity,
                         child: const SplashLoadingWidget(),
-                        color: AppTheme.primary,
+                        color: AppTheme.primaryColor,
                       ),
                     ),
                   ),

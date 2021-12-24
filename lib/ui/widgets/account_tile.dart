@@ -49,7 +49,9 @@ class AccountTile extends StatelessWidget {
               const SizedBox(height: 5),
               Text(
                 followers,
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.subtitle1?.apply(
+                      color: AppTheme.primary(context),
+                    ),
               ),
             ],
           ),

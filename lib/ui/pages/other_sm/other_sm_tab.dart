@@ -28,7 +28,7 @@ class _OtherSmTabState extends State<OtherSmTab>
         Expanded(
           child: RawScrollbar(
             crossAxisMargin: 2,
-            thumbColor: AppTheme.primary,
+            thumbColor: AppTheme.primaryColor,
             radius: const Radius.circular(30),
             child: SingleChildScrollView(
               controller: ScrollController(),

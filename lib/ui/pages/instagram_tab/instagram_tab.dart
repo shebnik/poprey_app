@@ -23,7 +23,7 @@ class _InstagramTabState extends State<InstagramTab>
     super.build(context);
     return RawScrollbar(
       crossAxisMargin: 2,
-      thumbColor: AppTheme.primary,
+      thumbColor: AppTheme.primaryColor,
       radius: const Radius.circular(30),
       child: SingleChildScrollView(
         child: Padding(

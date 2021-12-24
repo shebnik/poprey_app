@@ -11,6 +11,7 @@ class SelectionContainer extends StatelessWidget {
   final bool isSelected;
   final bool hasBorder;
   final void Function()? onTap;
+  final bool isDisabled;
 
   const SelectionContainer({
     Key? key,
@@ -19,6 +20,7 @@ class SelectionContainer extends StatelessWidget {
     this.hasBorder = false,
     this.subtitles,
     this.onTap,
+    this.isDisabled = false,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class SelectionContainer extends StatelessWidget {
           : null,
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
-        onTap: onTap,
+        onTap: isDisabled ? null : onTap,
         child: Container(
           height: subtitles == null ? 55 : 170,
           decoration: BoxDecoration(
@@ -65,27 +67,36 @@ class SelectionContainer extends StatelessWidget {
             ),
           ),
         ],
-        Column(
-          children: [
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                isSelected
-                    ? GradientText(
-                        title,
-                        gradient: AppTheme.getAppGradient(),
-                        style: Theme.of(context).textTheme.headline4,
-                      )
-                    : Text(
-                        title,
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-              ],
-            ),
-            subtitlesWidget(context),
-          ],
+        Opacity(
+          opacity: isDisabled ? 0.1 : 1,
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  isSelected
+                      ? GradientText(
+                          title,
+                          gradient: AppTheme.getAppGradient(),
+                          style: Theme.of(context).textTheme.headline4,
+                        )
+                      : Text(
+                          title,
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                ],
+              ),
+              subtitlesWidget(context),
+            ],
+          ),
         ),
+        if (isDisabled)
+          Container(
+            color: AppTheme.isLightTheme(context)
+                ? const Color(0xFFF7F8FB).withOpacity(0.5)
+                : const Color(0xFF080704).withOpacity(0.5),
+          ),
       ],
     );
   }

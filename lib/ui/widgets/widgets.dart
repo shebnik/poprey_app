@@ -39,7 +39,7 @@ class Widgets {
       margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
       snackStyle: SnackStyle.GROUNDED,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppTheme.primary,
+      backgroundColor: AppTheme.primaryColor,
       colorText: Colors.white,
       duration: duration ?? const Duration(seconds: 5),
       mainButton: TextButton(

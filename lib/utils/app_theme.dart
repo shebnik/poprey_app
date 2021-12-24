@@ -4,7 +4,7 @@ import 'package:poprey_app/utils/app_constants.dart';
 
 class AppTheme {
   static final _defaultTheme = ThemeData(
-    primaryColor: primary,
+    primaryColor: primaryColor,
     fontFamily: AppConstants.SFProDisplay,
     // canvasColor: Colors.transparent,
     dividerColor: const Color(0xFFC6C6C9),
@@ -101,7 +101,6 @@ class AppTheme {
     ),
     subtitle1: TextStyle(
       fontFamily: AppConstants.SFProText,
-      color: primary,
       fontWeight: FontWeight.w400,
       fontSize: 12,
     ),
@@ -141,7 +140,10 @@ class AppTheme {
     ),
   );
 
-  static const primary = Color(0xFF20354C);
+  static Color primary(BuildContext context) =>
+      isLightTheme(context) ? primaryColor : primaryColorDark;
+  static const primaryColor = Color(0xFF20354C);
+  static const primaryColorDark = Color(0xffdfcab3);
   static const primaryBlue = Color(0xFF00ABDF);
 
   static isLightTheme(BuildContext context) {

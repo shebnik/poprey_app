@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage>
             currentTabIndex.value = index;
           },
           currentIndex: currentTabIndex.value,
-          backgroundColor: AppTheme.primary,
+          backgroundColor: AppTheme.primaryColor,
           iconSize: 20,
           selectedFontSize: 10,
           selectedItemColor: AppTheme.primaryBlue,

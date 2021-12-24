@@ -24,7 +24,7 @@ class OrderAppBar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         title,
         style: Theme.of(context).textTheme.headline3?.apply(
-              color: AppTheme.primary,
+              color: AppTheme.primary(context),
             ),
       ),
     );

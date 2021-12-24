@@ -74,9 +74,7 @@ class OtherSMSelectionList extends StatelessWidget {
                             _isSelected ? FontWeight.w600 : FontWeight.w500,
                         color: _isSelected
                             ? AppTheme.primaryBlue
-                            : AppTheme.isLightTheme(context)
-                                ? AppTheme.primary
-                                : Colors.white,
+                            : AppTheme.primary(context)
                       ),
                     )
                   ],
