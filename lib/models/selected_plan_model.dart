@@ -1,5 +1,6 @@
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/models/selector_widget_model.dart';
+import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/logger.dart';
 
@@ -89,5 +90,32 @@ class SelectedPlan {
     } catch (e) {
       Logger.e('[SelectedPlan] toInstagramPlan error:', e);
     }
+  }
+
+  static SMPlan? toSMPlan(SelectedPlan selectedPlan) {
+    try {
+      final model = AppPreferences.getSMPlansModel()!;
+      switch (selectedPlan.platform) {
+        case 'YouTube':
+          return model.youtube[selectedPlan.countInfo];
+        case 'TikTok':
+          return model.tiktok[selectedPlan.countInfo];
+        case 'Facebook':
+          return model.facebook[selectedPlan.countInfo];
+        case 'Spotify':
+          return model.spotify[selectedPlan.countInfo];
+        case 'Twitter':
+          return model.twitter[selectedPlan.countInfo];
+        case 'VK':
+          return model.vk[selectedPlan.countInfo];
+      }
+    } catch (e) {
+      Logger.e('[SelectedPlan] toSMPlan error:', e);
+    }
+  }
+
+  @override
+  String toString() {
+    return 'SelectedPlan(platform: $platform, countInfo: $countInfo, urlInfo: $urlInfo, plan: $plan, url: $url, email: $email)';
   }
 }

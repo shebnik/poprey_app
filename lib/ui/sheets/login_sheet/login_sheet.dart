@@ -29,11 +29,11 @@ class LoginSheet extends StatelessWidget {
               children: [
                 Obx(() => CustomTextField(
                       label: controller.getUrlTitle,
-                      controller: controller.userNameController.value,
+                      controller: controller.firstInputController.value,
                       inputType: controller.inputType,
                       accountToggle: controller.chooseAccount,
                       errorText: controller.userNameErrorText.value,
-                      showError: controller.isUserNameError.value,
+                      showError: controller.isFirstInputError.value,
                     )),
                 Obx(() => CustomTextField(
                       label: AppConstants.email,

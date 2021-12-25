@@ -3,7 +3,8 @@ import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
-import 'package:poprey_app/ui/pages/order/order_page.dart';
+import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
+import 'package:poprey_app/ui/pages/order/other_sm/other_sm_order.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 
 enum BottomSheetView { login, chooseAccount, autoLikes }
@@ -27,6 +28,7 @@ class AppBottomSheetController extends GetxController {
       profilesManager: profilesManager,
       chooseAccount: isInstagram ? chooseAccount : null,
       profileSelected: profileSelected,
+      linkSelected: linkSelected,
     );
     setLoginData();
   }
@@ -35,7 +37,7 @@ class AppBottomSheetController extends GetxController {
     if (!isInstagram) return;
     final selectedProfile = profilesManager.getSelectedProfile();
     if (selectedProfile != null) {
-      loginSheetController.userNameController.value.text =
+      loginSheetController.firstInputController.value.text =
           selectedProfile.username;
       loginSheetController.emailController.value.text =
           selectedProfile.email ?? '';
@@ -67,6 +69,11 @@ class AppBottomSheetController extends GetxController {
     }
   }
 
+  void linkSelected(SelectedPlan plan) {
+    Get.back();
+    Get.toNamed(OtherSmOrder.routeName, arguments: [plan]);
+  }
+
   Future<void> profileRemoved(InstagramProfile profile) async {
     await profilesManager.removeProfile(profile);
     if (profilesManager.profiles.isEmpty) {
@@ -76,7 +83,7 @@ class AppBottomSheetController extends GetxController {
 
   void addAccount() {
     bottomSheetView.value = BottomSheetView.login;
-    loginSheetController.userNameController.value.text = '';
+    loginSheetController.firstInputController.value.text = '';
     loginSheetController.emailController.value.text = '';
   }
 
@@ -84,6 +91,6 @@ class AppBottomSheetController extends GetxController {
 
   void showOrderPage(SelectedPlan plan) {
     Get.back();
-    Get.toNamed(OrderPage.routeName, arguments: [plan]);
+    Get.toNamed(InstagramOrderPage.routeName, arguments: [plan]);
   }
 }

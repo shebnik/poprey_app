@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:poprey_app/ui/pages/order/order_page_controller.dart';
+import 'package:poprey_app/services/app_localizations.dart';
+import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page_controller.dart';
+import 'package:poprey_app/ui/widgets/bottom_payment.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
-import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/ui/widgets/selection_container/selection_containers_row.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 import 'extra_plans_column.dart';
 
-class OrderPage extends StatefulWidget {
-  static const routeName = '/order';
-  const OrderPage({Key? key}) : super(key: key);
+class InstagramOrderPage extends StatefulWidget {
+  static const routeName = '/order/instagram';
+  const InstagramOrderPage({Key? key}) : super(key: key);
 
   @override
-  _OrderPageState createState() => _OrderPageState();
+  _InstagramOrderPageState createState() => _InstagramOrderPageState();
 }
 
-class _OrderPageState extends State<OrderPage> {
-  late OrderPageController controller;
+class _InstagramOrderPageState extends State<InstagramOrderPage> {
+  late InstagramOrderPageController controller;
   @override
   void initState() {
     super.initState();
-    controller = Get.put(OrderPageController(Get.arguments));
+    controller = Get.put(InstagramOrderPageController(Get.arguments));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const OrderAppBar(title: 'You have chosen'),
+      appBar: OrderAppBar(title: AppLocale(context).youHaveChoosen),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -63,30 +64,10 @@ class _OrderPageState extends State<OrderPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(right: 12, bottom: 40),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Obx(() {
-              return Text(
-                controller.totalPrice.value,
-                style: Theme.of(context).textTheme.headline4?.apply(
-                      fontWeightDelta: -1,
-                      color: AppTheme.primary(context),
-                    ),
-              );
-            }),
-            const SizedBox(width: 20),
-            SizedBox(
-              width: 200,
-              height: 40,
-              child: RoundButton(
-                title: 'Buy with',
-                onPressed: controller.buy,
-              ),
-            ),
-          ],
+      bottomNavigationBar: Obx(
+        () => BottomPayment(
+          amount: controller.totalPrice.value,
+          onPaymentResult: controller.onPaymentResult,
         ),
       ),
     );

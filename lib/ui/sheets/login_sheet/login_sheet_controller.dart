@@ -13,29 +13,32 @@ class LoginSheetController extends GetxController {
   final mainController = Get.find<MainController>();
 
   final SelectedPlan selectedPlan;
+  final bool isInstagram;
   final InstagramProfilesManager profilesManager;
   final VoidCallback? chooseAccount;
   final void Function(
     InstagramProfile profile,
     Map<String, dynamic>? instagramUser,
   ) profileSelected;
+  final void Function(SelectedPlan plan) linkSelected;
 
   LoginSheetController({
     required this.selectedPlan,
     required this.profilesManager,
     required this.profileSelected,
+    required this.linkSelected,
     this.chooseAccount,
-  });
+  }) : isInstagram = selectedPlan.platform == 'Instagram';
 
   late AppLocale appLocale;
-  final Rx<TextEditingController> userNameController =
+  final Rx<TextEditingController> firstInputController =
       TextEditingController().obs;
   final Rx<TextEditingController> emailController = TextEditingController().obs;
 
   RxBool isLoading = false.obs;
   RxString userNameErrorText = ''.obs;
   RxString emailErrorText = ''.obs;
-  RxBool isUserNameError = false.obs;
+  RxBool isFirstInputError = false.obs;
   RxBool isEmailError = false.obs;
 
   get inputType => chooseAccount != null && profilesManager.profiles.isNotEmpty
@@ -48,43 +51,51 @@ class LoginSheetController extends GetxController {
   get getUrlTitle => selectedPlan.urlInfo;
 
   Future<void> nextPressed(BuildContext context) async {
-    String userName = userNameController.value.text.trim();
+    String firstInput = firstInputController.value.text.trim();
     String email = emailController.value.text.trim().toLowerCase();
 
-    if (!validate(userName, email)) return;
+    if (!validate(firstInput, email)) return;
     FocusScope.of(context).unfocus();
     if (Utils.isOnline() == false) return;
 
-    final profile = profilesManager.getProfile(userName);
-    if (profile != null) {
-      profileSelected(profile, null);
-      return;
-    }
+    if (isInstagram) {
+      final profile = profilesManager.getProfile(firstInput);
+      if (profile != null) {
+        profileSelected(profile, null);
+        return;
+      }
 
-    toggleLoading(true);
-    final instagramUser = await InstagramParser.fetchInstagramProfile(userName);
+      toggleLoading(true);
+      final instagramUser =
+          await InstagramParser.fetchInstagramProfile(firstInput);
 
-    if (instagramUser == null) {
-      isUserNameError.value = true;
-    } else if (InstagramParser.isPrivateProfile(instagramUser)) {
-      userNameErrorText.value = appLocale.privateProfile;
-      isUserNameError.value = true;
+      if (instagramUser == null) {
+        isFirstInputError.value = true;
+      } else if (InstagramParser.isPrivateProfile(instagramUser)) {
+        userNameErrorText.value = appLocale.privateProfile;
+        isFirstInputError.value = true;
+      } else {
+        final profile =
+            InstagramProfile.fromJson(instagramUser).copyWith(email: email);
+        profileSelected(profile, instagramUser);
+      }
     } else {
-      final profile =
-          InstagramProfile.fromJson(instagramUser).copyWith(email: email);
-      profileSelected(profile, instagramUser);
+      linkSelected(selectedPlan.copyWith(url: firstInput, email: email));
     }
     toggleLoading(false);
   }
 
-  bool validate(String userName, String email) {
-    userNameErrorText.value = appLocale.userNameWrong;
+  bool validate(String firstInput, String email) {
+    userNameErrorText.value =
+        isInstagram ? appLocale.userNameWrong : appLocale.urlWrong;
     emailErrorText.value = appLocale.emailWrong;
-    if (!GetUtils.isUsername(userName)) {
-      isUserNameError.value = true;
+    if (isInstagram
+        ? !GetUtils.isUsername(firstInput)
+        : !GetUtils.isURL(firstInput)) {
+      isFirstInputError.value = true;
       return false;
     } else {
-      isUserNameError.value = false;
+      isFirstInputError.value = false;
     }
     if (!GetUtils.isEmail(email)) {
       isEmailError.value = true;

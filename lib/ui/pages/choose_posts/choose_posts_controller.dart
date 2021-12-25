@@ -6,7 +6,7 @@ import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
-import 'package:poprey_app/ui/pages/order/order_page.dart';
+import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/widgets.dart';
@@ -122,7 +122,7 @@ class ChoosePostsController extends GetxController {
       return;
     }
     Get.toNamed(
-      OrderPage.routeName,
+      InstagramOrderPage.routeName,
       arguments: [selectedPlan, selectedPosts],
     );
   }
@@ -143,6 +143,7 @@ class ChoosePostsController extends GetxController {
           selectedPlan: selectedPlan,
           profilesManager: profilesManager,
           profileSelected: profileSelected,
+          linkSelected: (a) => {},
         ),
       ),
     );

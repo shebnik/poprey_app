@@ -54,6 +54,7 @@ class CustomTextField extends StatelessWidget {
             keyboardType:
                 inputType == InputType.number ? TextInputType.number : null,
             style: TextStyle(
+              color: AppTheme.primary(context),
               fontFamily: AppConstants.SFProText,
               fontWeight: inputType == InputType.account
                   ? FontWeight.w600

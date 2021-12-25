@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/utils/app_theme.dart';
-import 'dart:io' show Platform;
+// import 'dart:io' show Platform;
 
 class Widgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());

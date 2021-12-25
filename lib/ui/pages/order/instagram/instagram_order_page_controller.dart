@@ -3,30 +3,27 @@ import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/models/instagram_post.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/models/selector_widget_model.dart';
-import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/utils/app_constants.dart';
+import 'package:poprey_app/utils/logger.dart';
 import 'package:poprey_app/utils/utils.dart';
 
-class OrderPageController extends GetxController {
+class InstagramOrderPageController extends GetxController {
   late final SelectedPlan selectedPlan;
   late final InstagramPlan plan;
-  late final SMPlan smplan;
   List<InstagramPost>? selectedPosts;
   List<Extra> selectedExtras = [];
 
   RxInt typeSelectedIndex = RxInt(0);
 
-  late RxString totalPrice;
+  late RxDouble totalPrice;
 
-  OrderPageController(List<dynamic> args) {
+  InstagramOrderPageController(List<dynamic> args) {
     selectedPlan = args[0];
     if (args.length > 1) {
       selectedPosts = args[1];
     }
-    if (selectedPlan.platform == 'Instagram') {
-      plan = SelectedPlan.toInstagramPlan(selectedPlan)!;
-      totalPrice = Utils.formatAmount(selectedPlan.plan.price).obs;
-    }
+    plan = SelectedPlan.toInstagramPlan(selectedPlan)!;
+    totalPrice = selectedPlan.plan.price.obs;
   }
 
   String get getTitle =>
@@ -40,7 +37,7 @@ class OrderPageController extends GetxController {
 
   void setSelectedExtras(List<Extra> value) {
     selectedExtras = value;
-    totalPrice.value = Utils.formatAmount(getTotalPrice);
+    totalPrice.value = getTotalPrice;
   }
 
   @override
@@ -68,7 +65,7 @@ class OrderPageController extends GetxController {
   void updateTypeIndex(int index) {
     if (index == typeSelectedIndex.value) return;
     typeSelectedIndex.value = index;
-    totalPrice.value = Utils.formatAmount(getTotalPrice);
+    totalPrice.value = getTotalPrice;
   }
 
   double get getTotalPrice {
@@ -77,5 +74,9 @@ class OrderPageController extends GetxController {
       extrasCount += price.toDouble();
     }
     return plan.types[typeSelectedIndex.value].price + extrasCount;
+  }
+
+  void onPaymentResult(Map<String, dynamic> paymentResult) {
+    Logger.i('[InstagramOrderPageController] paymentResult - $paymentResult');
   }
 }
