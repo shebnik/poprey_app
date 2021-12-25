@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/utils/app_theme.dart';
+import 'dart:io' show Platform;
 
 class Widgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());
@@ -52,5 +54,51 @@ class Widgets {
         ),
       ),
     );
+  }
+
+  static Future<void> openDialog({
+    required BuildContext context,
+    required String title,
+    required String description,
+    required String actionText,
+  }) async {
+    // if (Platform.isIOS) {
+      showCupertinoDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(
+            description,
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(
+                actionText,
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        ),
+      );
+    // } else {
+    //   return await showDialog(
+    //     context: context,
+    //     builder: (context) => AlertDialog(
+    //       title: Text(title),
+    //       content: Text(
+    //         description,
+    //       ),
+    //       actions: [
+    //         CupertinoDialogAction(
+    //           child: Text(
+    //             actionText,
+    //           ),
+    //           onPressed: () => Navigator.of(context).pop(true),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // }
   }
 }

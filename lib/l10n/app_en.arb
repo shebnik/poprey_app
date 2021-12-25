@@ -1,11 +1,23 @@
 {
+    "likes": "Likes",
+    "followers": "Followers",
+    "autoLikes": "Auto-Likes",
+    "views": "Views",
+    "comments": "Comments",
+    "perPost": "Per post",
+    "subscription": "Subscription",
     "otherSM": "Other SM",
     "buy": "BUY",
     "all": "All",
     "reset": "Reset",
     "next": "Next",
     "userNameWrong": "Enter the correct username",
+    "urlWrong": "Enter right url",
     "emailWrong": "Enter the correct email",
     "privateProfile": "Please, open your profile and try again",
-    "addAccount": "Add Account"
+    "addAccount": "Add Account",
+    "impressionsDescr": "The number of times your content, whether a post or a story, was shown to users. Impressions help you to promote your post and improve stat.",
+    "reachDescr": "The number of unique users that saw your post or story on any given day. The reach will promote your posts and improve your stat.",
+    "savesDescr":"The number of time when a user saved your post on his account. The saves will help you to promote your posts improve your stat.",
+    "gotIt": "Got it!"    
 }

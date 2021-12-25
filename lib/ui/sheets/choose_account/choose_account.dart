@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChooseAccountSheet extends StatelessWidget {
   final List<InstagramProfile> profiles;
@@ -47,7 +47,7 @@ class ChooseAccountSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(32),
             child: AddButton(
-              text: AppLocalizations.of(context)?.addAccount ?? 'Add Account',
+              text: AppLocale(context).addAccount,
               onPressed: addAccount,
             ),
           ),

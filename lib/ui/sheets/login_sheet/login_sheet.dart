@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/utils/app_constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class LoginSheet extends StatelessWidget {
@@ -18,7 +18,7 @@ class LoginSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.appLocalizations = AppLocalizations.of(context);
+    controller.appLocale = AppLocale(context);
     return SafeArea(
       child: Wrap(
         children: [

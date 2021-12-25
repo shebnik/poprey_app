@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/round_button.dart';
 
 class BottomResetNavigation extends StatelessWidget {
@@ -14,14 +14,14 @@ class BottomResetNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var localization = AppLocalizations.of(context);
+    var locale = AppLocale(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         TextButton(
           onPressed: resetPressed,
           child: Text(
-            localization?.reset ?? 'Reset',
+            locale.reset,
             style: Theme.of(context).textTheme.caption,
           ),
         ),
@@ -29,7 +29,7 @@ class BottomResetNavigation extends StatelessWidget {
         Expanded(
           child: RoundButton(
             onPressed: nextPressed,
-            title: localization?.next ?? 'Next',
+            title: locale.next,
           ),
         ),
       ],

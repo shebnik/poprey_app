@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selector_widget_model.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/app_slider.dart';
 import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/ui/widgets/selector_widget/selector_widget_controller.dart';
@@ -134,7 +134,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
             right: 10,
             child: Obx(() {
               return RoundButton(
-                title: AppLocalizations.of(context)!.buy,
+                title: AppLocale(context).buy,
                 onPressed: controller.isBuyDisabled.value
                     ? null
                     : () => controller.buyPressed(context),

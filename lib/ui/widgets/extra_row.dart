@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_model.dart';
+import 'package:poprey_app/ui/widgets/widgets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/utils.dart';
 
@@ -27,6 +27,7 @@ class _ExtraRowState extends State<ExtraRow> {
   @override
   void initState() {
     super.initState();
+    extra = widget.extra;
   }
 
   @override
@@ -99,21 +100,13 @@ class _ExtraRowState extends State<ExtraRow> {
                   ],
                 ),
                 IconButton(
-                  onPressed: () => {
-                    showCupertinoDialog(
+                  onPressed: () {
+                    Widgets.openDialog(
                       context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                        title: Text(extraTitle),
-                        content: Text(
-                            'The number of times your content, whether a post or a story, was shown to users. Impressions help you to promote your post and improve stat.'),
-                        actions: [
-                          CupertinoDialogAction(
-                            child: Text('Got it!'),
-                            onPressed: () => Navigator.of(context).pop(true),
-                          ),
-                        ],
-                      ),
-                    )
+                      title: 'title',
+                      description: 'description',
+                      actionText: 'gotIt',
+                    );
                   },
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),

@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:poprey_app/utils/utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginSheetController extends GetxController {
   final mainController = Get.find<MainController>();
@@ -27,7 +27,7 @@ class LoginSheetController extends GetxController {
     this.chooseAccount,
   });
 
-  late AppLocalizations? appLocalizations;
+  late AppLocale appLocale;
   final Rx<TextEditingController> userNameController =
       TextEditingController().obs;
   final Rx<TextEditingController> emailController = TextEditingController().obs;
@@ -67,8 +67,7 @@ class LoginSheetController extends GetxController {
     if (instagramUser == null) {
       isUserNameError.value = true;
     } else if (InstagramParser.isPrivateProfile(instagramUser)) {
-      userNameErrorText.value = appLocalizations?.privateProfile ??
-          'Please, open your profile and try again';
+      userNameErrorText.value = appLocale.privateProfile;
       isUserNameError.value = true;
     } else {
       final profile =
@@ -79,9 +78,8 @@ class LoginSheetController extends GetxController {
   }
 
   bool validate(String userName, String email) {
-    userNameErrorText.value =
-        appLocalizations?.userNameWrong ?? 'Enter the correct username';
-    emailErrorText.value = appLocalizations?.emailWrong ?? 'Enter the correct email';
+    userNameErrorText.value = appLocale.userNameWrong;
+    emailErrorText.value = appLocale.emailWrong;
     if (!GetUtils.isUsername(userName)) {
       isUserNameError.value = true;
       return false;

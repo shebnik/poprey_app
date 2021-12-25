@@ -55,7 +55,7 @@ class _OrderPageState extends State<OrderPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: ExtraPlansColumn(
-                  extras: controller.plan.extras,
+                  extras: controller.plan.extras ?? [],
                   setSelectedExtras: controller.setSelectedExtras,
                 ),
               ),
