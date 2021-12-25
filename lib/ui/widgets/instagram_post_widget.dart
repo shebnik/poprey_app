@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:poprey_app/models/instagram_post.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 
-class InstagramPostWidget extends StatelessWidget {
-  final InstagramPost post;
+class SelectImageWidget extends StatelessWidget {
+  final String imageUrl;
   final String? countInfo;
   final void Function()? onTap;
   final bool isSelected;
   final String count;
 
-  const InstagramPostWidget({
+  const SelectImageWidget({
     Key? key,
-    required this.post,
+    required this.imageUrl,
     this.onTap,
     this.countInfo,
     required this.isSelected,
@@ -30,14 +29,18 @@ class InstagramPostWidget extends StatelessWidget {
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              CachedNetworkImage(
-                imageUrl: post.thumbnailSrc,
-                fit: BoxFit.cover,
+              SizedBox(
+                height: constraints.maxHeight,
+                width: constraints.maxWidth,
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
               if (isSelected) ...[
                 Container(
-                  height: constraints.minHeight,
-                  width: constraints.minHeight,
+                  height: constraints.maxHeight,
+                  width: constraints.maxWidth,
                   decoration: const BoxDecoration(
                     color: Color.fromRGBO(4, 4, 4, 0.6),
                   ),

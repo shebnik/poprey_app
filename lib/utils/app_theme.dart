@@ -42,7 +42,6 @@ class AppTheme {
         fontFamily: AppConstants.SFProDisplay,
       ),
       subtitle2: const TextStyle(
-        color: Colors.black,
         fontFamily: AppConstants.SFProText,
         fontWeight: FontWeight.w400,
         fontSize: 12,

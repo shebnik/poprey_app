@@ -221,8 +221,8 @@ class _ChoosePostsState extends State<ChoosePosts> {
         itemBuilder: (BuildContext context, int index) {
           return Obx(() {
             var post = controller.posts[index];
-            return InstagramPostWidget(
-              post: post,
+            return SelectImageWidget(
+              imageUrl: post.thumbnailSrc,
               onTap: () => controller.postSelected(post),
               countInfo: controller.selectedPlan.countInfo,
               isSelected: controller.selectedPosts.contains(post),

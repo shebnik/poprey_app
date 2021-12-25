@@ -76,7 +76,7 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
   Widget selectedPosts() {
     if (controller.selectedPosts == null) return const SizedBox.shrink();
     return Container(
-      width: double.infinity,
+      // width: double.infinity,
       height: 92,
       color: AppTheme.isLightTheme(context)
           ? const Color(0xFFF7F8FB)
@@ -102,11 +102,18 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
                 ),
               );
             }
-            return InstagramPostWidget(
-              post: controller.selectedPosts![index],
-              isSelected: true,
-              countInfo: controller.selectedPlan.countInfo,
-              count: controller.getCount(),
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                return SizedBox(
+                  width: constraints.minHeight,
+                  child: SelectImageWidget(
+                    imageUrl: controller.selectedPosts![index].thumbnailSrc,
+                    isSelected: true,
+                    countInfo: controller.selectedPlan.countInfo,
+                    count: controller.getCount(),
+                  ),
+                );
+              },
             );
           },
         ),
