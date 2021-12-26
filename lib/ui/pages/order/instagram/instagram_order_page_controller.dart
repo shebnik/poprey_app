@@ -5,7 +5,6 @@ import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
-import 'package:poprey_app/utils/utils.dart';
 
 class InstagramOrderPageController extends GetxController {
   late final SelectedPlan selectedPlan;

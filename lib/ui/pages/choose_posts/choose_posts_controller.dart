@@ -9,7 +9,7 @@ import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
+import 'package:poprey_app/ui/widgets/app_widgets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class ChoosePostsController extends GetxController {
@@ -118,7 +118,7 @@ class ChoosePostsController extends GetxController {
 
   void nextPressed(BuildContext context) {
     if (selectedPosts.isEmpty) {
-      Widgets.openSnackbar(message: 'Please choose at least 1 post');
+      AppWidgets.openSnackbar(message: 'Please choose at least 1 post');
       return;
     }
     Get.toNamed(
@@ -136,14 +136,14 @@ class ChoosePostsController extends GetxController {
   }
 
   void addAccount(BuildContext context) {
-    Widgets.showBottomSheet(
+    AppWidgets.showBottomSheet(
       context,
       LoginSheet(
         controller: LoginSheetController(
           selectedPlan: selectedPlan,
           profilesManager: profilesManager,
           profileSelected: profileSelected,
-          linkSelected: (a) => {},
+          linkSelected: (a, b) => {},
         ),
       ),
     );

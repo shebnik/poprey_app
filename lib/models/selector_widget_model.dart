@@ -86,9 +86,6 @@ class Plan {
   }
 
   static bool checkIfDisabled(List<PlanType> types) {
-    for (var item in types) {
-      print(item);
-    }
     return types[0].disabled && types[1].disabled;
   }
 }

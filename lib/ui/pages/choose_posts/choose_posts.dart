@@ -7,7 +7,7 @@ import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
+import 'package:poprey_app/ui/widgets/app_widgets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class ChoosePosts extends StatefulWidget {
@@ -80,23 +80,27 @@ class _ChoosePostsState extends State<ChoosePosts> {
   Widget pageBody() {
     return Stack(
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            accountsWidget(),
-            const SizedBox(height: 26),
-            Text(
-              'Choose Posts',
-              style: Theme.of(context).textTheme.headline3?.apply(
-                    color: AppTheme.primary(context),
-                  ),
-            ),
-            const SizedBox(height: 22),
-            Expanded(
-              child: choosePosts(),
-            ),
-          ],
-        ),
+        Obx(() {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              controller.isAccountListShown.value
+                  ? Expanded(child: accountsWidget())
+                  : accountsWidget(),
+              const SizedBox(height: 26),
+              Text(
+                'Choose Posts',
+                style: Theme.of(context).textTheme.headline3?.apply(
+                      color: AppTheme.primary(context),
+                    ),
+              ),
+              const SizedBox(height: 22),
+              Expanded(
+                child: choosePosts(),
+              ),
+            ],
+          );
+        }),
 
         // IgnorePointer(
         //   child: Align(
@@ -121,64 +125,77 @@ class _ChoosePostsState extends State<ChoosePosts> {
   }
 
   Widget accountsWidget() {
-    return Container(
-      color: AppTheme.isLightTheme(context)
-          ? const Color(0xFFF7F8FB)
-          : const Color(0xFF080704),
-      child: Obx(() {
-        return GestureDetector(
-          onVerticalDragEnd: (details) => controller.isAccountListShown.value
-              ? null
-              : controller.toggleList(),
-          child: Column(
-            children: [
-              ListView.builder(
-                controller: ScrollController(),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.getAccountListCount(),
-                itemBuilder: (context, index) {
-                  var profile = controller.profilesManager.profiles[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: InkWell(
-                      onTap: () => controller.accountSelected(profile),
-                      child: AccountTile(
-                        profile: profile,
-                        radius: 16,
-                        selectable: true,
-                      ),
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        constraints: BoxConstraints(
+          maxHeight: constraints.maxHeight / 2,
+        ),
+        color: AppTheme.isLightTheme(context)
+            ? const Color(0xFFF7F8FB)
+            : const Color(0xFF080704),
+        child: Obx(() {
+          return GestureDetector(
+            onVerticalDragEnd: (details) => controller.isAccountListShown.value
+                ? null
+                : controller.toggleList(),
+            child: Column(
+              children: [
+                controller.isAccountListShown.value
+                    ? Expanded(
+                        child: accountsList(),
+                      )
+                    : accountsList(),
+                if (controller.isAccountListShown.value) ...[
+                  const Divider(height: 0.5),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 22),
+                    child: AddButton(
+                      text: 'Add Account',
+                      onPressed: () => controller.addAccount(context),
                     ),
-                  );
-                },
-              ),
-              if (controller.isAccountListShown.value) ...[
-                const Divider(height: 0.5),
-                Padding(
-                  padding: const EdgeInsets.only(top: 22),
-                  child: AddButton(
-                    text: 'Add Account',
-                    onPressed: () => controller.addAccount(context),
                   ),
-                ),
+                ],
+                GestureDetector(
+                  onTap: controller.toggleList,
+                  onVerticalDragEnd: (details) => controller.toggleList(),
+                  child: SizedBox(
+                    height: 20,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        HomeIndicator(),
+                      ],
+                    ),
+                  ),
+                )
               ],
-              GestureDetector(
-                onTap: controller.toggleList,
-                onVerticalDragEnd: (details) => controller.toggleList(),
-                child: SizedBox(
-                  height: 20,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      HomeIndicator(),
-                    ],
-                  ),
-                ),
-              )
-            ],
+            ),
+          );
+        }),
+      );
+    });
+  }
+
+  Widget accountsList() {
+    return ListView.builder(
+      controller: ScrollController(),
+      shrinkWrap: true,
+      // physics: const NeverScrollableScrollPhysics(),
+      itemCount: controller.getAccountListCount(),
+      itemBuilder: (context, index) {
+        var profile = controller.profilesManager.profiles[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: InkWell(
+            onTap: () => controller.accountSelected(profile),
+            child: AccountTile(
+              profile: profile,
+              radius: 16,
+              selectable: true,
+            ),
           ),
         );
-      }),
+      },
     );
   }
 
@@ -197,7 +214,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
               const SizedBox(height: 16),
               Obx(
                 () => controller.isPostsLoading.value
-                    ? Widgets.loading
+                    ? AppWidgets.loading
                     : const SizedBox.shrink(),
               ),
             ],

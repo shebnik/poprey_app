@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
+import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
+import 'package:poprey_app/services/sm_parser.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
 import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
 import 'package:poprey_app/ui/pages/order/other_sm/other_sm_order.dart';
@@ -34,7 +36,11 @@ class AppBottomSheetController extends GetxController {
   }
 
   void setLoginData() {
-    if (!isInstagram) return;
+    if (!isInstagram) {
+      loginSheetController.emailController.value.text =
+          AppPreferences.getUserEmail() ?? '';
+      return;
+    }
     final selectedProfile = profilesManager.getSelectedProfile();
     if (selectedProfile != null) {
       loginSheetController.firstInputController.value.text =
@@ -69,9 +75,9 @@ class AppBottomSheetController extends GetxController {
     }
   }
 
-  void linkSelected(SelectedPlan plan) {
+  void linkSelected(SelectedPlan plan, SmUrlModel model) {
     Get.back();
-    Get.toNamed(OtherSmOrder.routeName, arguments: [plan]);
+    Get.toNamed(OtherSmOrder.routeName, arguments: [plan, model]);
   }
 
   Future<void> profileRemoved(InstagramProfile profile) async {

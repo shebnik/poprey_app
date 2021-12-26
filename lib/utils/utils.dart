@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
+import 'package:poprey_app/ui/widgets/app_widgets.dart';
 
 import '../main_controller.dart';
 
@@ -30,7 +30,7 @@ class Utils {
 
   static bool isOnline() {
     if (!MainController.isOnline) {
-      Widgets.openSnackbar(message: 'Please check internet connection.');
+      AppWidgets.openSnackbar(message: 'Please check internet connection.');
       return false;
     } else {
       return true;

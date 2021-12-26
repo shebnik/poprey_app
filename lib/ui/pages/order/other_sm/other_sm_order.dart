@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/services/app_localizations.dart';
-import 'package:poprey_app/services/sm_parser.dart';
 import 'package:poprey_app/ui/widgets/bottom_payment.dart';
 import 'package:poprey_app/ui/widgets/icon_row.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
@@ -69,11 +68,9 @@ class _OtherSmOrderState extends State<OtherSmOrder> {
           children: [
             SizedBox(
               width: 120,
-              height: 75,
+              height: 70,
               child: SelectImageWidget(
-                imageUrl: SmParser.getYoutubeThumbnailUrl(
-                  controller.selectedPlan.url!,
-                ),
+                imageUrl: controller.smUrlModel.thumbnailUrl,
                 isSelected: true,
                 count: controller.selectedPlan.plan.count.toString(),
                 countInfo: controller.selectedPlan.countInfo,
@@ -89,7 +86,7 @@ class _OtherSmOrderState extends State<OtherSmOrder> {
                   Padding(
                     padding: const EdgeInsets.only(right: 22),
                     child: Text(
-                      controller.selectedPlan.url!,
+                      controller.smUrlModel.title,
                       style: Theme.of(context).textTheme.subtitle1?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: AppTheme.primary(context),

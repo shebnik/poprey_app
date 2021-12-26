@@ -4,8 +4,10 @@ import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/app_localizations.dart';
+import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/services/instagram_parser.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
+import 'package:poprey_app/services/sm_parser.dart';
 import 'package:poprey_app/ui/widgets/custom_text_field.dart';
 import 'package:poprey_app/utils/utils.dart';
 
@@ -20,7 +22,7 @@ class LoginSheetController extends GetxController {
     InstagramProfile profile,
     Map<String, dynamic>? instagramUser,
   ) profileSelected;
-  final void Function(SelectedPlan plan) linkSelected;
+  final void Function(SelectedPlan plan, SmUrlModel model) linkSelected;
 
   LoginSheetController({
     required this.selectedPlan,
@@ -80,7 +82,15 @@ class LoginSheetController extends GetxController {
         profileSelected(profile, instagramUser);
       }
     } else {
-      linkSelected(selectedPlan.copyWith(url: firstInput, email: email));
+      toggleLoading(true);
+      final model = await SmParser.fetchYouTubeVideo(firstInput);
+      if (model == null) {
+        isFirstInputError.value = true;
+      } else {
+        AppPreferences.setUserEmail(email);
+        linkSelected(
+            selectedPlan.copyWith(url: firstInput, email: email), model);
+      }
     }
     toggleLoading(false);
   }

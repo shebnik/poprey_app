@@ -68,6 +68,24 @@ class AppPreferences {
     );
   }
 
+  static String? getUserEmail() {
+    try {
+      return readString(AppConstants.USER_EMAIL);
+    } catch (e) {
+      Logger.e('getUserEmail error: ', e);
+      return null;
+    }
+  }
+
+  static Future<bool>? setUserEmail(String email) {
+    try {
+      return saveString(AppConstants.USER_EMAIL, email);
+    } catch (e) {
+      Logger.e('setUserEmail error: ', e);
+      return null;
+    }
+  }
+
   static String? readString(String key) {
     return sharedPreferences.getString(key);
   }

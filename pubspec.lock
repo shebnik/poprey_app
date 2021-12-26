@@ -539,34 +539,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-  pay:
-    dependency: "direct main"
-    description:
-      name: pay
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6"
-  pay_android:
-    dependency: transitive
-    description:
-      name: pay_android
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
-  pay_ios:
-    dependency: transitive
-    description:
-      name: pay_ios
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
-  pay_platform_interface:
-    dependency: transitive
-    description:
-      name: pay_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   pedantic:
     dependency: transitive
     description:

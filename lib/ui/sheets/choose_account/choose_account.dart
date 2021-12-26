@@ -27,7 +27,7 @@ class ChooseAccountSheet extends StatelessWidget {
         children: [
           ListView.separated(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(vertical: 20),
             itemCount: profiles.length,
             separatorBuilder: (context, index) => const SizedBox(height: 20),

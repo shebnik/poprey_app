@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/ui/sheets/bottom_sheet/app_bottom_sheet.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
+import 'package:poprey_app/ui/widgets/app_widgets.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 
 class SelectorWidgetController extends GetxController {
@@ -35,7 +35,7 @@ class SelectorWidgetController extends GetxController {
   }
 
   void buyPressed(BuildContext context) {
-    Widgets.showBottomSheet(
+    AppWidgets.showBottomSheet(
       context,
       AppBottomSheet(
         selectedPlan: SelectedPlan.fromSelectionSliderModel(

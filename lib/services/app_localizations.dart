@@ -25,6 +25,9 @@ class AppLocale {
   String get emailWrong => locale?.emailWrong ?? '';
   String get privateProfile => locale?.privateProfile ?? '';
   String get addAccount => locale?.addAccount ?? '';
+  String get impressions => locale?.impressions ?? '';
+  String get reach => locale?.reach ?? '';
+  String get saves => locale?.saves ?? '';
   String get impressionsDescr => locale?.impressionsDescr ?? '';
   String get reachDescr => locale?.reachDescr ?? '';
   String get savesDescr => locale?.savesDescr ?? '';

@@ -46,6 +46,7 @@ class AppConstants {
   static const INSTAGRAM_MODEL = 'INSTAGRAM_MODEL';
   static const ADDITIONAL_PLANS_MODEL = 'ADDITIONAL_PLANS_MODEL';
   static const INSTAGRAM_PROFILES = 'INSTAGRAM_PROFILES';
+  static const USER_EMAIL = 'USER_EMAIL';
 
   static const email = 'Email';
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pay/pay.dart';
+// import 'package:pay/pay.dart';
 import 'package:poprey_app/services/app_localizations.dart';
+import 'package:poprey_app/ui/widgets/round_button.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/utils.dart';
-import 'dart:io' show Platform;
+// import 'dart:io' show Platform;
 
 class BottomPayment extends StatelessWidget {
   final double amount;
@@ -16,13 +17,13 @@ class BottomPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paymentItems = [
-      PaymentItem(
-        label: 'Total',
-        amount: amount.toString(),
-        status: PaymentItemStatus.final_price,
-      )
-    ];
+    // final paymentItems = [
+    //   PaymentItem(
+    //     label: 'Total',
+    //     amount: amount.toString(),
+    //     status: PaymentItemStatus.final_price,
+    //   )
+    // ];
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
       child: Column(
@@ -48,37 +49,46 @@ class BottomPayment extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          if (Platform.isIOS)
-            RawApplePayButton(
-              style: ApplePayButtonStyle.automatic,
+          SizedBox(
+            height: 40,
+            width: double.infinity,
+            child: RoundButton(
+              title: 'Buy with ',
+              onPressed: () => {},
+              color: AppTheme.primaryColor,
             ),
-          // ApplePayButton(
-          //   paymentConfigurationAsset:
-          //       'default_payment_profile_apple_pay.json',
-          //   paymentItems: paymentItems,
-          //   style: ApplePayButtonStyle.automatic,
-          //   type: ApplePayButtonType.buy,
-          //   onPaymentResult: onPaymentResult,
-          //   loadingIndicator: const Center(
-          //     child: CircularProgressIndicator(),
+          ),
+          // if (Platform.isIOS)
+          //   RawApplePayButton(
+          //     style: ApplePayButtonStyle.automatic,
           //   ),
-          // ),
-          if (Platform.isAndroid)
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: AppTheme.primaryColor,
-              ),
-              width: double.infinity,
-              height: 40,
-              child: RawGooglePayButton(
-                type: GooglePayButtonType.buy,
-                onPressed: () => {},
-                style: AppTheme.isLightTheme(context)
-                    ? GooglePayButtonStyle.black
-                    : GooglePayButtonStyle.white,
-              ),
-            ),
+          // // ApplePayButton(
+          // //   paymentConfigurationAsset:
+          // //       'default_payment_profile_apple_pay.json',
+          // //   paymentItems: paymentItems,
+          // //   style: ApplePayButtonStyle.automatic,
+          // //   type: ApplePayButtonType.buy,
+          // //   onPaymentResult: onPaymentResult,
+          // //   loadingIndicator: const Center(
+          // //     child: CircularProgressIndicator(),
+          // //   ),
+          // // ),
+          // if (Platform.isAndroid)
+          //   Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(20),
+          //       color: AppTheme.primaryColor,
+          //     ),
+          //     width: double.infinity,
+          //     height: 40,
+          //     child: RawGooglePayButton(
+          //       type: GooglePayButtonType.buy,
+          //       onPressed: () => {},
+          //       style: AppTheme.isLightTheme(context)
+          //           ? GooglePayButtonStyle.black
+          //           : GooglePayButtonStyle.white,
+          //     ),
+          //   ),
           // GooglePayButton(
           //   paymentConfigurationAsset:
           //       'default_payment_profile_google_pay.json',

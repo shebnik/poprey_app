@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_model.dart';
-import 'package:poprey_app/ui/widgets/widgets.dart';
+import 'package:poprey_app/services/app_localizations.dart';
+import 'package:poprey_app/ui/widgets/app_widgets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/utils.dart';
 
@@ -101,11 +102,11 @@ class _ExtraRowState extends State<ExtraRow> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Widgets.openDialog(
+                    AppWidgets.openDialog(
                       context: context,
-                      title: 'title',
-                      description: 'description',
-                      actionText: 'gotIt',
+                      title: '+${extra.count} $dialogTitle',
+                      description: dialogDescription,
+                      actionText: AppLocale(context).gotIt,
                     );
                   },
                   padding: EdgeInsets.zero,
@@ -126,4 +127,30 @@ class _ExtraRowState extends State<ExtraRow> {
 
   Color getColor() =>
       isSelected ? const Color(0xFF00ABDF) : const Color(0xFFEBEDF1);
+
+  String get dialogTitle {
+    switch (extra.name.toLowerCase()) {
+      case 'impressions':
+        return AppLocale(context).impressions;
+      case 'reach':
+        return AppLocale(context).reach;
+      case 'saves':
+        return AppLocale(context).saves;
+      default:
+        return extra.name;
+    }
+  }
+
+  String get dialogDescription {
+    switch (extra.name.toLowerCase()) {
+      case 'impressions':
+        return AppLocale(context).impressionsDescr;
+      case 'reach':
+        return AppLocale(context).reachDescr;
+      case 'saves':
+        return AppLocale(context).savesDescr;
+      default:
+        return extra.name;
+    }
+  }
 }
