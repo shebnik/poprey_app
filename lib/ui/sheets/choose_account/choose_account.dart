@@ -20,38 +20,44 @@ class ChooseAccountSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: MaxHeight = screen / 2
     return SafeArea(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            // physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            itemCount: profiles.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 20),
-            itemBuilder: (context, index) {
-              var profile = profiles[index];
-              return GestureDetector(
-                child: AccountTile(
-                  profile: profile,
-                ),
-                onTap: () => profileSelected(profile),
-                onLongPressEnd: (details) =>
-                    showPopUpMenu(context, profile, details),
-              );
-            },
-          ),
-          const Divider(height: 0.5),
-          Padding(
-            padding: const EdgeInsets.all(32),
-            child: AddButton(
-              text: AppLocale(context).addAccount,
-              onPressed: addAccount,
+      child: Container(
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                // physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                itemCount: profiles.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  var profile = profiles[index];
+                  return GestureDetector(
+                    child: AccountTile(
+                      profile: profile,
+                    ),
+                    onTap: () => profileSelected(profile),
+                    onLongPressEnd: (details) =>
+                        showPopUpMenu(context, profile, details),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+            const Divider(height: 0.5),
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: AddButton(
+                text: AppLocale(context).addAccount,
+                onPressed: addAccount,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
