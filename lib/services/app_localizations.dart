@@ -32,6 +32,6 @@ class AppLocale {
   String get reachDescr => locale?.reachDescr ?? '';
   String get savesDescr => locale?.savesDescr ?? '';
   String get gotIt => locale?.gotIt ?? '';
-  String get youHaveChoosen => locale?.youHaveChosen ?? '';
+  String get youHaveChosen => locale?.youHaveChosen ?? '';
   String get yourTotal => locale?.yourTotal ?? '';
 }

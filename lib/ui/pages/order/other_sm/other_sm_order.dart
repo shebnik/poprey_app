@@ -29,7 +29,7 @@ class _OtherSmOrderState extends State<OtherSmOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OrderAppBar(title: AppLocale(context).youHaveChoosen),
+      appBar: OrderAppBar(title: AppLocale(context).youHaveChosen),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

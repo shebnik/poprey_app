@@ -3,18 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 
 class AppTheme {
-  static final _defaultTheme = ThemeData(
+  static ThemeData themeLight = ThemeData.light().copyWith(
     primaryColor: primaryColor,
-    fontFamily: AppConstants.SFProDisplay,
-    // canvasColor: Colors.transparent,
     dividerColor: const Color(0xFFC6C6C9),
     sliderTheme: SliderThemeData(
       trackShape: CustomTrackShape(),
     ),
-  );
-
-  static ThemeData themeLight = _defaultTheme.copyWith(
-    brightness: Brightness.light,
     scaffoldBackgroundColor: const Color(0xFFFCFCFC),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white,
@@ -51,8 +45,12 @@ class AppTheme {
       backgroundColor: Colors.white,
     ),
   );
-  static ThemeData themeDark = _defaultTheme.copyWith(
-    brightness: Brightness.dark,
+  static ThemeData themeDark = ThemeData.dark().copyWith(
+    primaryColor: primaryColor,
+    dividerColor: const Color(0xFFC6C6C9),
+    sliderTheme: SliderThemeData(
+      trackShape: CustomTrackShape(),
+    ),
     scaffoldBackgroundColor: const Color(0xFF030303),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.black,
@@ -114,19 +112,16 @@ class AppTheme {
       fontFamily: AppConstants.SFProText,
     ),
     headline3: TextStyle(
-      // color: Colors.black,
       fontWeight: FontWeight.w600,
       fontSize: 16,
       fontFamily: AppConstants.SFProText,
     ),
     headline4: TextStyle(
-      // color: Colors.black,
       fontWeight: FontWeight.w700,
       fontSize: 14,
       fontFamily: AppConstants.SFProDisplay,
     ),
     headline5: TextStyle(
-      // color: Colors.black,
       fontWeight: FontWeight.w600,
       fontSize: 10,
       fontFamily: AppConstants.SFProDisplay,
@@ -140,7 +135,7 @@ class AppTheme {
   );
 
   static Color primary(BuildContext context) =>
-      isLightTheme(context) ? primaryColor : primaryColorDark;
+      isLightTheme(context) ? primaryColor : Colors.white; //primaryColorDark;
   static const primaryColor = Color(0xFF20354C);
   static const primaryColorDark = Color(0xffdfcab3);
   static const primaryBlue = Color(0xFF00ABDF);
@@ -175,8 +170,8 @@ class AppTheme {
   static SystemUiOverlayStyle getSystemOverlayStyle(BuildContext? context) {
     return context != null
         ? isLightTheme(context)
-            ? SystemUiOverlayStyle.dark
-            : SystemUiOverlayStyle.light
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark
         : SystemUiOverlayStyle.light;
   }
 }

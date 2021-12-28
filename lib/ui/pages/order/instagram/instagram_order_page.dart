@@ -29,35 +29,46 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OrderAppBar(title: AppLocale(context).youHaveChoosen),
+      appBar: OrderAppBar(title: AppLocale(context).youHaveChosen),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
+        child: LayoutBuilder(
+          builder: (context, constraints) => Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              selectedPosts(),
-              controller.selectedPosts == null
-                  ? orderTitle()
-                  : const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: SelectionContainersRow(
-                  selectedIndex: controller.typeSelectedIndex,
-                  updateIndex: controller.updateTypeIndex,
-                  title1: controller.plan.types.first.name.toUpperCase(),
-                  title2: controller.plan.types.last.name.toUpperCase(),
-                  shouldApplyBorder: true,
-                  subtitles1: controller.getSubtitle1,
-                  subtitles2: controller.getSubtitle2,
-                  title1Disabled: controller.plan.types.first.disabled,
-                  title2Disabled: controller.plan.types.last.disabled,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: ExtraPlansColumn(
-                  extras: controller.plan.extras ?? [],
-                  setSelectedExtras: controller.setSelectedExtras,
+              selectedPosts(constraints),
+              const SizedBox(height: 24),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      controller.selectedPosts.isEmpty
+                          ? orderTitle()
+                          : const SizedBox.shrink(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        child: SelectionContainersRow(
+                          selectedIndex: controller.typeSelectedIndex,
+                          updateIndex: controller.updateTypeIndex,
+                          title1:
+                              controller.plan.types.first.name.toUpperCase(),
+                          title2: controller.plan.types.last.name.toUpperCase(),
+                          shouldApplyBorder: true,
+                          subtitles1: controller.getSubtitle1,
+                          subtitles2: controller.getSubtitle2,
+                          title1Disabled: controller.plan.types.first.disabled,
+                          title2Disabled: controller.plan.types.last.disabled,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        child: ExtraPlansColumn(
+                          extras: controller.plan.extras ?? [],
+                          setSelectedExtras: controller.setSelectedExtras,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -73,52 +84,107 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
     );
   }
 
-  Widget selectedPosts() {
-    if (controller.selectedPosts == null) return const SizedBox.shrink();
+  Widget selectedPosts(BoxConstraints constraints) {
+    if (controller.selectedPosts.isEmpty) return const SizedBox.shrink();
     return Container(
-      // width: double.infinity,
-      height: 92,
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxHeight: constraints.maxHeight / 2,
+      ),
       color: AppTheme.isLightTheme(context)
           ? const Color(0xFFF7F8FB)
           : const Color(0xFF080704),
-      child: Center(
-        child: ListView.separated(
-          itemCount: controller.selectedPosts!.length > 6
-              ? 6
-              : controller.selectedPosts!.length,
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
-          separatorBuilder: (context, index) => const SizedBox(width: 9.5),
-          itemBuilder: (context, index) {
-            if (index == 5) {
-              return Center(
+      child: controller.isListOverflown
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: GestureDetector(
+                onTap: controller.toggleList,
+                onVerticalDragEnd: (details) => controller.toggleList(),
+                child: postsGrid(),
+              ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                postsList(),
+              ],
+            ),
+    );
+  }
+
+  Widget postsList() {
+    return SizedBox(
+      height: 92,
+      child: ListView.separated(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: controller.selectedPosts.length,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+        separatorBuilder: (context, index) => const SizedBox(width: 9),
+        itemBuilder: (BuildContext context, int index) {
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return SizedBox(
+                width: constraints.minHeight,
+                child: SelectImageWidget(
+                  imageUrl: controller.selectedPosts[index].thumbnailSrc,
+                  isSelected: true,
+                  iconSize: 12,
+                  countInfo: controller.selectedPlan.countInfo,
+                  count: controller.getCount(),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget postsGrid() {
+    return Obx(() {
+      return GridView.builder(
+        padding: EdgeInsets.only(
+          top: 8,
+          bottom: controller.isListOverflown ? 34 : 22,
+        ),
+        shrinkWrap: true,
+        // physics: const NeverScrollableScrollPhysics(),
+        itemCount: controller.isPostsListExpanded.value
+            ? controller.selectedPosts.length
+            : controller.selectedPosts.length > 6
+                ? 6
+                : controller.selectedPosts.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 6,
+          crossAxisSpacing: 9,
+          mainAxisSpacing: 9,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          if (controller.isPostsListExpanded.value == false && index == 5) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
-                  '+${controller.selectedPosts!.length - 5}',
+                  '+${controller.selectedPosts.length - 5}',
                   style: Theme.of(context).textTheme.headline2?.apply(
                         color: AppTheme.primaryBlue,
                       ),
                 ),
-              );
-            }
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                return SizedBox(
-                  width: constraints.minHeight,
-                  child: SelectImageWidget(
-                    imageUrl: controller.selectedPosts![index].thumbnailSrc,
-                    isSelected: true,
-                    countInfo: controller.selectedPlan.countInfo,
-                    count: controller.getCount(),
-                  ),
-                );
-              },
+              ),
             );
-          },
-        ),
-      ),
-    );
+          }
+          return SelectImageWidget(
+            imageUrl: controller.selectedPosts[index].thumbnailSrc,
+            isSelected: true,
+            iconSize: 12,
+            countInfo: controller.selectedPlan.countInfo,
+            count: controller.getCount(),
+          );
+        },
+      );
+    });
   }
 
   Widget orderTitle() {

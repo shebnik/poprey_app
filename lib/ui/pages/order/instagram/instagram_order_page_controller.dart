@@ -9,8 +9,9 @@ import 'package:poprey_app/utils/logger.dart';
 class InstagramOrderPageController extends GetxController {
   late final SelectedPlan selectedPlan;
   late final InstagramPlan plan;
-  List<InstagramPost>? selectedPosts;
+  List<InstagramPost> selectedPosts = [];
   List<Extra> selectedExtras = [];
+  RxBool isPostsListExpanded = false.obs;
 
   RxInt typeSelectedIndex = RxInt(0);
 
@@ -34,6 +35,10 @@ class InstagramOrderPageController extends GetxController {
   List<String> get getSubtitle2 =>
       AppConstants.TypesDescription[plan.types.last.name]!;
 
+  get isListOverflown => selectedPosts.length > 5;
+      
+  void toggleList() => isPostsListExpanded.value = !isPostsListExpanded.value;
+
   void setSelectedExtras(List<Extra> value) {
     selectedExtras = value;
     totalPrice.value = getTotalPrice;
@@ -53,10 +58,9 @@ class InstagramOrderPageController extends GetxController {
   }
 
   String getCount() {
-    if (selectedPosts == null) return '';
-    return selectedPosts!.isEmpty
+    return selectedPosts.isEmpty
         ? ''
-        : (selectedPlan.plan.count ~/ (selectedPosts!.length)).toString();
+        : (selectedPlan.plan.count ~/ (selectedPosts.length)).toString();
   }
 
   void buy() {}

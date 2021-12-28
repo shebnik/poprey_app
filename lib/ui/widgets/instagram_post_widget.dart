@@ -5,18 +5,20 @@ import 'package:poprey_app/utils/app_assets.dart';
 
 class SelectImageWidget extends StatelessWidget {
   final String imageUrl;
-  final String? countInfo;
-  final void Function()? onTap;
   final bool isSelected;
   final String count;
+  final void Function()? onTap;
+  final String? countInfo;
+  final double iconSize;
 
   const SelectImageWidget({
     Key? key,
     required this.imageUrl,
-    this.onTap,
-    this.countInfo,
     required this.isSelected,
     required this.count,
+    this.onTap,
+    this.countInfo,
+    this.iconSize = 24,
   }) : super(key: key);
 
   @override
@@ -72,15 +74,31 @@ class SelectImageWidget extends StatelessWidget {
       case 'auto-likes':
       case 'page likes':
       case 'post likes':
-        return const Icon(Icons.favorite, color: Colors.white);
+        return Icon(
+          Icons.favorite,
+          color: Colors.white,
+          size: iconSize,
+        );
       case 'followers':
       case 'playlist followers':
       case 'group followers':
-        return const Icon(Icons.groups, color: Colors.white);
+        return Icon(
+          Icons.groups,
+          color: Colors.white,
+          size: iconSize,
+        );
       case 'views':
-        return const Icon(Icons.visibility, color: Colors.white);
+        return Icon(
+          Icons.visibility,
+          color: Colors.white,
+          size: iconSize,
+        );
       case 'comments':
-        return SvgPicture.asset(AppAssets.commentIcon, width: 24, height: 24);
+        return SvgPicture.asset(
+          AppAssets.commentIcon,
+          width: iconSize,
+          height: iconSize,
+        );
     }
     return const SizedBox();
   }

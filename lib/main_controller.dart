@@ -26,7 +26,6 @@ class MainController extends GetxController {
 
   void initStreams() {
     connectivityStream = Connectivity().onConnectivityChanged.listen((event) {
-      Logger.i(event.toString());
       isOnline = event != ConnectivityResult.none;
       isOnlineRx.value = isOnline;
       Logger.i("[Connectivity]: ${isOnline ? "Online" : "Offline"}");

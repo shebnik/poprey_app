@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
-// import 'dart:io' show Platform;
 
 class AppWidgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());
@@ -62,44 +62,39 @@ class AppWidgets {
     required String description,
     required String actionText,
   }) async {
-    // if (Platform.isIOS) {
-    showCupertinoDialog(
+    showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (context) => CupertinoAlertDialog(
-        title: Text(title),
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        title: Center(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.headline3?.copyWith(
+                  fontFamily: AppConstants.SFProDisplay,
+                  color: AppTheme.primaryColor,
+                ),
+          ),
+        ),
         content: Text(
           description,
           textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.subtitle1?.apply(
+                color: const Color(0xFF8A8F95),
+              ),
         ),
         actions: [
           CupertinoDialogAction(
             child: Text(
               actionText,
+              style: Theme.of(context).textTheme.headline3?.apply(
+                    color: const Color(0xFF00ABDF),
+                  ),
             ),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ],
       ),
     );
-    // } else {
-    //   return await showDialog(
-    //     context: context,
-    //     builder: (context) => AlertDialog(
-    //       title: Text(title),
-    //       content: Text(
-    //         description,
-    //       ),
-    //       actions: [
-    //         CupertinoDialogAction(
-    //           child: Text(
-    //             actionText,
-    //           ),
-    //           onPressed: () => Navigator.of(context).pop(true),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // }
   }
 }

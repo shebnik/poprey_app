@@ -11,6 +11,7 @@ import 'package:poprey_app/ui/sheets/login_sheet/login_sheet.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/app_widgets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
+import 'package:poprey_app/utils/logger.dart';
 
 class ChoosePostsController extends GetxController {
   final mainController = Get.find<MainController>();
@@ -44,6 +45,12 @@ class ChoosePostsController extends GetxController {
     profilesManager = InstagramProfilesManager();
     final args = Get.arguments as List<dynamic>;
     selectedPlan = args[0];
+  }
+
+  @override
+  Future<void> onReady() async {
+    super.onReady();
+    final args = Get.arguments as List<dynamic>;
     initialize(args[1]);
   }
 
@@ -64,11 +71,16 @@ class ChoosePostsController extends GetxController {
     );
 
     while (true) {
-      if (scrollController.offset == 0 &&
-          scrollController.position.maxScrollExtent == 0 &&
-          canLoadMore()) {
-        await loadMore();
-      } else {
+      try {
+        if (scrollController.offset == 0 &&
+            scrollController.position.maxScrollExtent == 0 &&
+            canLoadMore()) {
+          await loadMore();
+        } else {
+          break;
+        }
+      } catch (e) {
+        Logger.e('[ChoosePostsController] scrollController error', e);
         break;
       }
     }

@@ -80,37 +80,24 @@ class _ChoosePostsState extends State<ChoosePosts> {
   Widget pageBody() {
     return Stack(
       children: [
-        Obx(() {
-          return Column(
+        LayoutBuilder(
+          builder: (context, constraints) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              controller.isAccountListShown.value
-                  ? Expanded(child: accountsWidget())
-                  : accountsWidget(),
-              const SizedBox(height: 26),
-              Text(
-                'Choose Posts',
-                style: Theme.of(context).textTheme.headline3?.apply(
-                      color: AppTheme.primary(context),
-                    ),
-              ),
-              const SizedBox(height: 22),
-              Expanded(
-                child: choosePosts(),
-              ),
+              accountsWidget(constraints),
+              Expanded(child: choosePosts()),
             ],
-          );
-        }),
-
+          ),
+        ),
         // IgnorePointer(
         //   child: Align(
         //     alignment: Alignment.bottomCenter,
         //     child: Container(
-        //       height: MediaQuery.of(context).size.height / 3.6,
+        //       height: MediaQuery.of(context).size.height / 8,
         //       decoration: const BoxDecoration(
         //         gradient: LinearGradient(
         //           colors: [
-        //             Color.fromRGBO(247, 248, 251, 1),
+        //             Color.fromRGBO(247, 248, 251, 0.1),
         //             Color.fromRGBO(247, 248, 251, 0),
         //           ],
         //           begin: Alignment.bottomCenter,
@@ -124,56 +111,49 @@ class _ChoosePostsState extends State<ChoosePosts> {
     );
   }
 
-  Widget accountsWidget() {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-        constraints: BoxConstraints(
-          maxHeight: constraints.maxHeight / 2,
-        ),
-        color: AppTheme.isLightTheme(context)
-            ? const Color(0xFFF7F8FB)
-            : const Color(0xFF080704),
-        child: Obx(() {
-          return GestureDetector(
-            onVerticalDragEnd: (details) => controller.isAccountListShown.value
-                ? null
-                : controller.toggleList(),
-            child: Column(
-              children: [
-                controller.isAccountListShown.value
-                    ? Expanded(
-                        child: accountsList(),
-                      )
-                    : accountsList(),
-                if (controller.isAccountListShown.value) ...[
-                  const Divider(height: 0.5),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 22),
-                    child: AddButton(
-                      text: 'Add Account',
-                      onPressed: () => controller.addAccount(context),
-                    ),
+  Widget accountsWidget(constraints) {
+    return Container(
+      constraints: BoxConstraints(maxHeight: constraints.maxHeight / 2),
+      color: AppTheme.isLightTheme(context)
+          ? const Color(0xFFF7F8FB)
+          : const Color(0xFF080704),
+      child: Obx(() {
+        return GestureDetector(
+          onVerticalDragEnd: (details) => controller.isAccountListShown.value
+              ? null
+              : controller.toggleList(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: accountsList()),
+              if (controller.isAccountListShown.value) ...[
+                const Divider(height: 0.5),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: AddButton(
+                    text: 'Add Account',
+                    onPressed: () => controller.addAccount(context),
                   ),
-                ],
-                GestureDetector(
-                  onTap: controller.toggleList,
-                  onVerticalDragEnd: (details) => controller.toggleList(),
-                  child: SizedBox(
-                    height: 20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        HomeIndicator(),
-                      ],
-                    ),
-                  ),
-                )
+                ),
               ],
-            ),
-          );
-        }),
-      );
-    });
+              GestureDetector(
+                onTap: controller.toggleList,
+                onVerticalDragEnd: (details) => controller.toggleList(),
+                child: SizedBox(
+                  height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      HomeIndicator(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
   }
 
   Widget accountsList() {
@@ -200,27 +180,41 @@ class _ChoosePostsState extends State<ChoosePosts> {
   }
 
   Widget choosePosts() {
-    return RawScrollbar(
-      crossAxisMargin: 15,
-      thumbColor: AppTheme.primaryColor,
-      radius: const Radius.circular(30),
-      child: SingleChildScrollView(
-        controller: controller.scrollController,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 38),
-          child: Column(
-            children: [
-              postsGrid(),
-              const SizedBox(height: 16),
-              Obx(
-                () => controller.isPostsLoading.value
-                    ? AppWidgets.loading
-                    : const SizedBox.shrink(),
+    return Column(
+      children: [
+        const SizedBox(height: 26),
+        Text(
+          'Choose Posts',
+          style: Theme.of(context).textTheme.headline3?.apply(
+                color: AppTheme.primary(context),
               ),
-            ],
+        ),
+        const SizedBox(height: 22),
+        Expanded(
+          child: RawScrollbar(
+            crossAxisMargin: 15,
+            thumbColor: AppTheme.primaryColor,
+            radius: const Radius.circular(30),
+            child: SingleChildScrollView(
+              controller: controller.scrollController,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 38),
+                child: Column(
+                  children: [
+                    postsGrid(),
+                    const SizedBox(height: 16),
+                    Obx(
+                      () => controller.isPostsLoading.value
+                          ? AppWidgets.loading
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
