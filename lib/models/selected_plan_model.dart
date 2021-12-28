@@ -95,18 +95,18 @@ class SelectedPlan {
   static SMPlan? toSMPlan(SelectedPlan selectedPlan) {
     try {
       final model = AppPreferences.getSMPlansModel()!;
-      switch (selectedPlan.platform) {
-        case 'YouTube':
+      switch (selectedPlan.platform.toLowerCase()) {
+        case 'youtube':
           return model.youtube[selectedPlan.countInfo];
-        case 'TikTok':
+        case 'tiktok':
           return model.tiktok[selectedPlan.countInfo];
-        case 'Facebook':
-          return model.facebook[selectedPlan.countInfo];
-        case 'Spotify':
+        case 'facebook':
+          return model.facebook[selectedPlan.countInfo.toLowerCase().capitalize()];
+        case 'spotify':
           return model.spotify[selectedPlan.countInfo];
-        case 'Twitter':
+        case 'twitter':
           return model.twitter[selectedPlan.countInfo];
-        case 'VK':
+        case 'vk':
           return model.vk[selectedPlan.countInfo];
       }
     } catch (e) {
@@ -118,4 +118,9 @@ class SelectedPlan {
   String toString() {
     return 'SelectedPlan(platform: $platform, countInfo: $countInfo, urlInfo: $urlInfo, plan: $plan, url: $url, email: $email)';
   }
+}
+extension StringExtension on String {
+    String capitalize() {
+      return '${this[0].toUpperCase()}${substring(1)}';
+    }
 }

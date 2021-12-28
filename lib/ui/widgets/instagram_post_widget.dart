@@ -70,12 +70,19 @@ class SelectImageWidget extends StatelessWidget {
   }
 
   Widget selectIcon() {
-    switch (countInfo) {
-      case 'Likes':
+    switch (countInfo?.toLowerCase()) {
+      case 'likes':
+      case 'auto-likes':
+      case 'page likes':
+      case 'post likes':
         return const Icon(Icons.favorite, color: Colors.white);
-      case 'Views':
+      case 'followers':
+      case 'playlist followers':
+      case 'group followers':
+        return const Icon(Icons.favorite, color: Colors.white);
+      case 'views':
         return const Icon(Icons.visibility, color: Colors.white);
-      case 'Comments':
+      case 'comments':
         return SvgPicture.asset(AppAssets.commentIcon);
     }
     return const SizedBox();
