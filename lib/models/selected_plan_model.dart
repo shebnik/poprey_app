@@ -3,6 +3,7 @@ import 'package:poprey_app/models/selector_widget_model.dart';
 import 'package:poprey_app/models/sm_plans_model.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/utils/logger.dart';
+import 'package:collection/collection.dart';
 
 class SelectedPlan {
   /// Instagram, YouTube, etc
@@ -95,19 +96,20 @@ class SelectedPlan {
   static SMPlan? toSMPlan(SelectedPlan selectedPlan) {
     try {
       final model = AppPreferences.getSMPlansModel()!;
+      final countInfo = selectedPlan.countInfo.toLowerCase();
       switch (selectedPlan.platform.toLowerCase()) {
         case 'youtube':
-          return model.youtube[selectedPlan.countInfo];
+          return model.youtube.entries.firstWhereOrNull((e) => e.value.countInfo.toLowerCase() == countInfo)?.value;
         case 'tiktok':
-          return model.tiktok[selectedPlan.countInfo];
+          return model.tiktok.entries.firstWhereOrNull((e) => e.value.countInfo.toLowerCase() == countInfo)?.value;
         case 'facebook':
-          return model.facebook[selectedPlan.countInfo.toLowerCase().capitalize()];
+          return model.facebook.entries.firstWhereOrNull((e) => e.value.countInfo.toLowerCase() == countInfo)?.value;
         case 'spotify':
-          return model.spotify[selectedPlan.countInfo];
+          return model.spotify.entries.firstWhereOrNull((e) => e.value.countInfo.toLowerCase() == countInfo)?.value;
         case 'twitter':
-          return model.twitter[selectedPlan.countInfo];
+          return model.twitter.entries.firstWhereOrNull((e) => e.value.countInfo.toLowerCase() == countInfo)?.value;
         case 'vk':
-          return model.vk[selectedPlan.countInfo];
+          return model.vk.entries.firstWhereOrNull((e) => e.value.countInfo.toLowerCase() == countInfo)?.value;
       }
     } catch (e) {
       Logger.e('[SelectedPlan] toSMPlan error:', e);
@@ -118,9 +120,4 @@ class SelectedPlan {
   String toString() {
     return 'SelectedPlan(platform: $platform, countInfo: $countInfo, urlInfo: $urlInfo, plan: $plan, url: $url, email: $email)';
   }
-}
-extension StringExtension on String {
-    String capitalize() {
-      return '${this[0].toUpperCase()}${substring(1)}';
-    }
 }

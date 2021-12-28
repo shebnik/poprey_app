@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/app_widgets.dart';
+import 'package:poprey_app/ui/widgets/selection_row.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/utils.dart';
 
@@ -59,46 +60,10 @@ class _ExtraRowState extends State<ExtraRow> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    isSelected
-                        ? const Icon(
-                            Icons.check_circle,
-                            color: AppTheme.primaryBlue,
-                            size: 20,
-                          )
-                        : Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: const Color(0xFFEBEDF1),
-                              ),
-                            ),
-                          ),
-                    const SizedBox(width: 20),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          extraTitle,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline4
-                              ?.apply(fontWeightDelta: -1),
-                        ),
-                        Text(
-                          '+${Utils.formatAmount(extra.price)}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              ?.apply(color: AppTheme.primaryBlue),
-                        ),
-                      ],
-                    ),
-                  ],
+                SelectionRow(
+                  title: extra.name,
+                  subtitle: '+${Utils.formatAmount(extra.price.toDouble())}',
+                  isSelected: isSelected,
                 ),
                 IconButton(
                   onPressed: () {

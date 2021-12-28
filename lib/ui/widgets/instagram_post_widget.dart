@@ -45,19 +45,16 @@ class SelectImageWidget extends StatelessWidget {
                     color: Color.fromRGBO(4, 4, 4, 0.6),
                   ),
                 ),
-                Row(
+                Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        selectIcon(),
-                        const SizedBox(height: 6),
-                        Text(
-                          count,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ],
+                    selectIcon(),
+                    const SizedBox(height: 5),
+                    Text(
+                      count,
+                      style: Theme.of(context).textTheme.subtitle2,
                     ),
                   ],
                 ),
@@ -79,11 +76,11 @@ class SelectImageWidget extends StatelessWidget {
       case 'followers':
       case 'playlist followers':
       case 'group followers':
-        return const Icon(Icons.favorite, color: Colors.white);
+        return const Icon(Icons.groups, color: Colors.white);
       case 'views':
         return const Icon(Icons.visibility, color: Colors.white);
       case 'comments':
-        return SvgPicture.asset(AppAssets.commentIcon);
+        return SvgPicture.asset(AppAssets.commentIcon, width: 24, height: 24);
     }
     return const SizedBox();
   }

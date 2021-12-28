@@ -9,6 +9,8 @@ class OtherSmOrderController extends GetxController {
   RxDouble totalPrice = 0.0.obs;
   late SmUrlModel? smUrlModel;
 
+  RxInt selectedIndex = 0.obs;
+
   OtherSmOrderController(args) : selectedPlan = args[0] {
     plan = SelectedPlan.toSMPlan(selectedPlan)!;
     totalPrice = selectedPlan.plan.price.obs;
@@ -20,14 +22,8 @@ class OtherSmOrderController extends GetxController {
 
   void onPaymentResult(Map<String, dynamic> payment) {}
 
-  // String getImageUrl() {
-  //   switch (selectedPlan.platform) {
-  //     case 'YouTube':
-  //       return SmParser.getYouTubeThumbnailUrl(
-  //         selectedPlan.url!,
-  //       );
-  //     default:
-  //       return '';
-  //   }
-  // }
+  void paymentMethodSelected(int i) {
+    if (selectedIndex.value == i) return;
+    selectedIndex.value = i;
+  }
 }
