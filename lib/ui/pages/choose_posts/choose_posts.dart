@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/pages/choose_posts/choose_posts_controller.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
+import 'package:poprey_app/ui/widgets/bottom_shadow.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
@@ -28,29 +30,26 @@ class _ChoosePostsState extends State<ChoosePosts> {
   void initState() {
     super.initState();
     controller = Get.put(ChoosePostsController());
-    controller.scrollController = ScrollController(initialScrollOffset: 0.1)
-      ..addListener(handleScrolling);
+
+    controller.accountsListScrollController =
+        ScrollController(initialScrollOffset: 0);
+
+    controller.choosePostsScrollController =
+        ScrollController(initialScrollOffset: 0.1)
+          ..addListener(controller.choosePostsHandleScrolling);
   }
 
   @override
   void dispose() {
-    controller.scrollController.removeListener(handleScrolling);
+    controller.choosePostsScrollController
+        .removeListener(controller.choosePostsHandleScrolling);
     super.dispose();
-  }
-
-  void handleScrolling() {
-    if (controller.scrollController.offset >=
-        controller.scrollController.position.maxScrollExtent) {
-      if (controller.canLoadMore()) {
-        controller.loadMore();
-      }
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const OrderAppBar(title: 'Selected Account'),
+      appBar: OrderAppBar(title: AppLocale(context).selectedAccount),
       body: SafeArea(
         child: pageBody(),
       ),
@@ -66,11 +65,24 @@ class _ChoosePostsState extends State<ChoosePosts> {
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: BottomResetNavigation(
-            resetPressed: controller.resetPressed,
-            nextPressed: () => controller.nextPressed(context),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                spreadRadius: 0,
+                blurRadius: 15,
+                offset: const Offset(0, -10),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: BottomResetNavigation(
+              resetPressed: controller.resetPressed,
+              nextPressed: () => controller.nextPressed(context),
+            ),
           ),
         ),
       ),
@@ -89,24 +101,11 @@ class _ChoosePostsState extends State<ChoosePosts> {
             ],
           ),
         ),
-        // IgnorePointer(
-        //   child: Align(
-        //     alignment: Alignment.bottomCenter,
-        //     child: Container(
-        //       height: MediaQuery.of(context).size.height / 8,
-        //       decoration: const BoxDecoration(
-        //         gradient: LinearGradient(
-        //           colors: [
-        //             Color.fromRGBO(247, 248, 251, 0.1),
-        //             Color.fromRGBO(247, 248, 251, 0),
-        //           ],
-        //           begin: Alignment.bottomCenter,
-        //           end: Alignment.topCenter,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        Obx(
+          () => BottomShadow(
+            isEnabled: controller.isBottomShadowShown.value,
+          ),
+        ),
       ],
     );
   }
@@ -118,20 +117,35 @@ class _ChoosePostsState extends State<ChoosePosts> {
           ? const Color(0xFFF7F8FB)
           : const Color(0xFF080704),
       child: Obx(() {
+        bool isListShown = controller.isAccountListShown.value;
         return GestureDetector(
-          onVerticalDragEnd: (details) => controller.isAccountListShown.value
-              ? null
-              : controller.toggleList(),
+          onVerticalDragEnd: (details) =>
+              isListShown ? null : controller.toggleList(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(child: accountsList()),
-              if (controller.isAccountListShown.value) ...[
+              Flexible(
+                child: Stack(
+                  children: [
+                    accountsList(),
+                    if (isListShown) ...[
+                      Obx(
+                        () => BottomShadow(
+                          isEnabled: controller.isAccountsShadowShown.value,
+                          height: 70,
+                          color: const Color(0xFFF7F8FB),
+                        ),
+                      )
+                    ],
+                  ],
+                ),
+              ),
+              if (isListShown) ...[
                 const Divider(height: 0.5),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: AddButton(
-                    text: 'Add Account',
+                    text: AppLocale(context).addAccount,
                     onPressed: () => controller.addAccount(context),
                   ),
                 ),
@@ -157,25 +171,27 @@ class _ChoosePostsState extends State<ChoosePosts> {
   }
 
   Widget accountsList() {
-    return ListView.builder(
-      controller: ScrollController(),
-      shrinkWrap: true,
-      // physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.getAccountListCount(),
-      itemBuilder: (context, index) {
-        var profile = controller.profilesManager.profiles[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: InkWell(
-            onTap: () => controller.accountSelected(profile),
-            child: AccountTile(
-              profile: profile,
-              radius: 16,
-              selectable: true,
+    return NotificationListener<ScrollNotification>(
+      onNotification: controller.accountsListScrollControllerNotification,
+      child: ListView.builder(
+        controller: controller.accountsListScrollController,
+        shrinkWrap: true,
+        itemCount: controller.getAccountListCount(),
+        itemBuilder: (context, index) {
+          var profile = controller.profilesManager.profiles[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: InkWell(
+              onTap: () => controller.accountSelected(profile),
+              child: AccountTile(
+                profile: profile,
+                radius: 16,
+                selectable: true,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -184,7 +200,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
       children: [
         const SizedBox(height: 26),
         Text(
-          'Choose Posts',
+          AppLocale(context).choosePosts,
           style: Theme.of(context).textTheme.headline3?.apply(
                 color: AppTheme.primary(context),
               ),
@@ -196,7 +212,7 @@ class _ChoosePostsState extends State<ChoosePosts> {
             thumbColor: AppTheme.primaryColor,
             radius: const Radius.circular(30),
             child: SingleChildScrollView(
-              controller: controller.scrollController,
+              controller: controller.choosePostsScrollController,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 38),
                 child: Column(

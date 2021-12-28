@@ -8,12 +8,15 @@ class AppLocale {
 
   AppLocale(this.context) : locale = AppLocalizations.of(context);
 
-  String get likes => locale?.likes ?? 'Likes';
+  String get remove => locale?.remove ?? '';
+  String get checkInternetConnection => locale?.checkInternetConnection ?? '';
+  String get likes => locale?.likes ?? '';
   String get followers => locale?.followers ?? '';
   String get autoLikes => locale?.autoLikes ?? '';
   String get views => locale?.views ?? '';
   String get comments => locale?.comments ?? '';
   String get perPost => locale?.perPost ?? '';
+  String get forNewPosts => locale?.forNewPosts ?? '';
   String get subscription => locale?.subscription ?? '';
   String get otherSM => locale?.otherSM ?? '';
   String get buy => locale?.buy ?? '';
@@ -34,4 +37,6 @@ class AppLocale {
   String get gotIt => locale?.gotIt ?? '';
   String get youHaveChosen => locale?.youHaveChosen ?? '';
   String get yourTotal => locale?.yourTotal ?? '';
+  String get choosePosts => locale?.choosePosts ?? '';
+  String get selectedAccount => locale?.selectedAccount ?? '';
 }

@@ -17,9 +17,9 @@ class SmParser {
         return await fetchMetadata(url);
       case 'tiktok':
         return fetchMetadata(url);
-        // return selectedPlan.countInfo == 'Followers'
-        //     ? await fetchMetadata(url)
-        //     : await fetchTikTokVideo(url);
+      // return selectedPlan.countInfo == 'Followers'
+      //     ? await fetchMetadata(url)
+      //     : await fetchTikTokVideo(url);
       case 'spotify':
       case 'facebook':
       case 'vk':

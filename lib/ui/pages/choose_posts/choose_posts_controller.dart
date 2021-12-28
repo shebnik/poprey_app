@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/models/instagram_post.dart';
@@ -20,15 +21,19 @@ class ChoosePostsController extends GetxController {
 
   late SelectedPlan selectedPlan;
   late InstagramProfile profile;
-  late PageInfo pageInfo;
+  PageInfo? pageInfo;
 
-  RxBool isPostsLoading = true.obs;
+  RxBool isPostsLoading = false.obs;
   RxBool isAccountListShown = false.obs;
 
   RxList<InstagramPost> posts = <InstagramPost>[].obs;
   RxList<InstagramPost> selectedPosts = <InstagramPost>[].obs;
 
-  late ScrollController scrollController;
+  late ScrollController choosePostsScrollController,
+      accountsListScrollController;
+
+  RxBool isBottomShadowShown = false.obs;
+  RxBool isAccountsShadowShown = false.obs;
 
   String get count => selectedPosts.isEmpty
       ? ''
@@ -37,20 +42,15 @@ class ChoosePostsController extends GetxController {
   bool canLoadMore() =>
       MainController.isOnline &&
       !isPostsLoading.value &&
-      pageInfo.hasNextPage != null &&
-      pageInfo.hasNextPage! &&
+      pageInfo != null &&
+      pageInfo!.hasNextPage != null &&
+      pageInfo!.hasNextPage! &&
       posts.length < 48;
 
   ChoosePostsController() {
     profilesManager = InstagramProfilesManager();
     final args = Get.arguments as List<dynamic>;
     selectedPlan = args[0];
-  }
-
-  @override
-  Future<void> onReady() async {
-    super.onReady();
-    final args = Get.arguments as List<dynamic>;
     initialize(args[1]);
   }
 
@@ -72,8 +72,8 @@ class ChoosePostsController extends GetxController {
 
     while (true) {
       try {
-        if (scrollController.offset == 0 &&
-            scrollController.position.maxScrollExtent == 0 &&
+        if (choosePostsScrollController.offset == 0 &&
+            choosePostsScrollController.position.maxScrollExtent == 0 &&
             canLoadMore()) {
           await loadMore();
         } else {
@@ -84,10 +84,12 @@ class ChoosePostsController extends GetxController {
         break;
       }
     }
+
+    choosePostsHandleScrolling();
   }
 
   Future<bool> loadMore({List<InstagramPost>? initialData}) async {
-    if (pageInfo.hasNextPage == false) {
+    if (pageInfo == null || pageInfo?.hasNextPage == false) {
       if (initialData != null) {
         posts.value = initialData;
       }
@@ -96,7 +98,8 @@ class ChoosePostsController extends GetxController {
     }
 
     isPostsLoading.value = true;
-    final data = await InstagramParser.fetchInsagramPosts(profile.id, pageInfo);
+    final data =
+        await InstagramParser.fetchInsagramPosts(profile.id, pageInfo!);
     if (data == null) {
       isPostsLoading.value = false;
       return false;
@@ -141,6 +144,13 @@ class ChoosePostsController extends GetxController {
 
   void toggleList() {
     isAccountListShown.value = !isAccountListShown.value;
+    if (isAccountListShown.value) {
+      // TODO: Improve without jumping (maxscrollextent is 0.0 by default)
+      accountsListScrollController.jumpTo(1);
+      SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+        accountsListScrollController.jumpTo(0);
+      });
+    }
   }
 
   int getAccountListCount() {
@@ -186,5 +196,27 @@ class ChoosePostsController extends GetxController {
     await profilesManager.selectProfile(profile);
     await initialize(instagramUser ??
         (await InstagramParser.fetchInstagramProfile(profile.username))!);
+  }
+
+  void choosePostsHandleScrolling() {
+    if (choosePostsScrollController.offset >=
+            choosePostsScrollController.position.maxScrollExtent &&
+        canLoadMore()) {
+      loadMore();
+    }
+    if (isPostsLoading.value) return;
+    isBottomShadowShown.value =
+        choosePostsScrollController.position.extentAfter < 80 && !canLoadMore()
+            ? false
+            : true;
+  }
+
+  bool accountsListScrollControllerNotification(
+      ScrollNotification notification) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      isAccountsShadowShown.value =
+          notification.metrics.extentAfter > 16 ? true : false;
+    });
+    return true;
   }
 }

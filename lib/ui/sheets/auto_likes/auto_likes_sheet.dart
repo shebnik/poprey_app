@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/sheets/auto_likes/auto_likes_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/app_slider.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
@@ -45,8 +46,8 @@ class _AutoLikesSheetState extends State<AutoLikesSheet> {
               child: SelectionContainersRow(
                 selectedIndex: controller.selectedIndex,
                 updateIndex: (index) => controller.selectedIndex.value = index,
-                title1: 'PER POST',
-                title2: 'SUBSCRIPTION',
+                title1: AppLocale(context).perPost.toUpperCase(),
+                title2: AppLocale(context).subscription.toUpperCase(),
               ),
             ),
             Padding(
@@ -54,8 +55,8 @@ class _AutoLikesSheetState extends State<AutoLikesSheet> {
               child: Obx(
                 () => Text(
                   controller.selectedIndex.value == 0
-                      ? 'For new posts'
-                      : 'Subscription',
+                      ? AppLocale(context).forNewPosts
+                      : AppLocale(context).subscription,
                   style: const TextStyle(
                     color: AppTheme.primaryBlue,
                     fontFamily: AppConstants.SFProDisplay,

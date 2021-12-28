@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/services/app_localizations.dart';
+import 'package:poprey_app/ui/sheets/choose_account/choose_account_controller.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
+import 'package:poprey_app/ui/widgets/bottom_shadow.dart';
 
-class ChooseAccountSheet extends StatelessWidget {
+class ChooseAccountSheet extends StatefulWidget {
   final List<InstagramProfile> profiles;
   final void Function(InstagramProfile profile) profileSelected;
   final void Function(InstagramProfile profile) profileRemoved;
@@ -19,33 +23,75 @@ class ChooseAccountSheet extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ChooseAccountSheet> createState() => _ChooseAccountSheetState();
+}
+
+class _ChooseAccountSheetState extends State<ChooseAccountSheet> {
+  late ChooseAccountController controller;
+  late RxList<InstagramProfile> profiles;
+
+  @override
+  void initState() {
+    super.initState();
+    profiles = widget.profiles.obs;
+    controller = ChooseAccountController();
+
+    controller.accountsListScrollController = ScrollController()
+      ..addListener(controller.accountsListHandleScrolling);
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      controller.accountsListHandleScrolling();
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.accountsListScrollController
+        .removeListener(controller.accountsListHandleScrolling);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        constraints:
-            BoxConstraints(maxHeight: MediaQuery.of(context).size.height / 2),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height / 2,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(
-              child: ListView.separated(
-                shrinkWrap: true,
-                // physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                itemCount: profiles.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 20),
-                itemBuilder: (context, index) {
-                  var profile = profiles[index];
-                  return GestureDetector(
-                    child: AccountTile(
-                      profile: profile,
+              child: Stack(
+                children: [
+                  Obx(() {
+                    return ListView.separated(
+                      controller: controller.accountsListScrollController,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      itemCount: profiles.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 20),
+                      itemBuilder: (context, index) {
+                        var profile = profiles[index];
+                        return GestureDetector(
+                          child: AccountTile(
+                            profile: profile,
+                          ),
+                          onTap: () => widget.profileSelected(profile),
+                          onLongPressEnd: (details) =>
+                              showPopUpMenu(context, profile, details),
+                        );
+                      },
+                    );
+                  }),
+                  Obx(
+                    () => BottomShadow(
+                      isEnabled: controller.isAccountsShadowShown.value,
+                      height: 70,
+                      color: const Color(0xFFF7F8FB),
                     ),
-                    onTap: () => profileSelected(profile),
-                    onLongPressEnd: (details) =>
-                        showPopUpMenu(context, profile, details),
-                  );
-                },
+                  ),
+                ],
               ),
             ),
             const Divider(height: 0.5),
@@ -53,7 +99,7 @@ class ChooseAccountSheet extends StatelessWidget {
               padding: const EdgeInsets.all(32),
               child: AddButton(
                 text: AppLocale(context).addAccount,
-                onPressed: addAccount,
+                onPressed: widget.addAccount,
               ),
             ),
           ],
@@ -79,16 +125,16 @@ class ChooseAccountSheet extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 0, right: 40),
             child: Row(
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.remove_circle_outline,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Text(
-                  'Remove',
-                  style: TextStyle(color: Colors.black),
+                  AppLocale(context).remove,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -97,7 +143,8 @@ class ChooseAccountSheet extends StatelessWidget {
       ],
     ).then((value) {
       if (value == 1) {
-        profileRemoved(profile);
+        profiles.remove(profile);
+        widget.profileRemoved(profile);
       }
     });
   }

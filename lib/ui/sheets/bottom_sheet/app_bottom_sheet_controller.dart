@@ -56,7 +56,7 @@ class AppBottomSheetController extends GetxController {
     InstagramProfile profile, [
     Map? instagramUser,
   ]) async {
-    await profilesManager.selectProfile(profile);
+    profilesManager.selectProfile(profile);
     if (['Auto-Likes'].contains(selectedPlan.countInfo)) {
       bottomSheetView.value = BottomSheetView.autoLikes;
       return;
@@ -84,6 +84,8 @@ class AppBottomSheetController extends GetxController {
     await profilesManager.removeProfile(profile);
     if (profilesManager.profiles.isEmpty) {
       bottomSheetView.value = BottomSheetView.login;
+      loginSheetController.firstInputController.value.text = '';
+      loginSheetController.emailController.value.text = '';
     }
   }
 

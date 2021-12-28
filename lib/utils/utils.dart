@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/widgets/app_widgets.dart';
 
 import '../main_controller.dart';
@@ -30,7 +32,8 @@ class Utils {
 
   static bool isOnline() {
     if (!MainController.isOnline) {
-      AppWidgets.openSnackbar(message: 'Please check internet connection.');
+      AppWidgets.openSnackbar(
+          message: AppLocale(Get.context!).checkInternetConnection);
       return false;
     } else {
       return true;

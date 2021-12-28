@@ -1,10 +1,13 @@
 {
+  "remove": "Remove",
+  "checkInternetConnection": "Please check internet connection.",
   "likes": "Likes",
   "followers": "Followers",
   "autoLikes": "Auto-Likes",
   "views": "Views",
   "comments": "Comments",
   "perPost": "Per post",
+  "forNewPosts": "For new posts",
   "subscription": "Subscription",
   "otherSM": "Other SM",
   "buy": "BUY",
@@ -24,5 +27,7 @@
   "reachDescr": "The number of unique users that saw your post or story on any given day. The reach will promote your posts and improve your stat.",
   "savesDescr": "The number of time when a user saved your post on his account. The saves will help you to promote your posts improve your stat.",
   "gotIt": "Got it!",
-  "yourTotal": "Your total is"
+  "yourTotal": "Your total is",
+  "choosePosts": "Choose Posts",
+  "selectedAccount": "Selected Account"
 }
