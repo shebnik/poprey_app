@@ -83,7 +83,7 @@ class LoginSheetController extends GetxController {
       }
     } else {
       toggleLoading(true);
-      final model = await SmParser.fetchYouTubeVideo(firstInput);
+      final model = await SmParser.fetchUrl(firstInput, selectedPlan);
       if (model == null) {
         isFirstInputError.value = true;
       } else {
@@ -99,9 +99,8 @@ class LoginSheetController extends GetxController {
     userNameErrorText.value =
         isInstagram ? appLocale.userNameWrong : appLocale.urlWrong;
     emailErrorText.value = appLocale.emailWrong;
-    if (isInstagram
-        ? !GetUtils.isUsername(firstInput)
-        : !GetUtils.isURL(firstInput)) {
+    if (isInstagram ? !GetUtils.isUsername(firstInput) : false) {
+      //!GetUtils.isURL(firstInput)) {
       isFirstInputError.value = true;
       return false;
     } else {

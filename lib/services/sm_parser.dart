@@ -1,73 +1,81 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:metadata_fetch/metadata_fetch.dart';
+import 'package:poprey_app/models/selected_plan_model.dart';
 
 import 'package:poprey_app/utils/logger.dart';
 
 class SmParser {
-  // static String youTubeThumbnailUrl(String id) =>
-  //     'https://img.youtube.com/vi/$id/hqdefault.jpg';
+  static const tikTokApi = 'https://www.tiktok.com/node/share/video/';
 
-  // static String getYouTubeThumbnailUrl(String url) {
-  //   if (url.contains('youtu.be')) {
-  //     return youTubeThumbnailUrl(
-  //         url.substring(url.lastIndexOf('youtu.be/') + 9));
-  //   }
-  //   return youTubeThumbnailUrl(url.substring(url.lastIndexOf('watch?v=') + 8));
-  // }
-
-  static String getVideoID(String url) {
-    if (url.contains('youtu.be')) {
-      return url.substring(url.indexOf('youtu.be/') + 9);
+  static Future<SmUrlModel?> fetchUrl(
+      String url, SelectedPlan selectedPlan) async {
+    url = Uri.parse(url).host == '' ? 'https://' + url : url;
+    switch (selectedPlan.platform.toLowerCase()) {
+      case 'youtube':
+        return await fetchMetadata(url);
+      case 'tiktok':
+        return selectedPlan.countInfo == 'Followers'
+            ? await fetchMetadata(url)
+            : await fetchTikTokVideo(url);
+      case 'spotify':
+      case 'facebook':
+      case 'vk':
+        return await fetchMetadata(url);
+      case 'twitter':
+        return await fetchMetadata(url);
+      default:
+        return null;
     }
-    return url.substring(url.indexOf('watch?v=') + 8);
   }
 
-  static Future<SmUrlModel?> fetchYouTubeVideo(String url) async {
-    final videoID = getVideoID(url);
+  static String getTikTokVideo(String url) {
+    return url
+        .substring(url.indexOf('tiktok.com/') + 11)
+        .replaceAll('/video', '');
+  }
+
+  static Future<SmUrlModel?> fetchTikTokVideo(String url) async {
     try {
-      var url = 'https://www.youtube.com/oembed?format=json&url=';
-      var videoUri =
-          Uri.encodeComponent('https://www.youtube.com/watch?v=$videoID');
-      var query = url + videoUri;
-      var response = await http.get(Uri.parse(query));
-      final model = SmUrlModel.fromJson(response.body);
-      Logger.i('[SmParser] fetchYouTubeVideo - ${model.toString()}');
+      final response =
+          await http.get(Uri.parse(tikTokApi + getTikTokVideo(url)));
+      final model = SmUrlModel.fromTikTok(response.body);
+      Logger.i('[SmParser] fetchTikTokVideo - ${model.toString()}');
       return model;
     } catch (e) {
-      Logger.e('[SmParser] fetchYouTubeVideo - error', e);
+      Logger.e('[SmParser] fetchTikTokVideo - error', e);
     }
+  }
+
+  static Future<SmUrlModel?> fetchMetadata(String url) async {
+    final metadata = await MetadataFetch.extract(url);
+    if (metadata == null) return null;
+    return SmUrlModel.fromMetadata(metadata);
   }
 }
 
 class SmUrlModel {
-  final String title;
-  final String thumbnailUrl;
+  final String? title;
+  final String? image;
 
   SmUrlModel({
-    required this.title,
-    required this.thumbnailUrl,
+    this.title,
+    this.image,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'thumbnail_url': thumbnailUrl,
-    };
+  factory SmUrlModel.fromMetadata(Metadata metadata) {
+    return SmUrlModel(title: metadata.title, image: metadata.image);
   }
 
-  factory SmUrlModel.fromMap(Map<String, dynamic> map) {
+  factory SmUrlModel.fromTikTok(String source) {
+    final data = jsonDecode(source);
     return SmUrlModel(
-      title: map['title'] ?? '',
-      thumbnailUrl: map['thumbnail_url'] ?? '',
+      title: data['itemInfo']['itemStruct']['desc'] ?? '',
+      image: data['itemInfo']['itemStruct']['video']['cover'] ?? '',
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory SmUrlModel.fromJson(String source) =>
-      SmUrlModel.fromMap(json.decode(source));
-
   @override
-  String toString() => 'SmUrlModel(title: $title, thumbnailUrl: $thumbnailUrl)';
+  String toString() => 'SmUrlModel(title: $title, thumbnailUrl: $image)';
 }

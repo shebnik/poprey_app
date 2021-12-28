@@ -7,13 +7,16 @@ class OtherSmOrderController extends GetxController {
   final SelectedPlan selectedPlan;
   late SMPlan plan;
   RxDouble totalPrice = 0.0.obs;
-  late SmUrlModel smUrlModel;
+  late SmUrlModel? smUrlModel;
 
   OtherSmOrderController(args) : selectedPlan = args[0] {
     plan = SelectedPlan.toSMPlan(selectedPlan)!;
     totalPrice = selectedPlan.plan.price.obs;
     smUrlModel = args[1];
   }
+
+  String get getTitle =>
+      '${selectedPlan.platform} ${selectedPlan.plan.count} ${selectedPlan.countInfo.split(' ')[0]}';
 
   void onPaymentResult(Map<String, dynamic> payment) {}
 

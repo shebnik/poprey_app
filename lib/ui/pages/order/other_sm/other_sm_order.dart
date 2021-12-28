@@ -32,7 +32,7 @@ class _OtherSmOrderState extends State<OtherSmOrder> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              selectedUrl(),
+              controller.smUrlModel != null ? selectedUrl() : orderTitle(),
               const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -66,46 +66,50 @@ class _OtherSmOrderState extends State<OtherSmOrder> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
-            SizedBox(
-              width: 120,
-              height: 70,
-              child: SelectImageWidget(
-                imageUrl: controller.smUrlModel.thumbnailUrl,
-                isSelected: true,
-                count: controller.selectedPlan.plan.count.toString(),
-                countInfo: controller.selectedPlan.countInfo,
+            if (controller.smUrlModel!.image != null) ...[
+              SizedBox(
+                width: 120,
+                height: 70,
+                child: SelectImageWidget(
+                  imageUrl: controller.smUrlModel!.image!,
+                  isSelected: true,
+                  count: controller.selectedPlan.plan.count.toString(),
+                  countInfo: controller.selectedPlan.countInfo,
+                ),
               ),
-            ),
+            ],
             const SizedBox(width: 14),
-            Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 22),
-                    child: Text(
-                      controller.smUrlModel.title,
+            if (controller.smUrlModel!.title != null) ...[
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 22),
+                      child: Text(
+                        controller.smUrlModel!.title!,
+                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.primary(context),
+                            ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${controller.selectedPlan.plan.count} ${controller.selectedPlan.countInfo.toLowerCase()}',
                       style: Theme.of(context).textTheme.subtitle1?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: AppTheme.primary(context),
+                            color: const Color(0xFFA6A6A6),
                           ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${controller.selectedPlan.plan.count} ${controller.selectedPlan.countInfo.toLowerCase()}',
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFFA6A6A6),
-                        ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
@@ -155,5 +159,18 @@ class _OtherSmOrderState extends State<OtherSmOrder> {
 
   Widget paymentMethods() {
     return Row();
+  }
+
+  Widget orderTitle() {
+    return Column(
+      children: [
+        const SizedBox(height: 30),
+        Text(
+          controller.getTitle,
+          style: Theme.of(context).textTheme.headline3,
+        ),
+        const SizedBox(height: 18),
+      ],
+    );
   }
 }
