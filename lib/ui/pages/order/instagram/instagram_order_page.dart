@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:poprey_app/services/app_localizations.dart';
 import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page_controller.dart';
 import 'package:poprey_app/ui/widgets/bottom_payment.dart';
+import 'package:poprey_app/ui/widgets/home_indicator.dart';
+import 'package:poprey_app/ui/widgets/instagram_accounts/instagram_accounts.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
 import 'package:poprey_app/ui/widgets/selection_container/selection_containers_row.dart';
@@ -29,14 +31,17 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OrderAppBar(title: AppLocale(context).youHaveChosen),
+      appBar: OrderAppBar(
+        title: controller.selectedPosts.isEmpty
+            ? AppLocale(context).selectedAccount
+            : AppLocale(context).youHaveChosen,
+      ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               selectedPosts(constraints),
-              const SizedBox(height: 24),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -85,30 +90,60 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
   }
 
   Widget selectedPosts(BoxConstraints constraints) {
-    if (controller.selectedPosts.isEmpty) return const SizedBox.shrink();
-    return Container(
-      width: double.infinity,
-      constraints: BoxConstraints(
-        maxHeight: constraints.maxHeight / 2,
-      ),
-      color: AppTheme.isLightTheme(context)
-          ? const Color(0xFFF7F8FB)
-          : const Color(0xFF080704),
-      child: controller.isListOverflown
-          ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: GestureDetector(
-                onTap: controller.toggleList,
-                onVerticalDragEnd: (details) => controller.toggleList(),
-                child: postsGrid(),
-              ),
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                postsList(),
-              ],
+    if (controller.selectedPosts.isEmpty) {
+      return InstagramAccounts(
+        constraints: constraints,
+        controller: controller.getInstagramAccountsController(),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: constraints.maxHeight / 2,
             ),
+            color: AppTheme.isLightTheme(context)
+                ? const Color(0xFFF7F8FB)
+                : const Color(0xFF080704),
+            child: controller.isListOverflown
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: GestureDetector(
+                      onTap: controller.toggleList,
+                      onVerticalDragEnd: (details) => controller.toggleList(),
+                      child: postsGrid(),
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      postsList(),
+                    ],
+                  ),
+          ),
+          Positioned(
+            bottom: 7,
+            child: GestureDetector(
+              onTap: controller.toggleList,
+              onVerticalDragEnd: (details) => controller.toggleList(),
+              child: SizedBox(
+                height: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    HomeIndicator(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -149,7 +184,6 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
           bottom: controller.isListOverflown ? 34 : 22,
         ),
         shrinkWrap: true,
-        // physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.isPostsListExpanded.value
             ? controller.selectedPosts.length
             : controller.selectedPosts.length > 6

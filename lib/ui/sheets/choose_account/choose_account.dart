@@ -7,6 +7,7 @@ import 'package:poprey_app/ui/sheets/choose_account/choose_account_controller.da
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_shadow.dart';
+import 'package:poprey_app/utils/app_theme.dart';
 
 class ChooseAccountSheet extends StatefulWidget {
   final List<InstagramProfile> profiles;
@@ -88,7 +89,7 @@ class _ChooseAccountSheetState extends State<ChooseAccountSheet> {
                     () => BottomShadow(
                       isEnabled: controller.isAccountsShadowShown.value,
                       height: 70,
-                      color: const Color(0xFFF7F8FB),
+                      color: AppTheme.isLightTheme(context) ? const Color(0xFFF7F8FB): const Color(0xFF080704),
                     ),
                   ),
                 ],

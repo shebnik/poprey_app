@@ -4,9 +4,9 @@ import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/services/sm_parser.dart';
-import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
 import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
 import 'package:poprey_app/ui/pages/order/other_sm/other_sm_order.dart';
+import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 
 enum BottomSheetView { login, chooseAccount, autoLikes }
@@ -64,7 +64,7 @@ class AppBottomSheetController extends GetxController {
     Get.back();
     if (['Likes', 'Views', 'Comments'].contains(selectedPlan.countInfo)) {
       Get.toNamed(
-        ChoosePosts.routeName,
+        SelectedAccount.routeName,
         arguments: [
           selectedPlan.copyWith(url: profile.username, email: profile.email),
           instagramUser,

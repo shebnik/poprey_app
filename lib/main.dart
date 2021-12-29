@@ -2,10 +2,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:poprey_app/main_controller.dart';
 import 'package:poprey_app/services/auth.dart';
 import 'package:poprey_app/services/app_preferences.dart';
-import 'package:poprey_app/ui/pages/choose_posts/choose_posts.dart';
 import 'package:poprey_app/ui/pages/home/home_loader.dart';
 import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
 import 'package:poprey_app/ui/pages/order/other_sm/other_sm_order.dart';
+import 'package:poprey_app/ui/pages/selected_account/selected_account.dart';
 import 'package:poprey_app/ui/widgets/splash_loading.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'package:poprey_app/utils/app_constants.dart';
@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
           page: () => const HomeLoader(),
         ),
         GetPage(
-          name: ChoosePosts.routeName,
-          page: () => const ChoosePosts(),
+          name: SelectedAccount.routeName,
+          page: () => const SelectedAccount(),
         ),
         GetPage(
           name: InstagramOrderPage.routeName,

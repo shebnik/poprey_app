@@ -11,10 +11,11 @@ import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet.dart';
 import 'package:poprey_app/ui/sheets/login_sheet/login_sheet_controller.dart';
 import 'package:poprey_app/ui/widgets/app_widgets.dart';
+import 'package:poprey_app/ui/widgets/instagram_accounts/instagram_accounts_controller.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
 
-class ChoosePostsController extends GetxController {
+class SelectedAccountController extends GetxController {
   final mainController = Get.find<MainController>();
 
   late final InstagramProfilesManager profilesManager;
@@ -47,7 +48,7 @@ class ChoosePostsController extends GetxController {
       pageInfo!.hasNextPage! &&
       posts.length < 48;
 
-  ChoosePostsController() {
+  SelectedAccountController() {
     profilesManager = InstagramProfilesManager();
     final args = Get.arguments as List<dynamic>;
     selectedPlan = args[0];
@@ -172,11 +173,6 @@ class ChoosePostsController extends GetxController {
   }
 
   void clearView(InstagramProfile profile) async {
-    if (this.profile == profile) {
-      toggleList();
-      return;
-    }
-    isAccountListShown.value = false;
     posts.clear();
     selectedPosts.clear();
     isPostsLoading.value = true;
@@ -219,4 +215,12 @@ class ChoosePostsController extends GetxController {
     });
     return true;
   }
+
+  InstagramAccountsController getInstagramAccountsController() =>
+      InstagramAccountsController(
+        accountSelected: accountSelected,
+        profilesManager: profilesManager,
+        selectedPlan: selectedPlan,
+        profileSelected: profileSelected,
+      );
 }

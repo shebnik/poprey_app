@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:poprey_app/services/app_localizations.dart';
-import 'package:poprey_app/ui/pages/choose_posts/choose_posts_controller.dart';
+import 'package:poprey_app/ui/pages/selected_account/selected_account_controller.dart';
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_reset_navigation.dart';
 import 'package:poprey_app/ui/widgets/bottom_shadow.dart';
 import 'package:poprey_app/ui/widgets/home_indicator.dart';
+import 'package:poprey_app/ui/widgets/instagram_accounts/instagram_accounts.dart';
 import 'package:poprey_app/ui/widgets/instagram_post_widget.dart';
 import 'package:poprey_app/ui/widgets/order_app_bar.dart';
 import 'package:poprey_app/ui/widgets/app_widgets.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
-class ChoosePosts extends StatefulWidget {
-  static const routeName = '/choosePosts';
+class SelectedAccount extends StatefulWidget {
+  static const routeName = '/selectedAccount';
 
-  const ChoosePosts({
+  const SelectedAccount({
     Key? key,
   }) : super(key: key);
 
   @override
-  _ChoosePostsState createState() => _ChoosePostsState();
+  _SelectedAccountState createState() => _SelectedAccountState();
 }
 
-class _ChoosePostsState extends State<ChoosePosts> {
-  late final ChoosePostsController controller;
+class _SelectedAccountState extends State<SelectedAccount> {
+  late final SelectedAccountController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(ChoosePostsController());
+    controller = Get.put(SelectedAccountController());
 
     controller.accountsListScrollController =
         ScrollController(initialScrollOffset: 0);
@@ -95,7 +96,11 @@ class _ChoosePostsState extends State<ChoosePosts> {
           builder: (context, constraints) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              accountsWidget(constraints),
+              // accountsWidget(constraints),
+              InstagramAccounts(
+                constraints: constraints,
+                controller: controller.getInstagramAccountsController(),
+              ),
               Expanded(child: choosePosts()),
             ],
           ),

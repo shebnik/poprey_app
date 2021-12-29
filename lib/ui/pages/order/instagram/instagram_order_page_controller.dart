@@ -1,21 +1,27 @@
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:poprey_app/models/instagram_model.dart';
 import 'package:poprey_app/models/instagram_post.dart';
+import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
 import 'package:poprey_app/models/selector_widget_model.dart';
+import 'package:poprey_app/services/instagram_profile_manager.dart';
+import 'package:poprey_app/ui/widgets/instagram_accounts/instagram_accounts_controller.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/logger.dart';
 
 class InstagramOrderPageController extends GetxController {
   late final SelectedPlan selectedPlan;
   late final InstagramPlan plan;
+
   List<InstagramPost> selectedPosts = [];
   List<Extra> selectedExtras = [];
-  RxBool isPostsListExpanded = false.obs;
 
+  RxBool isPostsListExpanded = false.obs;
   RxInt typeSelectedIndex = RxInt(0);
 
   late RxDouble totalPrice;
+  late final InstagramProfilesManager profilesManager;
 
   InstagramOrderPageController(List<dynamic> args) {
     selectedPlan = args[0];
@@ -24,6 +30,7 @@ class InstagramOrderPageController extends GetxController {
     }
     plan = SelectedPlan.toInstagramPlan(selectedPlan)!;
     totalPrice = selectedPlan.plan.price.obs;
+    profilesManager = InstagramProfilesManager();
   }
 
   String get getTitle =>
@@ -36,7 +43,7 @@ class InstagramOrderPageController extends GetxController {
       AppConstants.TypesDescription[plan.types.last.name]!;
 
   get isListOverflown => selectedPosts.length > 5;
-      
+
   void toggleList() => isPostsListExpanded.value = !isPostsListExpanded.value;
 
   void setSelectedExtras(List<Extra> value) {
@@ -81,5 +88,23 @@ class InstagramOrderPageController extends GetxController {
 
   void onPaymentResult(Map<String, dynamic> paymentResult) {
     Logger.i('[InstagramOrderPageController] paymentResult - $paymentResult');
+  }
+
+  InstagramAccountsController getInstagramAccountsController() =>
+      InstagramAccountsController(
+        accountSelected: accountSelected,
+        profilesManager: profilesManager,
+        selectedPlan: selectedPlan,
+        profileSelected: profileSelected,
+      );
+
+  void accountSelected(InstagramProfile profile) async {
+    await profilesManager.selectProfile(profile);
+  }
+
+  Future<void> profileSelected(
+      InstagramProfile profile, Map<String, dynamic>? instagramUser) async {
+    Get.back();
+    await profilesManager.selectProfile(profile);
   }
 }
