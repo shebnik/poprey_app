@@ -44,19 +44,14 @@ class InstagramAccountsController extends GetxController {
   void toggleList() {
     isAccountListShown.value = !isAccountListShown.value;
     if (isAccountListShown.value) {
-      // TODO: Improve without jumping (maxscrollextent is 0.0 by default)
-      accountsListScrollController.jumpTo(1);
-      SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-        accountsListScrollController.jumpTo(0);
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        accountsListScrollController.position.notifyListeners();
+        isAccountsShadowShown.value =
+            accountsListScrollController.position.extentAfter > 16
+                ? true
+                : false;
       });
     }
-  }
-
-  void addAccount(BuildContext context) {
-    AppWidgets.showBottomSheet(
-      context,
-      LoginSheet(controller: loginSheetController),
-    );
   }
 
   bool accountsListScrollControllerNotification(
@@ -66,6 +61,13 @@ class InstagramAccountsController extends GetxController {
           notification.metrics.extentAfter > 16 ? true : false;
     });
     return true;
+  }
+
+  void addAccount(BuildContext context) {
+    AppWidgets.showBottomSheet(
+      context,
+      LoginSheet(controller: loginSheetController),
+    );
   }
 
   void accountTap(InstagramProfile profile) {

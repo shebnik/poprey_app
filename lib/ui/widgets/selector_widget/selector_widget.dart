@@ -124,7 +124,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
           if (imageAsset != null) ...[
             Positioned(
               top: 0,
-              left: 7,
+              left: 10,
               right: 0,
               child: SvgPicture.asset(
                 imageAsset,

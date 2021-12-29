@@ -39,7 +39,7 @@ class AccountTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                profile.username,
+                profile.username!,
                 style: Theme.of(context).textTheme.headline3?.apply(
                       color: profile.isSelected ?? false
                           ? AppTheme.primaryBlue

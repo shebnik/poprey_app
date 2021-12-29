@@ -33,10 +33,10 @@ class _SelectedAccountState extends State<SelectedAccount> {
     controller = Get.put(SelectedAccountController());
 
     controller.accountsListScrollController =
-        ScrollController(initialScrollOffset: 0);
+        ScrollController();
 
     controller.choosePostsScrollController =
-        ScrollController(initialScrollOffset: 0.1)
+        ScrollController()
           ..addListener(controller.choosePostsHandleScrolling);
   }
 

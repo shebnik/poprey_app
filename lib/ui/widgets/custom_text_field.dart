@@ -14,7 +14,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
     required this.controller,
-    this.label = '',
+    required this.label,
     this.hint = '',
     this.inputType,
     this.showError = false,

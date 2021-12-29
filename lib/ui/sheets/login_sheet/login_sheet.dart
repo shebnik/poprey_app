@@ -8,7 +8,7 @@ import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
-class LoginSheet extends StatelessWidget {
+class LoginSheet extends StatefulWidget {
   final LoginSheetController controller;
 
   const LoginSheet({
@@ -17,8 +17,29 @@ class LoginSheet extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<LoginSheet> createState() => _LoginSheetState();
+}
+
+class _LoginSheetState extends State<LoginSheet> {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.firstInputController =
+        TextEditingController(text: '').obs;
+    widget.controller.emailController = TextEditingController(text: '').obs;
+    widget.controller.setLoginData();
+  }
+
+  @override
+  void dispose() {
+    widget.controller.firstInputController.value.dispose();
+    widget.controller.emailController.value.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    controller.appLocale = AppLocale(context);
+    widget.controller.appLocale = AppLocale(context);
     return SafeArea(
       child: Wrap(
         children: [
@@ -28,27 +49,27 @@ class LoginSheet extends StatelessWidget {
             child: Column(
               children: [
                 Obx(() => CustomTextField(
-                      label: controller.getUrlTitle,
-                      controller: controller.firstInputController.value,
-                      inputType: controller.inputType,
-                      accountToggle: controller.chooseAccount,
-                      errorText: controller.userNameErrorText.value,
-                      showError: controller.isFirstInputError.value,
+                      label: widget.controller.getUrlTitle,
+                      controller: widget.controller.firstInputController.value,
+                      inputType: widget.controller.inputType,
+                      accountToggle: widget.controller.chooseAccount,
+                      errorText: widget.controller.userNameErrorText.value,
+                      showError: widget.controller.isFirstInputError.value,
                     )),
                 Obx(() => CustomTextField(
                       label: AppConstants.email,
-                      controller: controller.emailController.value,
-                      errorText: controller.emailErrorText.value,
-                      showError: controller.isEmailError.value,
+                      controller: widget.controller.emailController.value,
+                      errorText: widget.controller.emailErrorText.value,
+                      showError: widget.controller.isEmailError.value,
                     )),
                 const SizedBox(height: 34),
                 Obx(() {
-                  var isLoading = controller.isLoading.value;
+                  var isLoading = widget.controller.isLoading.value;
                   return BottomResetNavigation(
                     resetPressed: isLoading ? null : () => Get.back(),
                     nextPressed: isLoading
                         ? null
-                        : () => controller.nextPressed(context),
+                        : () => widget.controller.nextPressed(context),
                   );
                 }),
               ],
@@ -94,7 +115,7 @@ class LoginSheet extends StatelessWidget {
           Positioned(
             top: 25,
             child: Text(
-              controller.getTitle,
+              widget.controller.getTitle,
               style: Theme.of(context).textTheme.headline3,
               overflow: TextOverflow.clip,
               textAlign: TextAlign.start,

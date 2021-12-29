@@ -59,7 +59,7 @@ class SelectedAccountController extends GetxController {
     profile = profilesManager.getSelectedProfile()!;
 
     instagramUser ??=
-        await InstagramParser.fetchInstagramProfile(profile.username);
+        await InstagramParser.fetchInstagramProfile(profile.username!);
     if (instagramUser == null) return;
 
     var data = instagramUser['edge_owner_to_timeline_media'];
@@ -71,22 +71,26 @@ class SelectedAccountController extends GetxController {
       initialData: edges.map((e) => InstagramPost.fromJson(e['node'])).toList(),
     );
 
-    while (true) {
-      try {
-        if (choosePostsScrollController.offset == 0 &&
-            choosePostsScrollController.position.maxScrollExtent == 0 &&
-            canLoadMore()) {
-          await loadMore();
-        } else {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      choosePostsScrollController.position.notifyListeners();
+
+      while (true) {
+        try {
+          if (choosePostsScrollController.offset >=
+                  choosePostsScrollController.position.maxScrollExtent &&
+              canLoadMore()) {
+            await loadMore();
+          } else {
+            break;
+          }
+        } catch (e) {
+          Logger.e('[ChoosePostsController] scrollController error', e);
           break;
         }
-      } catch (e) {
-        Logger.e('[ChoosePostsController] scrollController error', e);
-        break;
       }
-    }
 
-    choosePostsHandleScrolling();
+      choosePostsHandleScrolling();
+    });
   }
 
   Future<bool> loadMore({List<InstagramPost>? initialData}) async {
@@ -146,10 +150,12 @@ class SelectedAccountController extends GetxController {
   void toggleList() {
     isAccountListShown.value = !isAccountListShown.value;
     if (isAccountListShown.value) {
-      // TODO: Improve without jumping (maxscrollextent is 0.0 by default)
-      accountsListScrollController.jumpTo(1);
-      SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
-        accountsListScrollController.jumpTo(0);
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        accountsListScrollController.position.notifyListeners();
+        isAccountsShadowShown.value =
+            accountsListScrollController.position.extentAfter > 16
+                ? true
+                : false;
       });
     }
   }
@@ -182,7 +188,7 @@ class SelectedAccountController extends GetxController {
     clearView(profile);
     await profilesManager.selectProfile(profile);
     await initialize(
-        (await InstagramParser.fetchInstagramProfile(profile.username))!);
+        (await InstagramParser.fetchInstagramProfile(profile.username!))!);
   }
 
   Future<void> profileSelected(
@@ -191,7 +197,7 @@ class SelectedAccountController extends GetxController {
     Get.back();
     await profilesManager.selectProfile(profile);
     await initialize(instagramUser ??
-        (await InstagramParser.fetchInstagramProfile(profile.username))!);
+        (await InstagramParser.fetchInstagramProfile(profile.username!))!);
   }
 
   void choosePostsHandleScrolling() {

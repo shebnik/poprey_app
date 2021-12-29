@@ -125,23 +125,25 @@ class _InstagramOrderPageState extends State<InstagramOrderPage> {
                     ],
                   ),
           ),
-          Positioned(
-            bottom: 7,
-            child: GestureDetector(
-              onTap: controller.toggleList,
-              onVerticalDragEnd: (details) => controller.toggleList(),
-              child: SizedBox(
-                height: 20,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    HomeIndicator(),
-                  ],
+          if (controller.isListOverflown) ...[
+            Positioned(
+              bottom: 7,
+              child: GestureDetector(
+                onTap: controller.toggleList,
+                onVerticalDragEnd: (details) => controller.toggleList(),
+                child: SizedBox(
+                  height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      HomeIndicator(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
       ),
     );

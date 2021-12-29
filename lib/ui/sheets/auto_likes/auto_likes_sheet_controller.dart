@@ -44,7 +44,11 @@ class AutoLikesSheetController {
 
   SelectorWidgetModel getSelectedModel() {
     var model = SelectorWidgetModel(
-        platform: 'Instagram', countInfo: 'Auto-Likes', urlInfo: '', plans: []);
+      platform: 'Instagram',
+      countInfo: 'Auto-Likes',
+      urlInfo: 'Instagram Username (Login)',
+      plans: [],
+    );
 
     return selectedIndex.value == 1
         ? model.copyWith(

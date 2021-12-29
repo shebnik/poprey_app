@@ -5,7 +5,7 @@ part 'instagram_profile.g.dart';
 @JsonSerializable(explicitToJson: true)
 class InstagramProfile {
   final String id;
-  final String username;
+  final String? username;
   @JsonKey(name: 'full_name')
   final String fullName;
   @JsonKey(name: 'is_private')

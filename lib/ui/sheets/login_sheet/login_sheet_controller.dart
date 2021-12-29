@@ -33,9 +33,7 @@ class LoginSheetController extends GetxController {
   }) : isInstagram = selectedPlan.platform == 'Instagram';
 
   late AppLocale appLocale;
-  final Rx<TextEditingController> firstInputController =
-      TextEditingController().obs;
-  final Rx<TextEditingController> emailController = TextEditingController().obs;
+  late Rx<TextEditingController> firstInputController, emailController;
 
   RxBool isLoading = false.obs;
   RxString userNameErrorText = ''.obs;
@@ -43,14 +41,15 @@ class LoginSheetController extends GetxController {
   RxBool isFirstInputError = false.obs;
   RxBool isEmailError = false.obs;
 
-  get inputType => chooseAccount != null && profilesManager.profiles.isNotEmpty
-      ? InputType.account
-      : null;
+  InputType? get inputType =>
+      chooseAccount != null && profilesManager.profiles.isNotEmpty
+          ? InputType.account
+          : null;
 
   String get getTitle =>
       '${selectedPlan.platform} ${Utils.formatNumber(selectedPlan.plan.count)} ${selectedPlan.countInfo}';
 
-  get getUrlTitle => selectedPlan.urlInfo;
+  String get getUrlTitle => selectedPlan.urlInfo;
 
   Future<void> nextPressed(BuildContext context) async {
     String firstInput = firstInputController.value.text.trim();
@@ -118,5 +117,22 @@ class LoginSheetController extends GetxController {
   void toggleLoading(bool value) {
     isLoading.value = value;
     mainController.preventTap = value;
+  }
+
+  void setLoginData() {
+    if (!isInstagram) {
+      emailController.value.text = AppPreferences.getUserEmail() ?? '';
+      return;
+    }
+    if (chooseAccount == null) {
+      firstInputController.value.text = '';
+      emailController.value.text = '';
+      return;
+    }
+    final selectedProfile = profilesManager.getSelectedProfile();
+    if (selectedProfile != null) {
+      firstInputController.value.text = selectedProfile.username ?? '';
+      emailController.value.text = selectedProfile.email ?? '';
+    }
   }
 }
