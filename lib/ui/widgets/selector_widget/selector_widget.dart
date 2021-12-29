@@ -54,23 +54,12 @@ class _SelectorWidgetState extends State<SelectorWidget> {
           left: model.imageAsset != null ? 10.0 : 14.0,
           right: 0,
         ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: buyWidget(),
-                ),
-                Container(
-                  constraints: BoxConstraints(
-                    maxWidth: constraints.minWidth - buyWidgetWidth - 5,
-                  ),
-                  child: sliderWidget(),
-                ),
-              ],
-            );
-          },
+        child: Row(
+          children: [
+            Flexible(child: sliderWidget()),
+            const SizedBox(width: 10),
+            buyWidget(),
+          ],
         ),
       ),
     );
@@ -128,7 +117,6 @@ class _SelectorWidgetState extends State<SelectorWidget> {
               right: 0,
               child: SvgPicture.asset(
                 imageAsset,
-                fit: BoxFit.scaleDown,
               ),
             ),
           ],
