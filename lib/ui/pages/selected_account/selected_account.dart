@@ -32,12 +32,10 @@ class _SelectedAccountState extends State<SelectedAccount> {
     super.initState();
     controller = Get.put(SelectedAccountController());
 
-    controller.accountsListScrollController =
-        ScrollController();
+    controller.accountsListScrollController = ScrollController();
 
-    controller.choosePostsScrollController =
-        ScrollController()
-          ..addListener(controller.choosePostsHandleScrolling);
+    controller.choosePostsScrollController = ScrollController()
+      ..addListener(controller.choosePostsHandleScrolling);
   }
 
   @override
@@ -66,23 +64,11 @@ class _SelectedAccountState extends State<SelectedAccount> {
             ),
           ],
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.03),
-                spreadRadius: 0,
-                blurRadius: 15,
-                offset: const Offset(0, -10),
-              ),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: BottomResetNavigation(
-              resetPressed: controller.resetPressed,
-              nextPressed: () => controller.nextPressed(context),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: BottomResetNavigation(
+            resetPressed: controller.resetPressed,
+            nextPressed: () => controller.nextPressed(context),
           ),
         ),
       ),

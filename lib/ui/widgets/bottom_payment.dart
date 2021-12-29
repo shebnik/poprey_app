@@ -25,84 +25,96 @@ class BottomPayment extends StatelessWidget {
     //   )
     // ];
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: AppLocale(context).yourTotal + ' ',
-                  style: Theme.of(context).textTheme.caption?.copyWith(
-                        color: const Color(0xFFC9CFD6),
-                      ),
-                ),
-                TextSpan(
-                  text: Utils.formatAmount(amount),
-                  style: Theme.of(context).textTheme.headline4?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.primary(context),
-                      ),
-                ),
-              ],
+      padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 32),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              spreadRadius: 0,
+              blurRadius: 15,
+              offset: const Offset(0, -10),
             ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 40,
-            width: double.infinity,
-            child: RoundButton(
-              title: 'Buy with ',
-              onPressed: () => {},
-              color: AppTheme.primaryColor,
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: AppLocale(context).yourTotal + ' ',
+                    style: Theme.of(context).textTheme.caption?.copyWith(
+                          color: const Color(0xFFC9CFD6),
+                        ),
+                  ),
+                  TextSpan(
+                    text: Utils.formatAmount(amount),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.primary(context),
+                        ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          // if (Platform.isIOS)
-          //   RawApplePayButton(
-          //     style: ApplePayButtonStyle.automatic,
-          //   ),
-          // // ApplePayButton(
-          // //   paymentConfigurationAsset:
-          // //       'default_payment_profile_apple_pay.json',
-          // //   paymentItems: paymentItems,
-          // //   style: ApplePayButtonStyle.automatic,
-          // //   type: ApplePayButtonType.buy,
-          // //   onPaymentResult: onPaymentResult,
-          // //   loadingIndicator: const Center(
-          // //     child: CircularProgressIndicator(),
-          // //   ),
-          // // ),
-          // if (Platform.isAndroid)
-          //   Container(
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(20),
-          //       color: AppTheme.primaryColor,
-          //     ),
-          //     width: double.infinity,
-          //     height: 40,
-          //     child: RawGooglePayButton(
-          //       type: GooglePayButtonType.buy,
-          //       onPressed: () => {},
-          //       style: AppTheme.isLightTheme(context)
-          //           ? GooglePayButtonStyle.black
-          //           : GooglePayButtonStyle.white,
-          //     ),
-          //   ),
-          // GooglePayButton(
-          //   paymentConfigurationAsset:
-          //       'default_payment_profile_google_pay.json',
-          //   paymentItems: paymentItems,
-          //   style: AppTheme.isLightTheme(context)
-          //       ? GooglePayButtonStyle.white
-          //       : GooglePayButtonStyle.black,
-          //   type: GooglePayButtonType.pay,
-          //   onPaymentResult: onPaymentResult,
-          //   loadingIndicator: const Center(
-          //     child: CircularProgressIndicator(),
-          //   ),
-          // ),
-        ],
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 40,
+              width: double.infinity,
+              child: RoundButton(
+                title: 'Buy with ',
+                onPressed: () => {},
+                color: AppTheme.primaryColor,
+              ),
+            ),
+            // if (Platform.isIOS)
+            //   RawApplePayButton(
+            //     style: ApplePayButtonStyle.automatic,
+            //   ),
+            // // ApplePayButton(
+            // //   paymentConfigurationAsset:
+            // //       'default_payment_profile_apple_pay.json',
+            // //   paymentItems: paymentItems,
+            // //   style: ApplePayButtonStyle.automatic,
+            // //   type: ApplePayButtonType.buy,
+            // //   onPaymentResult: onPaymentResult,
+            // //   loadingIndicator: const Center(
+            // //     child: CircularProgressIndicator(),
+            // //   ),
+            // // ),
+            // if (Platform.isAndroid)
+            //   Container(
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(20),
+            //       color: AppTheme.primaryColor,
+            //     ),
+            //     width: double.infinity,
+            //     height: 40,
+            //     child: RawGooglePayButton(
+            //       type: GooglePayButtonType.buy,
+            //       onPressed: () => {},
+            //       style: AppTheme.isLightTheme(context)
+            //           ? GooglePayButtonStyle.black
+            //           : GooglePayButtonStyle.white,
+            //     ),
+            //   ),
+            // GooglePayButton(
+            //   paymentConfigurationAsset:
+            //       'default_payment_profile_google_pay.json',
+            //   paymentItems: paymentItems,
+            //   style: AppTheme.isLightTheme(context)
+            //       ? GooglePayButtonStyle.white
+            //       : GooglePayButtonStyle.black,
+            //   type: GooglePayButtonType.pay,
+            //   onPaymentResult: onPaymentResult,
+            //   loadingIndicator: const Center(
+            //     child: CircularProgressIndicator(),
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }

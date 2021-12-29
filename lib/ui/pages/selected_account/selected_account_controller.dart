@@ -179,6 +179,7 @@ class SelectedAccountController extends GetxController {
   }
 
   void clearView(InstagramProfile profile) async {
+    isBottomShadowShown.value = false;
     posts.clear();
     selectedPosts.clear();
     isPostsLoading.value = true;
