@@ -72,7 +72,7 @@ class AppWidgets {
             title,
             style: Theme.of(context).textTheme.headline3?.copyWith(
                   fontFamily: AppConstants.SFProDisplay,
-                  color: AppTheme.primaryColor,
+                  color: AppTheme.primary(context),
                 ),
           ),
         ),

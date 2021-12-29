@@ -67,7 +67,6 @@ class _ChoosePostsState extends State<ChoosePosts> {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.03),
@@ -133,7 +132,9 @@ class _ChoosePostsState extends State<ChoosePosts> {
                         () => BottomShadow(
                           isEnabled: controller.isAccountsShadowShown.value,
                           height: 70,
-                          color: const Color(0xFFF7F8FB),
+                          color: AppTheme.isLightTheme(context)
+                              ? const Color(0xFFF7F8FB)
+                              : const Color(0xFF080704),
                         ),
                       )
                     ],

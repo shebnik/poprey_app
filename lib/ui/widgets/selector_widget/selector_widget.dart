@@ -64,7 +64,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                 ),
                 Container(
                   constraints: BoxConstraints(
-                    maxWidth: constraints.minWidth - buyWidgetWidth,
+                    maxWidth: constraints.minWidth - buyWidgetWidth - 5,
                   ),
                   child: sliderWidget(),
                 ),
@@ -123,10 +123,12 @@ class _SelectorWidgetState extends State<SelectorWidget> {
         children: [
           if (imageAsset != null) ...[
             Positioned(
-              top: 5,
+              top: 0,
+              left: 7,
               right: 0,
               child: SvgPicture.asset(
                 imageAsset,
+                fit: BoxFit.scaleDown,
               ),
             ),
           ],

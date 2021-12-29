@@ -4,7 +4,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:poprey_app/ui/pages/home/home_controller.dart';
 import 'package:poprey_app/ui/pages/home/home_page.dart';
 import 'package:poprey_app/ui/pages/instagram_tab/instagram_tab_controller.dart';
-import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
+import 'package:poprey_app/ui/pages/other_sm_tab/other_sm_tab_controller.dart';
 
 class HomeLoader extends StatelessWidget {
   static const routeName = '/';

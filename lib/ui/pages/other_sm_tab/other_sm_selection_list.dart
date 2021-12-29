@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/state_manager.dart';
-import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
+import 'package:poprey_app/ui/pages/other_sm_tab/other_sm_tab_controller.dart';
 import 'package:poprey_app/utils/app_assets.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';

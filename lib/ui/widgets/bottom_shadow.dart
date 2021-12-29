@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poprey_app/utils/app_theme.dart';
 
 class BottomShadow extends StatelessWidget {
   final bool isEnabled;
@@ -23,9 +24,17 @@ class BottomShadow extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                color?.withOpacity(0.7) ??
-                    const Color(0xFFC4C4C4).withOpacity(0.7),
-                color?.withOpacity(0) ?? const Color(0xFFC4C4C4).withOpacity(0),
+                if (color != null) ...[
+                  color!.withOpacity(0.7),
+                  color!.withOpacity(0)
+                ] else ...[
+                  AppTheme.isLightTheme(context)
+                      ? const Color(0xFFC4C4C4).withOpacity(0.7)
+                      : const Color(0xFF3B3B3B).withOpacity(0.7),
+                  AppTheme.isLightTheme(context)
+                      ? const Color(0xFFC4C4C4).withOpacity(0)
+                      : const Color(0xFF3B3B3B).withOpacity(0),
+                ],
               ],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,

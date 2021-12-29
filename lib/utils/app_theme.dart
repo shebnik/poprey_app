@@ -140,7 +140,7 @@ class AppTheme {
   static const primaryColorDark = Color(0xffdfcab3);
   static const primaryBlue = Color(0xFF00ABDF);
 
-  static isLightTheme(BuildContext context) {
+  static bool isLightTheme(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     return brightness == Brightness.light;
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:poprey_app/ui/pages/other_sm/other_sm_tab_controller.dart';
+import 'package:poprey_app/ui/pages/other_sm_tab/other_sm_tab_controller.dart';
 import 'package:poprey_app/ui/widgets/selector_widget/selector_widget.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 import 'other_sm_selection_list.dart';
