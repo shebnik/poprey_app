@@ -7,6 +7,7 @@ import 'package:poprey_app/ui/sheets/choose_account/choose_account_controller.da
 import 'package:poprey_app/ui/widgets/account_tile.dart';
 import 'package:poprey_app/ui/widgets/add_button.dart';
 import 'package:poprey_app/ui/widgets/bottom_shadow.dart';
+import 'package:poprey_app/ui/widgets/home_indicator.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
 class ChooseAccountSheet extends StatefulWidget {
@@ -53,58 +54,61 @@ class _ChooseAccountSheetState extends State<ChooseAccountSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height / 2,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: Stack(
-                children: [
-                  Obx(() {
-                    return ListView.separated(
-                      controller: controller.accountsListScrollController,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      itemCount: profiles.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 20),
-                      itemBuilder: (context, index) {
-                        var profile = profiles[index];
-                        return GestureDetector(
-                          child: AccountTile(
-                            profile: profile,
-                          ),
-                          onTap: () => widget.profileSelected(profile),
-                          onLongPressEnd: (details) =>
-                              showPopUpMenu(context, profile, details),
-                        );
-                      },
-                    );
-                  }),
-                  Obx(
-                    () => BottomShadow(
-                      isEnabled: controller.isAccountsShadowShown.value,
-                      height: 70,
-                      color: AppTheme.isLightTheme(context) ? const Color(0xFFF7F8FB): const Color(0xFF080704),
-                    ),
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height / 2,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 5),
+          const HomeIndicator(),
+          const SizedBox(height: 20),
+          Flexible(
+            child: Stack(
+              children: [
+                Obx(() {
+                  return ListView.separated(
+                    controller: controller.accountsListScrollController,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(bottom: 32),
+                    itemCount: profiles.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 20),
+                    itemBuilder: (context, index) {
+                      var profile = profiles[index];
+                      return GestureDetector(
+                        child: AccountTile(
+                          profile: profile,
+                        ),
+                        onTap: () => widget.profileSelected(profile),
+                        onLongPressEnd: (details) =>
+                            showPopUpMenu(context, profile, details),
+                      );
+                    },
+                  );
+                }),
+                Obx(
+                  () => BottomShadow(
+                    isEnabled: controller.isAccountsShadowShown.value,
+                    height: 70,
+                    color: AppTheme.isLightTheme(context)
+                        ? const Color(0xFFF7F8FB)
+                        : const Color(0xFF080704),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const Divider(height: 0.5),
-            Padding(
-              padding: const EdgeInsets.all(32),
-              child: AddButton(
-                text: AppLocale(context).addAccount,
-                onPressed: widget.addAccount,
-              ),
+          ),
+          const Divider(height: 0.5),
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: AddButton(
+              text: AppLocale(context).addAccount,
+              onPressed: widget.addAccount,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -145,6 +149,7 @@ class _ChooseAccountSheetState extends State<ChooseAccountSheet> {
     ).then((value) {
       if (value == 1) {
         profiles.remove(profile);
+        profiles.value = profiles.value;
         widget.profileRemoved(profile);
       }
     });

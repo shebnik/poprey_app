@@ -72,10 +72,10 @@ class SelectedAccountController extends GetxController {
     );
 
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      choosePostsScrollController.position.notifyListeners();
+      try {
+        choosePostsScrollController.position.notifyListeners();
 
-      while (true) {
-        try {
+        while (true) {
           if (choosePostsScrollController.offset >=
                   choosePostsScrollController.position.maxScrollExtent &&
               canLoadMore()) {
@@ -83,13 +83,11 @@ class SelectedAccountController extends GetxController {
           } else {
             break;
           }
-        } catch (e) {
-          Logger.e('[ChoosePostsController] scrollController error', e);
-          break;
         }
+        choosePostsHandleScrolling();
+      } catch (e) {
+        Logger.e('[ChoosePostsController] scrollController error', e);
       }
-
-      choosePostsHandleScrolling();
     });
   }
 

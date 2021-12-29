@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:poprey_app/utils/app_constants.dart';
 import 'package:poprey_app/utils/app_theme.dart';
 
@@ -8,13 +9,12 @@ class AppWidgets {
   static Widget get loading => const Center(child: CircularProgressIndicator());
 
   static void showBottomSheet(BuildContext context, Widget widget) {
-    showModalBottomSheet(
+    showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: widget,
       ),
-      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(20),

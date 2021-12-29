@@ -33,7 +33,9 @@ class LoginSheetController extends GetxController {
   }) : isInstagram = selectedPlan.platform == 'Instagram';
 
   late AppLocale appLocale;
-  late Rx<TextEditingController> firstInputController, emailController;
+  final Rx<TextEditingController> firstInputController =
+          TextEditingController(text: '').obs,
+      emailController = TextEditingController(text: '').obs;
 
   RxBool isLoading = false.obs;
   RxString userNameErrorText = ''.obs;
@@ -117,22 +119,5 @@ class LoginSheetController extends GetxController {
   void toggleLoading(bool value) {
     isLoading.value = value;
     mainController.preventTap = value;
-  }
-
-  void setLoginData() {
-    if (!isInstagram) {
-      emailController.value.text = AppPreferences.getUserEmail() ?? '';
-      return;
-    }
-    if (chooseAccount == null) {
-      firstInputController.value.text = '';
-      emailController.value.text = '';
-      return;
-    }
-    final selectedProfile = profilesManager.getSelectedProfile();
-    if (selectedProfile != null) {
-      firstInputController.value.text = selectedProfile.username ?? '';
-      emailController.value.text = selectedProfile.email ?? '';
-    }
   }
 }

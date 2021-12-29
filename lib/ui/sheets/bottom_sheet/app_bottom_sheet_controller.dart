@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:poprey_app/models/instagram_profile.dart';
 import 'package:poprey_app/models/selected_plan_model.dart';
+import 'package:poprey_app/services/app_preferences.dart';
 import 'package:poprey_app/services/instagram_profile_manager.dart';
 import 'package:poprey_app/services/sm_parser.dart';
 import 'package:poprey_app/ui/pages/order/instagram/instagram_order_page.dart';
@@ -27,13 +28,34 @@ class AppBottomSheetController extends GetxController {
     loginSheetController = LoginSheetController(
       selectedPlan: selectedPlan,
       profilesManager: profilesManager,
-      chooseAccount: isInstagram ? chooseAccount : null,
+      chooseAccount: isInstagram ? showChooseAccount : null,
       profileSelected: profileSelected,
       linkSelected: linkSelected,
     );
+    setLoginData();
   }
 
-  void chooseAccount() => bottomSheetView.value = BottomSheetView.chooseAccount;
+  void setLoginData() {
+    if (!isInstagram) {
+      loginSheetController.emailController.value.text =
+          AppPreferences.getUserEmail() ?? '';
+      return;
+    }
+    // if (showChooseAccount == null) {
+    //   loginSheetController.firstInputController.value.text = '';
+    //   loginSheetController.emailController.value.text = '';
+    //   return;
+    // }
+    final selectedProfile = profilesManager.getSelectedProfile();
+    if (selectedProfile != null) {
+      loginSheetController.firstInputController.value.text =
+          selectedProfile.username ?? '';
+      loginSheetController.emailController.value.text =
+          selectedProfile.email ?? '';
+    }
+  }
+
+  void showChooseAccount() => bottomSheetView.value = BottomSheetView.chooseAccount;
 
   Future<void> profileSelected(
     InstagramProfile profile, [
