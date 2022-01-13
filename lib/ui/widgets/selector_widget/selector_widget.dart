@@ -56,8 +56,8 @@ class _SelectorWidgetState extends State<SelectorWidget> {
         ),
         child: Row(
           children: [
-            Flexible(child: sliderWidget()),
-            const SizedBox(width: 10),
+            Expanded(child: sliderWidget()),
+            const SizedBox(width: 5),
             buyWidget(),
           ],
         ),
@@ -104,36 +104,28 @@ class _SelectorWidgetState extends State<SelectorWidget> {
   }
 
   Widget buyWidget() {
-    final imageAsset = controller.getImageAsset();
-    return SizedBox(
-      width: buyWidgetWidth,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          if (imageAsset != null) ...[
-            Positioned(
-              top: 0,
-              left: 10,
-              right: 0,
-              child: SvgPicture.asset(
-                imageAsset,
-              ),
-            ),
-          ],
-          Positioned(
-            right: 10,
-            child: Obx(() {
-              return RoundButton(
-                title: AppLocale(context).buy,
-                onPressed: controller.isBuyDisabled.value
-                    ? null
-                    : () => controller.buyPressed(context),
-                fontWeightDelta: 2,
-              );
-            }),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 5, left: 0),
+          child: SvgPicture.asset(
+            controller.getImageAsset()!,
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 10, left: 30),
+          child: Obx(() {
+            return RoundButton(
+              title: AppLocale(context).buy,
+              onPressed: controller.isBuyDisabled.value
+                  ? null
+                  : () => controller.buyPressed(context),
+              fontWeightDelta: 2,
+            );
+          }),
+        ),
+      ],
     );
   }
 }

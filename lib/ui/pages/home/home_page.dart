@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage>
       appBar: const HomeAppBar(),
       body: SafeArea(
         child: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           key: UniqueKey(),
           controller: tabController,
           children: const [
